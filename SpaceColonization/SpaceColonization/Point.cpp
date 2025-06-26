@@ -20,7 +20,7 @@ void Point::InitShape(float radius) {
 	m_vertex_shape.setPosition(sf::Vector2f(0.f, 0.f));
 }
 
-void Point::SetVertexPosition(sf::Vector2f position) {
+void Point::SetPointPosition(sf::Vector2f position) {
 
 	m_position = position;
 }
@@ -33,5 +33,5 @@ void Point::SetShapePosition(sf::Vector2f position) {
 void Point::SetPosition(sf::Vector2f position) {
 
 	SetShapePosition(position);
-	SetVertexPosition(position);
+	SetPointPosition(position);
 }

@@ -19,7 +19,7 @@ public:
 
 	void InitShape(float radius);
 
-	void SetVertexPosition(sf::Vector2f position);
+	void SetPointPosition(sf::Vector2f position);
 	void SetShapePosition(sf::Vector2f position);
 	void SetPosition(sf::Vector2f position);
 

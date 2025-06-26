@@ -6,7 +6,9 @@ Application::Application() {
 	m_window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Space Colonization", sf::Style::Titlebar | sf::Style::Close);
 	m_polygon = new Polygon(NUMBER_OF_VERTICES);
 	m_selected_vertex = nullptr;
-	is_vertex_selected = false;
+	m_is_vertex_selected = false;
+
+	m_tree.CreateRoot({ WINDOW_WIDTH / 2.f, WINDOW_HEIGHT });
 }
 
 Application::~Application() {
@@ -28,7 +30,7 @@ void Application::HandleEvents(sf::Event& event) {
 
 	//Grab a vertex
 	if (event.type == sf::Event::MouseButtonPressed) {
-		if (event.mouseButton.button == sf::Mouse::Left && !is_vertex_selected) {
+		if (event.mouseButton.button == sf::Mouse::Left && !m_is_vertex_selected) {
 
 			sf::Vector2f mousePos = (sf::Vector2f)sf::Mouse::getPosition(*m_window);
 
@@ -49,9 +51,11 @@ void Application::HandleEvents(sf::Event& event) {
 					m_selected_edges.push_back(&prevLine);
 					m_selected_edges.push_back(&line);
 					m_selected_edges.push_back(&nextLine);
-					is_vertex_selected = true;
+					m_is_vertex_selected = true;
 
 					m_selected_vertex->GetShape().setFillColor(sf::Color::Yellow);
+
+					break;
 				}
 			}
 		}
@@ -65,16 +69,18 @@ void Application::HandleEvents(sf::Event& event) {
 
 			m_selected_vertex = nullptr;
 			m_selected_edges.clear();
-			is_vertex_selected = false;
+			m_is_vertex_selected = false;
 		}
 	}
 }
 
 void Application::PullVertex() {
 
-	if (is_vertex_selected) {
+	if (m_is_vertex_selected) {
 
 		sf::Vector2f mousePos = (sf::Vector2f)sf::Mouse::getPosition(*m_window);
+
+		if (!InBounds(mousePos)) return;
 
 		sf::Vector2f originalVertexPosition = m_selected_vertex->GetPosition();
 		m_selected_vertex->SetPosition(mousePos);
@@ -86,6 +92,13 @@ void Application::PullVertex() {
 		for (int i = 0; i < 3; i++)
 			m_selected_edges[i]->UpdateLinePositions();
 	}
+}
+
+bool Application::InBounds(sf::Vector2f position) {
+
+	if (position.x >= 0 && position.x <= WINDOW_WIDTH && position.y >= 0 && position.y <= WINDOW_HEIGHT) return true;
+
+	return false;
 }
 
 void Application::Run() {
@@ -105,6 +118,7 @@ void Application::Run() {
 
 		m_polygon->Draw(m_window);
 		m_tree.DrawLeaves(m_window);
+		m_tree.DrawBranches(m_window);
 
 		m_window->display();
 	}

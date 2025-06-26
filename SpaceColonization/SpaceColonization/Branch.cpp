@@ -39,7 +39,7 @@ bool Branch::operator==(const Branch& other) const {
 
 Branch Branch::Next() {
 
-	sf::Vector2f newDirection = { m_direction.x * m_length, m_direction.y * m_length };
+	sf::Vector2f newDirection = m_direction * m_length;
 	sf::Vector2f newPosition = m_position + newDirection;
 
 	return Branch(this, newPosition, m_direction);
