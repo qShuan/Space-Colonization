@@ -4,11 +4,10 @@
 Application::Application() {
 
 	m_window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Space Colonization", sf::Style::Titlebar | sf::Style::Close);
-	m_polygon = new Polygon(NUMBER_OF_VERTICES);
+	m_polygon = new Polygon({ WINDOW_WIDTH / 2.f, WINDOW_HEIGHT / 2.f }, NUMBER_OF_VERTICES, SPACE_BETWEEN_VERTICES);
 	m_selected_vertex = nullptr;
 	m_is_vertex_selected = false;
-
-	m_tree.CreateRoot({ WINDOW_WIDTH / 2.f, WINDOW_HEIGHT });
+	m_should_tree_grow = false;
 }
 
 Application::~Application() {
@@ -24,7 +23,10 @@ void Application::HandleEvents(sf::Event& event) {
 	}
 	if (event.type == sf::Event::KeyPressed) {
 		if (event.key.code == sf::Keyboard::R) {
+			m_tree.Reset();
 			m_tree.GenerateLeaves(*m_polygon);
+			m_tree.CreateRoot({ WINDOW_WIDTH / 2.f, WINDOW_HEIGHT });
+			m_should_tree_grow = true;
 		}
 	}
 
@@ -114,10 +116,13 @@ void Application::Run() {
 
 		PullVertex();
 
+		if (m_should_tree_grow)
+			m_tree.Grow();
+
 		m_window->clear();
 
 		m_polygon->Draw(m_window);
-		m_tree.DrawLeaves(m_window);
+		//m_tree.DrawLeaves(m_window);
 		m_tree.DrawBranches(m_window);
 
 		m_window->display();

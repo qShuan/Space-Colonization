@@ -138,6 +138,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Polygon.cpp" />
     <ClCompile Include="Point.cpp" />
+    <ClCompile Include="ThickLine.cpp" />
     <ClCompile Include="Tree.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -148,6 +149,7 @@
     <ClInclude Include="Polygon.h" />
     <ClInclude Include="Point.h" />
     <ClInclude Include="RNG.h" />
+    <ClInclude Include="ThickLine.h" />
     <ClInclude Include="Tree.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

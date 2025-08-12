@@ -29,6 +29,8 @@ public:
 
 	void UpdateLinePositions();
 
+	void Draw(sf::RenderWindow* window);
+
 	sf::Vertex* GetLine() { return m_line; }
 	sf::Vector2f GetLineBeginPosition() { return m_begin_position; }
 	sf::Vector2f GetLineEndPosition() { return m_end_position; }

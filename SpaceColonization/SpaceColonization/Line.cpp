@@ -56,3 +56,8 @@ void Line::UpdateLinePositions() {
 	m_line[0].position = m_begin_position;
 	m_line[1].position = m_end_position;
 }
+
+void Line::Draw(sf::RenderWindow* window) {
+
+	window->draw(m_line, 2, sf::Lines);
+}

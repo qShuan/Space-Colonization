@@ -1,6 +1,6 @@
 #include "Branch.h"
 
-Branch::Branch(Branch* parent, sf::Vector2f position, sf::Vector2f direction) : m_length(15.f), m_count(0) {
+Branch::Branch(Branch* parent, sf::Vector2f position, sf::Vector2f direction) : m_length(MIN_BRANCH_LENGTH), m_count(0) {
 
 	m_parent = parent;
 	m_position = position;
@@ -8,9 +8,10 @@ Branch::Branch(Branch* parent, sf::Vector2f position, sf::Vector2f direction) : 
 	m_original_direction = m_direction;
 }
 
-Branch::Branch(const Branch& other) : m_length(15.f) {
+Branch::Branch(const Branch& other) : m_length(MIN_BRANCH_LENGTH) {
 
 	m_parent = other.m_parent;
+	m_children = other.m_children;
 	m_position = other.m_position;
 	m_direction = other.m_direction;
 	m_original_direction = other.m_original_direction;
@@ -22,6 +23,7 @@ Branch& Branch::operator=(const Branch& other) {
 	if (this == &other) return *this;
 
 	m_parent = other.m_parent;
+	m_children = other.m_children;
 	m_position = other.m_position;
 	m_direction = other.m_direction;
 	m_original_direction = other.m_original_direction;
@@ -37,12 +39,18 @@ bool Branch::operator==(const Branch& other) const {
 	return false;
 }
 
-Branch Branch::Next() {
+Branch* Branch::Next() {
 
 	sf::Vector2f newDirection = m_direction * m_length;
 	sf::Vector2f newPosition = m_position + newDirection;
 
-	return Branch(this, newPosition, m_direction);
+	Branch* nextBranch = new Branch(this, newPosition, m_direction);
+
+	Branch* currentBranch = this;
+
+	m_children.push_back(nextBranch);
+
+	return nextBranch;
 }
 
 void Branch::Reset() {

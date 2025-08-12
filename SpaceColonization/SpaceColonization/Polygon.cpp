@@ -1,18 +1,20 @@
 #include "Polygon.h"
 
-Polygon::Polygon(uint8_t vertexCount) {
+Polygon::Polygon(sf::Vector2f position, uint8_t vertexCount, float vertexSpread) {
 
-	CreatePolygon(vertexCount);
+	CreatePolygon(position, vertexCount, vertexSpread);
 }
 
-void Polygon::CreatePolygon(uint8_t vertexCount) {
+void Polygon::CreatePolygon(sf::Vector2f position, uint8_t vertexCount, float vertexSpread) {
 
 	m_vertex_count = vertexCount;
 
+	float degrees = 360;
+
 	for (uint8_t i = 0; i < vertexCount; i++) {
 
-		const float x = 500.f + cos((float)RADIANS(i * (360 / vertexCount))) * 200;
-		const float y = 500.f + sin((float)RADIANS(i * (360 / vertexCount))) * 200;
+		const float x = position.x + cos((float)RADIANS(i * (degrees / vertexCount))) * vertexSpread;
+		const float y = position.y + sin((float)RADIANS(i * (degrees / vertexCount))) * vertexSpread;
 
 		Point newVertex(sf::Color::Green);
 		newVertex.SetPosition({ x, y });

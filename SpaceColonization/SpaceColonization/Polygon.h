@@ -20,10 +20,10 @@ private:
 
 public:
 
-	Polygon(uint8_t vertexCount);
+	Polygon(sf::Vector2f position, uint8_t vertexCount, float vertexSpread);
 	~Polygon() = default;
 
-	void CreatePolygon(uint8_t vertexCount);
+	void CreatePolygon(sf::Vector2f position, uint8_t vertexCount, float vertexSpread);
 	void Draw(sf::RenderWindow* window);
 
 	bool IsPointInsidePolygon(sf::Vector2f point);
