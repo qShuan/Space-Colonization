@@ -6,7 +6,7 @@
 #define WINDOW_HEIGHT 900
 
 #define VERTEX_MOVE_RADIUS 15
-#define NUMBER_OF_VERTICES 6
+#define NUMBER_OF_POLYGON_VERTICES 6
 #define SPACE_BETWEEN_VERTICES 350
 
 class Application {
@@ -23,6 +23,8 @@ private:
 	bool m_should_tree_grow;
 
 	Tree m_tree;
+
+	sf::Color m_branches_base_color;
 
 	void HandleEvents(sf::Event& event);
 	void PullVertex();

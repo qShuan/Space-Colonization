@@ -1,7 +1,7 @@
 #include "Tree.h"
 #include <iostream>
 
-Tree::Tree() : min_distance(10.f), max_distance(200.f), number_of_leaves(500), m_root(nullptr), max_thickness(15.f) {
+Tree::Tree() : min_distance(10.f), max_distance(200.f), number_of_attractors(500), m_root(nullptr), max_thickness(15.f) {
 
 }
 
@@ -30,41 +30,70 @@ sf::Vector2f Tree::NormalizedVector(sf::Vector2f& v1, sf::Vector2f& v2) {
 	return newVector;
 }
 
+Attractor* Tree::GetClosestAttractorToBranch(Branch* branch) {
+
+	Attractor* closestAttractor = nullptr;
+
+	float recordDistance = 1000000;
+	for (int i = 0; i < m_attractors.size(); i++) {
+
+		Attractor& attractor = m_attractors[i];
+		float distance = GetVectorDistance(attractor.GetPosition(), branch->GetPosition());
+
+		if (distance < recordDistance) {
+			
+			closestAttractor = &attractor;
+		}
+	}
+
+	return closestAttractor;
+}
+
 void Tree::CreateRoot(sf::Vector2f position) {
 
 	if (!m_branches.empty()) return;
 
 	m_root = new Branch(nullptr, position, { 0.f, -1.f });
-	m_branches.push_back(m_root);
+	m_branches.emplace_back(m_root);
 
-	bool isLeafFound = false;
+
+	Attractor* closestAttractor = GetClosestAttractorToBranch(m_root);
+
+	if (closestAttractor == nullptr) return;
+
+	bool isAttractorFound = false;
 	Branch* currentBranch = m_root;
 
-	while (!isLeafFound) {
+	while (!isAttractorFound) {
 
-		for (int i = 0; i < m_leaves.size(); i++) {
+		for (int i = 0; i < m_attractors.size(); i++) {
 
-			Leaf& leaf = m_leaves[i];
-			float distance = GetVectorDistance(leaf.GetPosition(), currentBranch->GetPosition());
+			Attractor& attractor = m_attractors[i];
+			float distance = GetVectorDistance(attractor.GetPosition(), currentBranch->GetPosition());
 
 			if (distance <= max_distance) {
-				isLeafFound = true;
+				isAttractorFound = true;
 			}
 		}
 
-		if (!isLeafFound) {
+		if (!isAttractorFound) {
 
 			Branch* newBranch = currentBranch->Next();
-			m_branches.push_back(newBranch);
+
+			// Go towards the closest attractor
+			sf::Vector2f newDirection = newBranch->GetDirection() + NormalizedVector(closestAttractor->GetPosition(), newBranch->GetPosition());
+			newBranch->SetDirection(newDirection);
+
+			m_branches.emplace_back(newBranch);
 
 			currentBranch = newBranch;
 		}
 	}
 }
 
-void Tree::GenerateLeaves(Polygon& polygon) {
+void Tree::GenerateAttractors(Polygon& polygon) {
 
-	m_leaves.clear();
+	m_attractors.clear();
 
 	float minX = FLT_MAX, minY = FLT_MAX, maxX = FLT_MIN, maxY = FLT_MIN;
 
@@ -85,16 +114,16 @@ void Tree::GenerateLeaves(Polygon& polygon) {
 			maxY = currentPos.y;
 	}
 
-	for (uint16_t i = 0; i < number_of_leaves; i++) {
+	for (uint16_t i = 0; i < number_of_attractors; i++) {
 
 		float randomX = randomBetween(minX, maxX);
 		float randomY = randomBetween(minY, maxY);
 
 		if (polygon.IsPointInsidePolygon({ randomX, randomY })) {
 
-			Leaf newLeaf({ randomX, randomY });
+			Attractor newAttractor({ randomX, randomY });
 
-			m_leaves.push_back(newLeaf);
+			m_attractors.emplace_back(newAttractor);
 		}
 		else {
 			i = i - 1;
@@ -105,9 +134,9 @@ void Tree::GenerateLeaves(Polygon& polygon) {
 
 void Tree::Grow() {
 
-	for (int i = 0; i < m_leaves.size(); i++) {
+	for (int i = 0; i < m_attractors.size(); i++) {
 
-		Leaf& currentLeaf = m_leaves[i];
+		Attractor& currentAttractor = m_attractors[i];
 		float recordDistance = 10000;
 		Branch* closestBranch = nullptr;
 
@@ -115,12 +144,12 @@ void Tree::Grow() {
 
 			Branch* currentBranch = m_branches[j];
 
-			float distance = GetVectorDistance(currentLeaf.GetPosition(), currentBranch->GetPosition());
+			float distance = GetVectorDistance(currentAttractor.GetPosition(), currentBranch->GetPosition());
 
 
 			if (distance <= min_distance) {
 
-				currentLeaf.is_reached = true;
+				currentAttractor.is_reached = true;
 				closestBranch = nullptr;
 
 				break;
@@ -134,18 +163,18 @@ void Tree::Grow() {
 
 		if (closestBranch != nullptr) {
 
-			sf::Vector2f directionToLeaf = NormalizedVector(currentLeaf.GetPosition(), closestBranch->GetPosition());
-			sf::Vector2f newDirection = closestBranch->GetDirection() + directionToLeaf;
+			sf::Vector2f directionToAttractor = NormalizedVector(currentAttractor.GetPosition(), closestBranch->GetPosition());
+			sf::Vector2f newDirection = closestBranch->GetDirection() + directionToAttractor;
 
 			closestBranch->SetDirection(newDirection);
 			closestBranch->SetCount(closestBranch->GetCount() + 1);
 		}
 	}
 
-	for (int i = m_leaves.size() - 1; i >= 0; i--) {
+	for (int i = m_attractors.size() - 1; i >= 0; i--) {
 
-		if (m_leaves[i].is_reached)
-			m_leaves.erase(m_leaves.begin() + i);
+		if (m_attractors[i].is_reached)
+			m_attractors.erase(m_attractors.begin() + i);
 	}
 	for (int i = m_branches.size() - 1; i >= 0; i--) {
 
@@ -157,7 +186,7 @@ void Tree::Grow() {
 			branch->SetDirection(finalDirection);
 
 			Branch* newBranch = branch->Next();
-			m_branches.push_back(newBranch);
+			m_branches.emplace_back(newBranch);
 
 			branch->Reset();
 		}
@@ -187,21 +216,23 @@ void Tree::Grow() {
 
 void Tree::Reset() {
 
-	m_leaves.clear();
+	m_attractors.clear();
 
 	for (Branch* branch : m_branches) {
 		delete branch;
 	}
 	m_branches.clear();
+
+	m_root = nullptr;
 }
 
-void Tree::DrawLeaves(sf::RenderWindow* window) {
+void Tree::DrawAttractors(sf::RenderWindow* window) {
 
-	if (m_leaves.empty()) return;
+	if (m_attractors.empty()) return;
 
-	for (auto& leaf : m_leaves) {
+	for (auto& attractor : m_attractors) {
 
-		window->draw(leaf.GetShape());
+		window->draw(attractor.GetShape());
 	}
 }
 

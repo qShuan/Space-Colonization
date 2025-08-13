@@ -36,7 +36,7 @@
     <ClCompile Include="Tree.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Leaf.cpp">
+    <ClCompile Include="Attractor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ThickLine.cpp">
@@ -59,7 +59,7 @@
     <ClInclude Include="RNG.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Leaf.h">
+    <ClInclude Include="Attractor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Branch.h">

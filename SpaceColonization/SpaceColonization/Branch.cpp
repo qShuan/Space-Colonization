@@ -1,11 +1,14 @@
 #include "Branch.h"
+#include <iostream>
 
-Branch::Branch(Branch* parent, sf::Vector2f position, sf::Vector2f direction) : m_length(MIN_BRANCH_LENGTH), m_count(0) {
+Branch::Branch(Branch* parent, sf::Vector2f position, sf::Vector2f direction, sf::Color color) : m_length(MIN_BRANCH_LENGTH), m_count(0) {
 
 	m_parent = parent;
 	m_position = position;
 	m_direction = direction;
 	m_original_direction = m_direction;
+
+	SetBranchColor(color);
 }
 
 Branch::Branch(const Branch& other) : m_length(MIN_BRANCH_LENGTH) {
@@ -39,16 +42,16 @@ bool Branch::operator==(const Branch& other) const {
 	return false;
 }
 
-Branch* Branch::Next() {
+Branch* Branch::Next(sf::Color nextColor) {
+
+	std::cout << nextColor.r << '\n';
 
 	sf::Vector2f newDirection = m_direction * m_length;
 	sf::Vector2f newPosition = m_position + newDirection;
 
-	Branch* nextBranch = new Branch(this, newPosition, m_direction);
+	Branch* nextBranch = new Branch(this, newPosition, m_direction, nextColor);
 
-	Branch* currentBranch = this;
-
-	m_children.push_back(nextBranch);
+	m_children.emplace_back(nextBranch);
 
 	return nextBranch;
 }

@@ -23,11 +23,11 @@ private:
 
 public:
 
-	Branch(Branch* parent, sf::Vector2f position, sf::Vector2f direction);
+	Branch(Branch* parent, sf::Vector2f position, sf::Vector2f direction, sf::Color color = sf::Color::White);
 	Branch(const Branch& other);
 	~Branch() = default;
 
-	Branch* Next();
+	Branch* Next(sf::Color nextColor = sf::Color::White);
 
 	void Reset();
 
@@ -38,6 +38,8 @@ public:
 	void SetCount(int count) { m_count = count; }
 	void SetDirection(sf::Vector2f direction) { m_direction = direction; }
 	void SetParent(Branch* parent) { m_parent = parent; }
+
+	void SetBranchColor(sf::Color color) { m_thick_line.SetLineColor(color); }
 
 	Branch* GetParent() { return m_parent; }
 	std::vector<Branch*>& GetChildren() { return m_children; }
