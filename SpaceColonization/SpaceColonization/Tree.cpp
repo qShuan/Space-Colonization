@@ -1,7 +1,7 @@
 #include "Tree.h"
 #include <iostream>
 
-Tree::Tree() : min_distance(10.f), max_distance(200.f), number_of_attractors(500), m_root(nullptr), max_thickness(15.f) {
+Tree::Tree() : min_distance(10.f), max_distance(100.f), number_of_attractors(500), m_root(nullptr){
 
 }
 
@@ -26,6 +26,20 @@ sf::Vector2f Tree::NormalizedVector(sf::Vector2f& v1, sf::Vector2f& v2) {
 	sf::Vector2f newVector = v1 - v2;
 
 	newVector /= GetVectorDistance(v1, v2);
+
+	return newVector;
+}
+
+float GetVectorMagnitude(sf::Vector2f& v) {
+
+	return sqrt((v.y * v.y) + (v.x * v.x));
+}
+
+sf::Vector2f VectorNormalize(sf::Vector2f& v) {
+
+	sf::Vector2f newVector = v;
+
+	newVector /= GetVectorMagnitude(v);
 
 	return newVector;
 }
@@ -134,6 +148,8 @@ void Tree::GenerateAttractors(Polygon& polygon) {
 
 void Tree::Grow() {
 
+	if (m_attractors.empty()) return;
+
 	for (int i = 0; i < m_attractors.size(); i++) {
 
 		Attractor& currentAttractor = m_attractors[i];
@@ -183,6 +199,15 @@ void Tree::Grow() {
 		if (branch->GetCount() > 0) {
 
 			sf::Vector2f finalDirection = branch->GetDirection() / (float)branch->GetCount();
+			sf::Vector2f randomDirection = { randomBetween(-1.f, 1.f), randomBetween(-1.f, 1.f) };
+
+			float randomMagnitude = 0.25f;
+			randomDirection *= randomMagnitude;
+
+			finalDirection += randomDirection;
+
+			finalDirection = VectorNormalize(finalDirection);
+
 			branch->SetDirection(finalDirection);
 
 			Branch* newBranch = branch->Next();

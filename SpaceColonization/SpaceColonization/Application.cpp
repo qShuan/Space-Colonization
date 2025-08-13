@@ -127,7 +127,7 @@ void Application::Run() {
 
 		PullVertex();
 
-		if (m_should_tree_grow && m_tree.GetLeaves().size() > 150 && growTickCountDown <= 0.f)
+		if (m_should_tree_grow && growTickCountDown <= 0.f)
 			m_tree.Grow();
 
 		if (growTickCountDown <= 0.f)
@@ -136,7 +136,7 @@ void Application::Run() {
 		m_window->clear(sf::Color(97, 144, 255));
 
 		m_polygon->Draw(m_window);
-		//m_tree.DrawAttractors(m_window);
+		m_tree.DrawAttractors(m_window);
 		m_tree.DrawBranches(m_window);
 
 		growTickCountDown -= sec;

@@ -44,8 +44,6 @@ bool Branch::operator==(const Branch& other) const {
 
 Branch* Branch::Next(sf::Color nextColor) {
 
-	std::cout << nextColor.r << '\n';
-
 	sf::Vector2f newDirection = m_direction * m_length;
 	sf::Vector2f newPosition = m_position + newDirection;
 

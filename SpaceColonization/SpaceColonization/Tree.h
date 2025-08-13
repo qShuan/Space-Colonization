@@ -22,7 +22,6 @@ public:
 
 	uint16_t number_of_attractors;
 	float min_distance, max_distance;
-	float max_thickness;
 
 	Tree();
 	~Tree();
