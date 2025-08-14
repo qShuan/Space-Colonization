@@ -151,6 +151,7 @@
     <ClInclude Include="RNG.h" />
     <ClInclude Include="ThickLine.h" />
     <ClInclude Include="Tree.h" />
+    <ClInclude Include="SFML_Utils.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -5,6 +5,8 @@
 #include "Point.h"
 #include "Line.h"
 
+#include "SFML_Utils.hpp"
+
 #include <math.h>
 
 #define RADIANS(x) ((x * M_PI) / 180)
@@ -29,7 +31,6 @@ public:
 	bool IsPointInsidePolygon(sf::Vector2f point);
 	bool IsPolygonConvex();
 
-	float ZCrossProduct(sf::Vector2f& a, sf::Vector2f& b);
 	float VertexCrossProduct(int index);
 
 	inline uint8_t& GetVertexCount() { return m_vertex_count; }

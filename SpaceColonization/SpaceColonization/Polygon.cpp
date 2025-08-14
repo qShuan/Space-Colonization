@@ -89,11 +89,6 @@ bool Polygon::IsPolygonConvex() {
 	return true;
 }
 
-float Polygon::ZCrossProduct(sf::Vector2f& a, sf::Vector2f& b) {
-
-	return ((a.x * b.y) - (a.y * b.x));
-}
-
 float Polygon::VertexCrossProduct(int index) {
 
 	Point& vertex = m_vertices[index];
@@ -104,7 +99,7 @@ float Polygon::VertexCrossProduct(int index) {
 	sf::Vector2f vToNext = nextVertex.GetPosition() - vertex.GetPosition();
 
 	//Swapped because SFML has flipped y-coordinates
-	return ZCrossProduct(vToNext, vToPrev);
+	return utils::vector2f::ZCrossProduct(vToNext, vToPrev);
 }
 
 Point& Polygon::GetVertex(int index) {

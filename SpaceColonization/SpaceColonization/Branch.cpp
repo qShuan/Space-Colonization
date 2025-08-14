@@ -7,6 +7,7 @@ Branch::Branch(Branch* parent, sf::Vector2f position, sf::Vector2f direction, sf
 	m_position = position;
 	m_direction = direction;
 	m_original_direction = m_direction;
+	m_original_position = m_position;
 
 	SetBranchColor(color);
 }
@@ -18,6 +19,7 @@ Branch::Branch(const Branch& other) : m_length(MIN_BRANCH_LENGTH) {
 	m_position = other.m_position;
 	m_direction = other.m_direction;
 	m_original_direction = other.m_original_direction;
+	m_original_position = other.m_original_position;
 	m_count = other.m_count;
 }
 
@@ -30,6 +32,7 @@ Branch& Branch::operator=(const Branch& other) {
 	m_position = other.m_position;
 	m_direction = other.m_direction;
 	m_original_direction = other.m_original_direction;
+	m_original_position = other.m_original_position;
 	m_count = other.m_count;
 
 	return *this;

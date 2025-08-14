@@ -18,6 +18,10 @@ private:
 
 	sf::Color m_base_branches_color;
 
+	void RemoveReachedAttractors();
+	void CreateNewBranches();
+	void ThickenBranches();
+
 public:
 
 	uint16_t number_of_attractors;
@@ -38,9 +42,6 @@ public:
 	void DrawBranches(sf::RenderWindow* window);
 
 	void SetBaseBranchesColor(sf::Color color) { m_base_branches_color = color; }
-
-	float GetVectorDistance(sf::Vector2f& v1, sf::Vector2f v2);
-	sf::Vector2f NormalizedVector(sf::Vector2f& v1, sf::Vector2f& v2);
 
 	std::vector<Attractor>& GetLeaves() { return m_attractors; }
 	std::vector<Branch*>& GetBranches() { return m_branches; }

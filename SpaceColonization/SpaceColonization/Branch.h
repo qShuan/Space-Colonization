@@ -15,6 +15,7 @@ private:
 	ThickLine m_thick_line;
 	
 	sf::Vector2f m_position;
+	sf::Vector2f m_original_position;
 	sf::Vector2f m_direction;
 	sf::Vector2f m_original_direction;
 
@@ -38,6 +39,7 @@ public:
 	void SetCount(int count) { m_count = count; }
 	void SetDirection(sf::Vector2f direction) { m_direction = direction; }
 	void SetParent(Branch* parent) { m_parent = parent; }
+	void SetPosition(sf::Vector2f position) { m_position = position; }
 
 	void SetBranchColor(sf::Color color) { m_thick_line.SetLineColor(color); }
 
@@ -47,6 +49,7 @@ public:
 	sf::Vector2f& GetPosition() { return m_position; }
 	sf::Vector2f& GetDirection() { return m_direction; }
 	sf::Vector2f& GetOriginalDirection() { return m_original_direction; }
+	sf::Vector2f& GetOriginalPosition() { return m_original_position; }
 	float& GetLength() { return m_length; }
 	int& GetCount() { return m_count; }
 };
