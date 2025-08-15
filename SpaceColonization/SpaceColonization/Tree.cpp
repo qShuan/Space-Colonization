@@ -1,7 +1,7 @@
 #include "Tree.h"
 #include <iostream>
 
-Tree::Tree() : min_distance(10.f), max_distance(100.f), number_of_attractors(500), m_root(nullptr), number_of_leaves(100){
+Tree::Tree() : min_distance(10.f), max_distance(100.f), number_of_attractors(500), m_root(nullptr), number_of_leaves(100), m_has_grown(false){
 
 }
 
@@ -133,16 +133,17 @@ void Tree::RemoveReachedAttractors() {
 
 void Tree::CreateNewBranches() {
 
+	bool isBranchAdded = false;
 	for (int i = m_branches.size() - 1; i >= 0; i--) {
 
 		Branch* branch = m_branches[i];
 
-		if (branch->GetCount() > 0) {
+		if (branch->GetCount() > 0 && branch->GetChildren().size() < 2) {
 
 			sf::Vector2f finalDirection = branch->GetDirection() / (float)branch->GetCount();
 			sf::Vector2f randomDirection = { randomBetween(-1.f, 1.f), randomBetween(-1.f, 1.f) };
 
-			float randomMagnitude = 0.25f;
+			float randomMagnitude = 0.15f;
 			randomDirection *= randomMagnitude;
 
 			finalDirection += randomDirection;
@@ -154,8 +155,15 @@ void Tree::CreateNewBranches() {
 			Branch* newBranch = branch->Next();
 			m_branches.emplace_back(newBranch);
 
+			isBranchAdded = true;
+
 			branch->Reset();
 		}
+	}
+
+	if (!isBranchAdded) {
+		m_has_grown = true;
+		m_attractors.clear();
 	}
 }
 
@@ -185,7 +193,7 @@ void Tree::ThickenBranches() {
 
 void Tree::Grow() {
 
-	if (m_attractors.empty()) return;
+	if (m_has_grown) return;
 
 	for (int i = 0; i < m_attractors.size(); i++) {
 
@@ -239,9 +247,12 @@ void Tree::GenerateLeaves() {
 
 		Branch* branch = m_branches[i];
 		if (branch->GetChildren().size() == 0) {
-			Leaf* newLeaf = new Leaf(branch->GetPosition(), 
-				utils::vector2f::GetDirectionAngle(branch->GetDirection()) + randomBetween(-45.f, 45.f));
-			m_leaves.emplace_back(newLeaf);
+
+			for (int j = 0; j < 5; j++) {
+				Leaf* newLeaf = new Leaf(branch->GetParent()->GetPosition() + branch->GetDirection() * randomBetween(0.f, MIN_BRANCH_LENGTH),
+					utils::vector2f::GetDirectionAngle(branch->GetDirection()) + randomBetween(-60.f, 60.f));
+				m_leaves.emplace_back(newLeaf);
+			}
 		}
 	}
 }
@@ -261,6 +272,7 @@ void Tree::Reset() {
 	m_leaves.clear();
 
 	m_root = nullptr;
+	m_has_grown = false;
 }
 
 void Tree::DrawAttractors(sf::RenderWindow* window) {

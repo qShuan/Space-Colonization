@@ -129,18 +129,19 @@ void Application::Run() {
 
 		if (m_should_tree_grow && growTickCountDown <= 0.f) {
 			m_tree.Grow();
-			m_tree.GenerateLeaves();
 		}
+
+		m_tree.GenerateLeaves();
 
 		if (growTickCountDown <= 0.f)
 			growTickCountDown = growTickDefaultValue;
 
 		m_window->clear(sf::Color(97, 144, 255));
 
-		m_polygon->Draw(m_window);
 		m_tree.DrawAttractors(m_window);
 		m_tree.DrawBranches(m_window);
 		m_tree.DrawLeaves(m_window);
+		m_polygon->Draw(m_window);
 
 		growTickCountDown -= sec;
 

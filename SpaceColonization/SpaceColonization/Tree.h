@@ -20,6 +20,8 @@ private:
 
 	sf::Color m_base_branches_color;
 
+	bool m_has_grown;
+
 	void RemoveReachedAttractors();
 	void CreateNewBranches();
 	void ThickenBranches();
@@ -54,5 +56,5 @@ public:
 
 	sf::Color& GetBaseBranchesColor() { return m_base_branches_color; }
 
-	bool IsGrowing() { return !m_attractors.empty(); }
+	bool IsGrowing() { return !m_has_grown; }
 };
