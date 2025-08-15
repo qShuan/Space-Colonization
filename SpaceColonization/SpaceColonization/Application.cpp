@@ -127,8 +127,10 @@ void Application::Run() {
 
 		PullVertex();
 
-		if (m_should_tree_grow && growTickCountDown <= 0.f)
+		if (m_should_tree_grow && growTickCountDown <= 0.f) {
 			m_tree.Grow();
+			m_tree.GenerateLeaves();
+		}
 
 		if (growTickCountDown <= 0.f)
 			growTickCountDown = growTickDefaultValue;
@@ -138,6 +140,7 @@ void Application::Run() {
 		m_polygon->Draw(m_window);
 		m_tree.DrawAttractors(m_window);
 		m_tree.DrawBranches(m_window);
+		m_tree.DrawLeaves(m_window);
 
 		growTickCountDown -= sec;
 

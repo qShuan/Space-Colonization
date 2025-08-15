@@ -1,7 +1,7 @@
 #include "Tree.h"
 #include <iostream>
 
-Tree::Tree() : min_distance(10.f), max_distance(100.f), number_of_attractors(500), m_root(nullptr){
+Tree::Tree() : min_distance(10.f), max_distance(100.f), number_of_attractors(500), m_root(nullptr), number_of_leaves(100){
 
 }
 
@@ -231,6 +231,20 @@ void Tree::Grow() {
 	ThickenBranches();
 }
 
+void Tree::GenerateLeaves() {
+
+	if (IsGrowing() || m_leaves.size() >= number_of_leaves) return;
+
+	for (int i = m_branches.size() - 1; i >= 0; i--) {
+
+		Branch* branch = m_branches[i];
+		if (branch->GetChildren().size() == 0) {
+			Leaf* newLeaf = new Leaf(branch->GetPosition(), randomBetween(-360.f, 360.f));
+			m_leaves.emplace_back(newLeaf);
+		}
+	}
+}
+
 void Tree::Reset() {
 
 	m_attractors.clear();
@@ -239,6 +253,11 @@ void Tree::Reset() {
 		delete branch;
 	}
 	m_branches.clear();
+
+	for (Leaf* leaf : m_leaves) {
+		delete leaf;
+	}
+	m_leaves.clear();
 
 	m_root = nullptr;
 }
@@ -264,4 +283,10 @@ void Tree::DrawBranches(sf::RenderWindow* window) {
 		m_branches[i]->GetBranchLine().SetLinePosition(m_branches[i]->GetParent()->GetPosition(), m_branches[i]->GetPosition());
 		m_branches[i]->GetBranchLine().Draw(*window);
 	}
+}
+
+void Tree::DrawLeaves(sf::RenderWindow* window) {
+
+	for (int i = 0; i < m_leaves.size(); i++)
+		m_leaves[i]->Draw(*window);
 }
