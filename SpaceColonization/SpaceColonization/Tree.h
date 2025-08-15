@@ -5,6 +5,7 @@
 #include "RNG.h"
 #include "Leaf.h"
 
+#define LEAVES_PER_BRANCH 15
 
 class Tree {
 
@@ -14,6 +15,10 @@ private:
 	std::vector<Branch*> m_branches;
 	std::vector<Leaf*> m_leaves;
 
+	sf::VertexArray m_leaves_va;
+	sf::Texture m_leaf_texture;
+	sf::RenderStates m_leaf_render_states;
+
 	Branch* m_root;
 
 	std::map<int, float> m_thickness_map;
@@ -21,10 +26,13 @@ private:
 	sf::Color m_base_branches_color;
 
 	bool m_has_grown;
+	bool m_have_leaves_grown;
 
 	void RemoveReachedAttractors();
 	void CreateNewBranches();
 	void ThickenBranches();
+	void InitLeavesVA();
+	void UpdateLeavesVAPositions(int index);
 
 public:
 
@@ -41,6 +49,7 @@ public:
 	void GenerateAttractors(Polygon& polygon);
 	void Grow();
 	void GenerateLeaves();
+	void GrowLeaves(float deltaTime);
 
 	void Reset();
 

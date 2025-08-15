@@ -131,7 +131,7 @@ void Application::Run() {
 			m_tree.Grow();
 		}
 
-		m_tree.GenerateLeaves();
+		m_tree.GrowLeaves(sec);
 
 		if (growTickCountDown <= 0.f)
 			growTickCountDown = growTickDefaultValue;

@@ -164,6 +164,8 @@ void Tree::CreateNewBranches() {
 	if (!isBranchAdded) {
 		m_has_grown = true;
 		m_attractors.clear();
+
+		GenerateLeaves();
 	}
 }
 
@@ -248,13 +250,92 @@ void Tree::GenerateLeaves() {
 		Branch* branch = m_branches[i];
 		if (branch->GetChildren().size() == 0) {
 
-			for (int j = 0; j < 5; j++) {
-				Leaf* newLeaf = new Leaf(branch->GetParent()->GetPosition() + branch->GetDirection() * randomBetween(0.f, MIN_BRANCH_LENGTH),
-					utils::vector2f::GetDirectionAngle(branch->GetDirection()) + randomBetween(-60.f, 60.f));
+			for (int j = 0; j < LEAVES_PER_BRANCH; j++) {
+
+				sf::Vector2f positionOffset = branch->GetDirection() * randomBetween(0.f, MIN_BRANCH_LENGTH);
+				float randomAngle = randomBetween(-60.f, 60.f);
+
+				Leaf* newLeaf = new Leaf(branch->GetParent()->GetPosition() + positionOffset,
+					randomAngle);
+
+				newLeaf->attachedBranch = branch;
+
 				m_leaves.emplace_back(newLeaf);
 			}
 		}
 	}
+
+	InitLeavesVA();
+}
+
+void Tree::GrowLeaves(float deltaTime) {
+
+	if (!m_has_grown) return;
+
+	for (int i = 0; i < m_leaves.size(); i++) {
+
+		Leaf* leaf = m_leaves[i];
+
+		leaf->LerpSize(1.f, deltaTime);
+
+		UpdateLeavesVAPositions(i);
+	}
+}
+
+void Tree::InitLeavesVA() {
+
+	m_leaves_va.setPrimitiveType(sf::Quads);
+	m_leaves_va.resize(4 * m_leaves.size());
+
+	// Prepare the texture
+	m_leaf_texture.loadFromFile("./Textures/leaf.png");
+	m_leaf_render_states.texture = &m_leaf_texture;
+
+	for (int i = 0; i < m_leaves.size(); i++) {
+
+		sf::Color& color = m_leaves[i]->GetColor();
+
+		int index = i * 4;
+
+		UpdateLeavesVAPositions(i);
+
+		// Reversed because SFML
+		m_leaves_va[index].texCoords = { 0.f, 352.f };
+		m_leaves_va[index + 1].texCoords = { 0.f, 0.f };
+		m_leaves_va[index + 2].texCoords = { 326.f, 0.f };
+		m_leaves_va[index + 3].texCoords = { 326.f, 352.f };
+
+		m_leaves_va[index].color = color;
+		m_leaves_va[index + 1].color = color;
+		m_leaves_va[index + 2].color = color;
+		m_leaves_va[index + 3].color = color;
+	}
+}
+
+void Tree::UpdateLeavesVAPositions(int index) {
+
+	sf::Vector2f& position = m_leaves[index]->GetPosition();
+	sf::Vector2f& direction = m_leaves[index]->attachedBranch->GetDirection();
+	sf::Vector2f directionNormal = utils::vector2f::GetNormal(direction);
+
+	float& rotation = m_leaves[index]->GetRotation();
+	float& size = m_leaves[index]->GetSize();
+
+	int offsetIndex = index * 4;
+
+	sf::Vector2f bottomLeft = position + directionNormal * size;
+	sf::Vector2f bottomRight = position - directionNormal * size;
+	sf::Vector2f topLeft = position - directionNormal * size + direction * size * 2.f;
+	sf::Vector2f topRight = position + directionNormal * size + direction * size * 2.f;
+
+	m_leaves_va[offsetIndex].position = bottomLeft;
+	m_leaves_va[offsetIndex + 1].position = topRight;
+	m_leaves_va[offsetIndex + 2].position = topLeft;
+	m_leaves_va[offsetIndex + 3].position = bottomRight;
+
+	// Rotate all points
+	for (int j = 0; j < 4; j++)
+		m_leaves_va[offsetIndex + j].position = utils::vector2f::RotatePointAboutOrigin(position, m_leaves_va[offsetIndex + j].position, RADIANS(rotation));
 }
 
 void Tree::Reset() {
@@ -270,6 +351,7 @@ void Tree::Reset() {
 		delete leaf;
 	}
 	m_leaves.clear();
+	m_leaves_va.clear();
 
 	m_root = nullptr;
 	m_has_grown = false;
@@ -300,6 +382,5 @@ void Tree::DrawBranches(sf::RenderWindow* window) {
 
 void Tree::DrawLeaves(sf::RenderWindow* window) {
 
-	for (int i = 0; i < m_leaves.size(); i++)
-		m_leaves[i]->Draw(*window);
+	window->draw(m_leaves_va, m_leaf_render_states);
 }

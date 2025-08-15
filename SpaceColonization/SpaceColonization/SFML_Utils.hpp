@@ -48,10 +48,17 @@ namespace utils {
 
 			return (float)result;
 		}
+
+		inline sf::Vector2f GetNormal(const sf::Vector2f& v) {
+
+			return sf::Vector2f(-v.y, v.x);
+		}
+
+		sf::Vector2f RotatePointAboutOrigin(const sf::Vector2f& origin, const sf::Vector2f& p, float angleInRads);
 	}
 
 	namespace color {
 
-		sf::Color RandomizeColor(sf::Color color);
+		sf::Color RandomizeColor(sf::Color color, float variationStrength = 10.f);
 	}
 }
