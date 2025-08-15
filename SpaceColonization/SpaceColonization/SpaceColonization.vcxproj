@@ -134,11 +134,13 @@
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Branch.cpp" />
     <ClCompile Include="Attractor.cpp" />
+    <ClCompile Include="HSL.cpp" />
     <ClCompile Include="Leaf.cpp" />
     <ClCompile Include="Line.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Polygon.cpp" />
     <ClCompile Include="Point.cpp" />
+    <ClCompile Include="SFML_Utils.cpp" />
     <ClCompile Include="ThickLine.cpp" />
     <ClCompile Include="Tree.cpp" />
   </ItemGroup>
@@ -146,6 +148,7 @@
     <ClInclude Include="Application.h" />
     <ClInclude Include="Branch.h" />
     <ClInclude Include="Attractor.h" />
+    <ClInclude Include="HSL.h" />
     <ClInclude Include="Leaf.h" />
     <ClInclude Include="Line.h" />
     <ClInclude Include="Polygon.h" />

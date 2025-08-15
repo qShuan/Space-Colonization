@@ -239,7 +239,8 @@ void Tree::GenerateLeaves() {
 
 		Branch* branch = m_branches[i];
 		if (branch->GetChildren().size() == 0) {
-			Leaf* newLeaf = new Leaf(branch->GetPosition(), randomBetween(-360.f, 360.f));
+			Leaf* newLeaf = new Leaf(branch->GetPosition(), 
+				utils::vector2f::GetDirectionAngle(branch->GetDirection()) + randomBetween(-45.f, 45.f));
 			m_leaves.emplace_back(newLeaf);
 		}
 	}

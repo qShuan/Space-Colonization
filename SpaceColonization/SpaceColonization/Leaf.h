@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include "SFML_Utils.hpp"
 
 class Leaf {
 

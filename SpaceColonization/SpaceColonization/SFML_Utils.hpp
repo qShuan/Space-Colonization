@@ -1,7 +1,15 @@
 #pragma once
 
-#include <SFML/Graphics.hpp>
 #include <cmath>
+
+#include <SFML/Graphics.hpp>
+#include "HSL.h"
+#include "RNG.h"
+
+#define PI 3.14159265358979323846
+
+#define RADIANS(x) ((x * PI) / 180)
+#define DEGREES(x) ((x * 180) / PI)
 
 namespace utils {
 
@@ -30,5 +38,20 @@ namespace utils {
 
 			return ((a.x * b.y) - (a.y * b.x));
 		}
+
+		inline float GetDirectionAngle(const sf::Vector2f& v) {
+
+			float angleRad = atan2(v.y, v.x);
+			float degrees = DEGREES(angleRad) + 90.f;
+
+			int result = (360 + (int)round(degrees)) % 360;
+
+			return (float)result;
+		}
+	}
+
+	namespace color {
+
+		sf::Color RandomizeColor(sf::Color color);
 	}
 }

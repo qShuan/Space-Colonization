@@ -13,7 +13,7 @@ Leaf::Leaf(sf::Vector2f position, float rotation) : m_position(position) {
 	m_sprite.setPosition(m_position);
 	m_sprite.setRotation(rotation);
 
-	m_sprite.setColor(sf::Color::Green);
+	m_sprite.setColor(utils::color::RandomizeColor(sf::Color::Green));
 }
 
 void Leaf::Draw(sf::RenderTarget& target) {

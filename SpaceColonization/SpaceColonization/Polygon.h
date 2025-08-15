@@ -1,15 +1,10 @@
 #pragma once
 
-#define _USE_MATH_DEFINES
-
 #include "Point.h"
 #include "Line.h"
 
 #include "SFML_Utils.hpp"
 
-#include <math.h>
-
-#define RADIANS(x) ((x * M_PI) / 180)
 
 class Polygon {
 
