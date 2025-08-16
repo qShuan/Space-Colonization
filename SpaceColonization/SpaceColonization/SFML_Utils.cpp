@@ -2,7 +2,7 @@
 
 namespace utils {
 
-	namespace vector2f {
+	namespace vec2 {
 
 		sf::Vector2f RotatePointAboutOrigin(const sf::Vector2f& origin, const sf::Vector2f& p, float angleInRads) {
 

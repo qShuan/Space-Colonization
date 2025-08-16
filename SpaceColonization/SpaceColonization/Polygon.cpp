@@ -99,7 +99,7 @@ float Polygon::VertexCrossProduct(int index) {
 	sf::Vector2f vToNext = nextVertex.GetPosition() - vertex.GetPosition();
 
 	//Swapped because SFML has flipped y-coordinates
-	return utils::vector2f::ZCrossProduct(vToNext, vToPrev);
+	return utils::vec2::ZCrossProduct(vToNext, vToPrev);
 }
 
 Point& Polygon::GetVertex(int index) {

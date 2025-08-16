@@ -13,7 +13,7 @@
 
 namespace utils {
 
-	namespace vector2f {
+	namespace vec2 {
 		// Returns the magnitude (length) of a 2D vector
 		inline float GetVectorMagnitude(const sf::Vector2f& v) {
 

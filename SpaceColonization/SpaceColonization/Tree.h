@@ -25,7 +25,7 @@ private:
 
 	sf::Color m_base_branches_color;
 
-	bool m_has_grown;
+	bool m_has_tree_grown;
 	bool m_have_leaves_grown;
 
 	void RemoveReachedAttractors();
@@ -65,5 +65,5 @@ public:
 
 	sf::Color& GetBaseBranchesColor() { return m_base_branches_color; }
 
-	bool IsGrowing() { return !m_has_grown; }
+	bool IsGrowing() { return !m_has_tree_grown; }
 };
