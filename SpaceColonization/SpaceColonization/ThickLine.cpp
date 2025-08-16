@@ -18,10 +18,10 @@ void ThickLine::SetLinePosition(sf::Vector2f beginPosition, sf::Vector2f endPosi
 
 void ThickLine::SetLineColor(sf::Color color) {
 
-    for (int i = 0; i < NUMBER_OF_VERTICES; ++i)
-        m_vertices[i].color = color;
-
     m_color = color;
+
+    for (int i = 0; i < NUMBER_OF_VERTICES; ++i)
+        m_vertices[i].color = m_color;
 }
 
 void ThickLine::SetThickness(float thickness) {

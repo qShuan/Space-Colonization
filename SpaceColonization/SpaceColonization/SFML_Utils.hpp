@@ -5,6 +5,7 @@
 #include <SFML/Graphics.hpp>
 #include "HSL.h"
 #include "RNG.h"
+#include <iostream>
 
 #define PI 3.14159265358979323846
 
@@ -60,5 +61,13 @@ namespace utils {
 	namespace color {
 
 		sf::Color RandomizeColor(sf::Color color, float variationStrength = 10.f);
+
+		sf::Color DarkenColor(sf::Color color, float amount, float minLuminance);
+
+		inline float GetLuminance(sf::Color& color) {
+			HSL hsl = TurnToHSL(color);
+
+			return (float)hsl.Luminance;
+		}
 	}
 }

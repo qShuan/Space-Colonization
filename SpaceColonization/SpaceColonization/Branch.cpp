@@ -9,7 +9,7 @@ Branch::Branch(Branch* parent, sf::Vector2f position, sf::Vector2f direction, sf
 	m_original_direction = m_direction;
 	m_original_position = m_position;
 
-	SetBranchColor(color);
+	SetBranchColor(BASE_BRANCH_COLOR);
 }
 
 Branch::Branch(const Branch& other) : m_length(MIN_BRANCH_LENGTH) {

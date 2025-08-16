@@ -1,7 +1,8 @@
 #include "Tree.h"
 #include <iostream>
 
-Tree::Tree() : min_distance(10.f), max_distance(100.f), number_of_attractors(500), m_root(nullptr), number_of_leaves(100), m_has_tree_grown(false){
+Tree::Tree() : min_distance(10.f), max_distance(200.f), number_of_attractors(500), 
+m_root(nullptr), number_of_leaves(100), m_has_tree_grown(false){
 
 }
 
@@ -11,6 +12,18 @@ Tree::~Tree() {
 		delete branch;
 	}
 	m_branches.clear();
+}
+
+int Tree::GetBranchDepth(Branch* branch) {
+
+	int depth = 1;
+	while (branch->GetParent() != nullptr) {
+
+		depth++;
+		branch = branch->GetParent();
+	}
+
+	return depth;
 }
 
 Attractor* Tree::GetClosestAttractorToBranch(Branch* branch) {
@@ -38,7 +51,6 @@ void Tree::CreateRoot(sf::Vector2f position) {
 
 	m_root = new Branch(nullptr, position, { 0.f, -1.f });
 	m_branches.emplace_back(m_root);
-
 
 	Attractor* closestAttractor = GetClosestAttractorToBranch(m_root);
 
@@ -187,10 +199,24 @@ void Tree::ThickenBranches() {
 				if (parentThickness < currentBranch->GetBranchLine().GetThickness() + 0.8f) {
 					currentBranch->GetParent()->GetBranchLine().SetThickness(currentBranch->GetBranchLine().GetThickness() + .4f);
 				}
+
+				DarkenBranchColor(currentBranch);
+
 				currentBranch = currentBranch->GetParent();
 			}
 		}
 	}
+}
+
+// Darken branch color depending on it's thickness
+void Tree::DarkenBranchColor(Branch* branch) {
+
+	float branchThickness = branch->GetBranchLine().GetThickness();
+
+	// Reversed so we darken the thinner branches more
+	float darkenAmount = 1.f / branchThickness;
+
+	branch->SetBranchColor(utils::color::DarkenColor(BASE_BRANCH_COLOR, darkenAmount * 100.f, 10.f));
 }
 
 void Tree::Grow() {
@@ -256,7 +282,7 @@ void Tree::GenerateLeaves() {
 				float randomAngle = randomBetween(-60.f, 60.f);
 
 				Leaf* newLeaf = new Leaf(branch->GetParent()->GetPosition() + positionOffset,
-					randomAngle);
+					randomAngle, BASE_LEAF_COLOR);
 
 				newLeaf->attachedBranch = branch;
 
@@ -361,6 +387,7 @@ void Tree::Reset() {
 
 	m_root = nullptr;
 	m_has_tree_grown = false;
+	m_have_leaves_grown = false;
 }
 
 void Tree::DrawAttractors(sf::RenderWindow* window) {

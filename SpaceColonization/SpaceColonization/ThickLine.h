@@ -33,5 +33,5 @@ public:
     }
 
     float GetThickness() { return m_thickness; }
-    sf::Color GetLineColor() { return m_color; }
+    sf::Color& GetLineColor() { return m_color; }
 };

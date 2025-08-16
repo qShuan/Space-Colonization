@@ -39,5 +39,16 @@ namespace utils {
 
 			return color;
 		}
+
+		sf::Color DarkenColor(sf::Color color, float amount, float minLuminance) {
+
+			HSL hsl = TurnToHSL(color);
+
+			hsl.Luminance = std::max(minLuminance, (float)hsl.Luminance - amount);
+
+			color = hsl.TurnToRGB();
+
+			return color;
+		}
 	}
 }

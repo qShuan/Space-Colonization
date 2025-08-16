@@ -31,8 +31,10 @@ private:
 	void RemoveReachedAttractors();
 	void CreateNewBranches();
 	void ThickenBranches();
+	void DarkenBranchColor(Branch* branch);
 	void InitLeavesVA();
 	void UpdateLeavesVAPositions(int index);
+	int GetBranchDepth(Branch* branch);
 
 public:
 
