@@ -170,6 +170,10 @@ void Application::UpdateGUI() {
 	ImGui::SetWindowSize(ImVec2(GUI_WIDTH, WINDOW_HEIGHT));
 	ImGui::SetWindowPos(ImVec2(SIMULATION_AREA_WIDTH, 0));
 
+	ImGui::SeparatorText("Editor Tools");
+	if (ImGui::Button("Close"));
+	ImGui::Separator();
+
 	if (ImGui::BeginTabBar("Generation Items")) {
 
 		if (ImGui::BeginTabItem("Generation")) {
@@ -209,10 +213,6 @@ void Application::UpdateGUI() {
 		}
 	}
 	ImGui::EndTabBar();
-
-	ImGui::SeparatorText("Other");
-
-	if (ImGui::Button("Close"));
 
 	ImGui::End();
 }

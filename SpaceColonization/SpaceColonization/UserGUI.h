@@ -27,7 +27,4 @@ public:
 	void Close();
 
 	void InitStyle();
-	void HandleMenu(float width, float height,
-		float screenWidth, float screenHeight,
-		float* baseBranchColor, float* baseLeafColor);
 };
