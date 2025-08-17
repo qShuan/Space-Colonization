@@ -75,6 +75,9 @@
     <ClCompile Include="..\include\imgui\imgui_tables.cpp">
       <Filter>imgui</Filter>
     </ClCompile>
+    <ClCompile Include="UserGUI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Point.h">
@@ -115,6 +118,9 @@
     </ClInclude>
     <ClInclude Include="..\include\utils\vec2.hpp">
       <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="UserGUI.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

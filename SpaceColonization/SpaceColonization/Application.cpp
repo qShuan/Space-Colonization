@@ -11,6 +11,8 @@ Application::Application() {
 
 	// TODO: Lighten up the color the further away we are from the root
 	m_branches_base_color = sf::Color(64, 38, 8);
+
+	userGUI.Init(m_window);
 }
 
 Application::~Application() {
@@ -20,6 +22,8 @@ Application::~Application() {
 }
 
 void Application::HandleEvents(sf::Event& event) {
+
+	userGUI.ProccessEvent(m_window, event);
 
 	if (event.type == __noop) {
 		m_window->close();
@@ -110,6 +114,7 @@ void Application::Run() {
 
 
 	sf::Clock clock;
+	sf::Clock imguiClock;
 
 	float growTickDefaultValue = 0.025f;
 	float growTickCountDown = growTickDefaultValue;
@@ -124,6 +129,8 @@ void Application::Run() {
 		}
 
 		float sec = clock.restart().asSeconds();
+
+		userGUI.Update(m_window, imguiClock.restart());
 
 		PullVertex();
 
@@ -145,6 +152,10 @@ void Application::Run() {
 
 		growTickCountDown -= sec;
 
+		userGUI.Render(m_window);
+
 		m_window->display();
 	}
+
+	userGUI.Close();
 }

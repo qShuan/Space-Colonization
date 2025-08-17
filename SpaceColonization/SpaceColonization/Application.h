@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Tree.h"
+#include "UserGUI.h"
 
 #define WINDOW_WIDTH 1600
 #define WINDOW_HEIGHT 900
@@ -16,6 +17,7 @@ private:
 	std::vector<Line*> m_selected_edges;
 
 	Tree m_tree;
+	UserGUI userGUI;
 
 	sf::RenderWindow* m_window;
 	Polygon* m_polygon;
