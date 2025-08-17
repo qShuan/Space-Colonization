@@ -3,7 +3,7 @@
 #include "Point.h"
 #include "Line.h"
 
-#include <vec2.hpp>
+#include <utils/vec2.hpp>
 
 
 class Polygon {

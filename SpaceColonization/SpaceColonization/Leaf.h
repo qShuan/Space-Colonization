@@ -1,7 +1,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include "color.hpp"
+#include <utils/color.hpp>
 #include "Branch.h"
 
 #define BASE_LEAF_COLOR sf::Color(35, 128, 14)

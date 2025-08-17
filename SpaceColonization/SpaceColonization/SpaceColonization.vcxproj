@@ -104,7 +104,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Dependencies\include;$(SolutionDir)\utils;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -122,7 +122,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Dependencies\include;$(SolutionDir)\utils;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -132,8 +132,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\utils\color.cpp" />
-    <ClCompile Include="..\utils\vec2.cpp" />
+    <ClCompile Include="..\include\utils\color.cpp" />
+    <ClCompile Include="..\include\utils\vec2.cpp" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Branch.cpp" />
     <ClCompile Include="Attractor.cpp" />
@@ -147,8 +147,8 @@
     <ClCompile Include="Tree.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\utils\color.hpp" />
-    <ClInclude Include="..\utils\vec2.hpp" />
+    <ClInclude Include="..\include\utils\color.hpp" />
+    <ClInclude Include="..\include\utils\vec2.hpp" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="Branch.h" />
     <ClInclude Include="Attractor.h" />

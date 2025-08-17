@@ -51,10 +51,10 @@
     <ClCompile Include="HSL.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\utils\color.cpp">
+    <ClCompile Include="..\include\utils\color.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
-    <ClCompile Include="..\utils\vec2.cpp">
+    <ClCompile Include="..\include\utils\vec2.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
   </ItemGroup>
@@ -92,10 +92,10 @@
     <ClInclude Include="HSL.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\utils\color.hpp">
+    <ClInclude Include="..\include\utils\color.hpp">
       <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="..\utils\vec2.hpp">
+    <ClInclude Include="..\include\utils\vec2.hpp">
       <Filter>Utils</Filter>
     </ClInclude>
   </ItemGroup>
