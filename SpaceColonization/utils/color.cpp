@@ -2,17 +2,20 @@
 
 namespace utils {
 
-	sf::Color RandomizeColor(sf::Color color, float variationStrength) {
+	namespace color {
 
-		HSL hsl = TurnToHSL(color);
+		sf::Color Randomize(sf::Color color, float variationStrength) {
 
-		hsl.Hue = floor(hsl.Hue);
+			HSL hsl = TurnToHSL(color);
 
-		hsl.Luminance = std::max(0.0f, (float)hsl.Luminance + (fastRandom() * -variationStrength));
-		hsl.Saturation = std::max(0.0f, (float)hsl.Saturation + (fastRandom() * -variationStrength));
+			hsl.Hue = floor(hsl.Hue);
 
-		color = hsl.TurnToRGB();
+			hsl.Luminance = std::max(0.0f, (float)hsl.Luminance + (fastRandom() * -variationStrength));
+			hsl.Saturation = std::max(0.0f, (float)hsl.Saturation + (fastRandom() * -variationStrength));
 
-		return color;
+			color = hsl.TurnToRGB();
+
+			return color;
+		}
 	}
 }

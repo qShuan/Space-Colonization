@@ -4,7 +4,7 @@
 Leaf::Leaf(sf::Vector2f position, float rotation, sf::Color color) : m_position(position), 
 m_rotation(rotation), m_color(color), m_size_lerp_precision(0.15f), m_attached_branch(nullptr){
 
-	m_color = utils::RandomizeColor(m_color, 15.f);
+	m_color = utils::color::Randomize(m_color, 15.f);
 	m_desired_size = randomBetween(20.f, 30.f);
 	m_size = 0.f;
 	m_growth_speed = randomBetween(0.5f, 1.f);

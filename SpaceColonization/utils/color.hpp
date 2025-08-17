@@ -6,20 +6,23 @@
 
 namespace utils {
 
-	sf::Color RandomizeColor(sf::Color color, float variationStrength = 10.f);
+	namespace color {
 
-	inline sf::Color DarkenColor(sf::Color color, float amount, float minLuminance) {
+		sf::Color Randomize(sf::Color color, float variationStrength = 10.f);
 
-		HSL hsl = TurnToHSL(color);
-		hsl.Luminance = std::max(minLuminance, (float)hsl.Luminance - amount);
-		color = hsl.TurnToRGB();
+		inline sf::Color Darken(sf::Color color, float amount, float minLuminance) {
 
-		return color;
-	}
+			HSL hsl = TurnToHSL(color);
+			hsl.Luminance = std::max(minLuminance, (float)hsl.Luminance - amount);
+			color = hsl.TurnToRGB();
 
-	inline float GetLuminance(const sf::Color& color) {
-		HSL hsl = TurnToHSL(color);
+			return color;
+		}
 
-		return (float)hsl.Luminance;
+		inline float GetLuminance(const sf::Color& color) {
+			HSL hsl = TurnToHSL(color);
+
+			return (float)hsl.Luminance;
+		}
 	}
 }

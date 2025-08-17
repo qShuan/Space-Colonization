@@ -224,7 +224,7 @@ void Tree::DarkenBranchColor(Branch* branch) {
 	float darkenMultiplier = 100.f;
 	float minLuminance = 10.f;
 
-	branch->SetColor(utils::DarkenColor(BASE_BRANCH_COLOR, darkenAmount * darkenMultiplier, minLuminance));
+	branch->SetColor(utils::color::Darken(BASE_BRANCH_COLOR, darkenAmount * darkenMultiplier, minLuminance));
 }
 
 Branch* Tree::FindClosestBranchToAttractor(Attractor& attractor) {
