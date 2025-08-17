@@ -4,7 +4,7 @@
 Application::Application() {
 
 	m_window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Space Colonization", sf::Style::Titlebar | sf::Style::Close);
-	m_polygon = new Polygon({ WINDOW_WIDTH / 2.f, WINDOW_HEIGHT / 2.f }, NUMBER_OF_POLYGON_VERTICES, SPACE_BETWEEN_VERTICES);
+	m_polygon = new Polygon(SIMULATION_CENTER, NUMBER_OF_POLYGON_VERTICES, SPACE_BETWEEN_VERTICES);
 	m_selected_vertex = nullptr;
 	m_is_vertex_selected = false;
 	m_should_tree_grow = false;
@@ -13,6 +13,7 @@ Application::Application() {
 	m_branches_base_color = sf::Color(64, 38, 8);
 
 	userGUI.Init(m_window);
+	userGUI.InitStyle();
 }
 
 Application::~Application() {
@@ -32,7 +33,7 @@ void Application::HandleEvents(sf::Event& event) {
 		if (event.key.code == sf::Keyboard::R) {
 			m_tree.Reset();
 			m_tree.GenerateAttractors(*m_polygon);
-			m_tree.CreateRoot({ WINDOW_WIDTH / 2.f, WINDOW_HEIGHT });
+			m_tree.CreateRoot({ SIMULATION_CENTER.x, WINDOW_HEIGHT });
 			m_should_tree_grow = true;
 		}
 	}
@@ -105,7 +106,7 @@ void Application::PullVertex() {
 
 bool Application::InBounds(sf::Vector2f position) {
 
-	if (position.x >= 0 && position.x <= WINDOW_WIDTH && position.y >= 0 && position.y <= WINDOW_HEIGHT) return true;
+	if (position.x >= 0 && position.x <= SIMULATION_AREA_WIDTH && position.y >= 0 && position.y <= WINDOW_HEIGHT) return true;
 
 	return false;
 }
@@ -150,6 +151,8 @@ void Application::Run() {
 		m_tree.DrawLeaves(m_window);
 		m_polygon->Draw(m_window);
 
+		UpdateGUI();
+
 		growTickCountDown -= sec;
 
 		userGUI.Render(m_window);
@@ -158,4 +161,58 @@ void Application::Run() {
 	}
 
 	userGUI.Close();
+}
+
+void Application::UpdateGUI() {
+
+	ImGui::Begin("Editor tools", NULL, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize);
+
+	ImGui::SetWindowSize(ImVec2(GUI_WIDTH, WINDOW_HEIGHT));
+	ImGui::SetWindowPos(ImVec2(SIMULATION_AREA_WIDTH, 0));
+
+	if (ImGui::BeginTabBar("Generation Items")) {
+
+		if (ImGui::BeginTabItem("Generation")) {
+
+
+			ImGui::EndTabItem();
+		}
+
+		if (ImGui::BeginTabItem("Branches")) {
+
+			if (ImGui::ColorPicker4("Base branch color", m_base_branch_color)) {
+
+				m_tree.SetBaseBranchColor(
+					sf::Color(m_base_branch_color[0] * 255, m_base_branch_color[1] * 255,
+						m_base_branch_color[2] * 255, m_base_branch_color[3] * 255)
+				);
+				m_tree.UpdateBranchesColor();
+			}
+			ImGui::NewLine();
+
+			ImGui::EndTabItem();
+		}
+
+		if (ImGui::BeginTabItem("Leaves")) {
+
+			if (ImGui::ColorPicker4("Base leaf color", m_base_leaf_color)) {
+
+				m_tree.SetBaseLeafColor(
+					sf::Color(m_base_leaf_color[0] * 255, m_base_leaf_color[1] * 255,
+						m_base_leaf_color[2] * 255, m_base_leaf_color[3] * 255)
+				);
+				m_tree.UpdateLeavesColor();
+			}
+			ImGui::NewLine();
+
+			ImGui::EndTabItem();
+		}
+	}
+	ImGui::EndTabBar();
+
+	ImGui::SeparatorText("Other");
+
+	if (ImGui::Button("Close"));
+
+	ImGui::End();
 }

@@ -5,10 +5,15 @@
 
 #include <SFML/Graphics.hpp>
 
+#include <print>
+
+#define LOG(...) std::println(__VA_ARGS__)
+
 class UserGUI {
 
 private:
 
+	ImGuiStyle* m_style;
 
 public:
 
@@ -21,5 +26,8 @@ public:
 	void Render(sf::RenderWindow* window);
 	void Close();
 
-
+	void InitStyle();
+	void HandleMenu(float width, float height,
+		float screenWidth, float screenHeight,
+		float* baseBranchColor, float* baseLeafColor);
 };

@@ -122,7 +122,7 @@ HSL TurnToHSL(const sf::Color& C)
     G = C.g / 255.0;
     B = C.b / 255.0;
     ///Casos no triviales.
-    double max, min, l, s;
+    double max, min, l, s = 0;
 
     ///Maximos
     max = std::max(std::max(R, G), B);

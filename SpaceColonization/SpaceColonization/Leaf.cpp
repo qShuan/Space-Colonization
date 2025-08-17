@@ -16,3 +16,8 @@ void Leaf::LerpSize(float speed, float deltaTime) {
 
 	m_size += (m_desired_size - m_size) * speed * deltaTime;
 }
+
+void Leaf::SetColor(sf::Color color) {
+
+	m_color = utils::color::Randomize(color, 15.f);
+}

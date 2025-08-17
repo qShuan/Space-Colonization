@@ -49,7 +49,7 @@ void Tree::CreateRoot(sf::Vector2f position) {
 
 	if (!m_branches.empty()) return;
 
-	m_root = new Branch(nullptr, position, { 0.f, -1.f });
+	m_root = new Branch(nullptr, position, { 0.f, -1.f }, m_base_branch_color);
 	m_branches.emplace_back(m_root);
 
 	Attractor* closestAttractor = GetClosestAttractorToBranch(m_root);
@@ -73,7 +73,7 @@ void Tree::CreateRoot(sf::Vector2f position) {
 
 		if (!isAttractorFound) {
 
-			Branch* newBranch = currentBranch->Next();
+			Branch* newBranch = currentBranch->Next(m_base_branch_color);
 
 			// Go towards the closest attractor
 			sf::Vector2f directionToAttractor = closestAttractor->GetPosition() - newBranch->GetPosition();
@@ -161,7 +161,7 @@ void Tree::CreateNewBranches() {
 
 			branch->SetDirection(finalDirection);
 
-			Branch* newBranch = branch->Next();
+			Branch* newBranch = branch->Next(m_base_branch_color);
 			m_branches.emplace_back(newBranch);
 
 			isBranchAdded = true;
@@ -224,7 +224,7 @@ void Tree::DarkenBranchColor(Branch* branch) {
 	float darkenMultiplier = 100.f;
 	float minLuminance = 10.f;
 
-	branch->SetColor(utils::color::Darken(BASE_BRANCH_COLOR, darkenAmount * darkenMultiplier, minLuminance));
+	branch->SetColor(utils::color::Darken(m_base_branch_color, darkenAmount * darkenMultiplier, minLuminance));
 }
 
 Branch* Tree::FindClosestBranchToAttractor(Attractor& attractor) {
@@ -287,6 +287,40 @@ void Tree::Grow() {
 	UpdateBranches();
 }
 
+void Tree::UpdateBranchesColor() {
+
+	for (int i = (int)m_branches.size() - 1; i >= 0; i--) {
+
+		Branch* branch = m_branches[i];
+
+		// If the branch is a tip
+		if (branch->GetChildren().size() == 0) {
+
+			Branch* currentBranch = branch;
+
+			// Go towards the root
+			while (currentBranch->GetParent() != nullptr) {
+
+				currentBranch->SetColor(m_base_branch_color);
+				DarkenBranchColor(currentBranch);
+
+				currentBranch = currentBranch->GetParent();
+			}
+		}
+	}
+}
+
+void Tree::UpdateLeavesColor() {
+
+	for (int i = 0; i < m_leaves.size(); i++) {
+
+		Leaf* leaf = m_leaves[i];
+
+		leaf->SetColor(m_base_leaf_color);
+		UpdateLeavesVAColors(i);
+	}
+}
+
 void Tree::GenerateLeaves() {
 
 	if (IsGrowing() || m_leaves.size() >= number_of_leaves) return;
@@ -302,7 +336,7 @@ void Tree::GenerateLeaves() {
 				float randomAngle = randomBetween(-60.f, 60.f);
 
 				Leaf* newLeaf = new Leaf(branch->GetParent()->GetPosition() + positionOffset,
-					randomAngle, BASE_LEAF_COLOR);
+					randomAngle, m_base_leaf_color);
 
 				newLeaf->SetAttachedBranch(branch);
 
@@ -386,6 +420,16 @@ void Tree::UpdateLeavesVAPositions(int index) {
 	// Rotate all points
 	for (int j = 0; j < 4; j++)
 		m_leaves_va[offsetIndex + j].position = utils::vec2::RotatePointAboutOrigin(position, m_leaves_va[offsetIndex + j].position, (float)RADIANS(rotation));
+}
+
+void Tree::UpdateLeavesVAColors(int index) {
+
+	sf::Color& color = m_leaves[index]->GetColor();
+
+	int offsetIndex = index * 4;
+
+	for (int j = 0; j < 4; j++)
+		m_leaves_va[offsetIndex + j].color = color;
 }
 
 void Tree::Reset() {

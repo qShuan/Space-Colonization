@@ -34,6 +34,7 @@ public:
 	bool IsGrown() { return m_size >= (m_desired_size - m_size_lerp_precision); }
 
 	void SetAttachedBranch(Branch* branch) { m_attached_branch = branch; }
+	void SetColor(sf::Color color);
 
 	Branch* GetAttachedBranch() { return m_attached_branch; }
 	sf::Vector2f& GetPosition() { return m_position; }

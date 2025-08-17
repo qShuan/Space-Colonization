@@ -21,7 +21,8 @@ private:
 
 	Branch* m_root;
 
-	sf::Color m_base_branches_color;
+	sf::Color m_base_branch_color;
+	sf::Color m_base_leaf_color;
 
 	bool m_has_tree_grown;
 	bool m_have_leaves_grown;
@@ -39,6 +40,7 @@ private:
 
 	void InitLeavesVA();
 	void UpdateLeavesVAPositions(int index);
+	void UpdateLeavesVAColors(int index);
 
 	int GetBranchDepth(Branch* branch);
 
@@ -61,17 +63,21 @@ public:
 
 	void Reset();
 
+	void UpdateBranchesColor();
+	void UpdateLeavesColor();
+
 	void DrawAttractors(sf::RenderWindow* window);
 	void DrawBranches(sf::RenderWindow* window);
 	void DrawLeaves(sf::RenderWindow* window);
 
-	void SetBaseBranchesColor(sf::Color color) { m_base_branches_color = color; }
+	void SetBaseBranchColor(sf::Color color) { m_base_branch_color = color; }
+	void SetBaseLeafColor(sf::Color color) { m_base_leaf_color = color; }
 
 	std::vector<Attractor>& GetAttractors() { return m_attractors; }
 	std::vector<Branch*>& GetBranches() { return m_branches; }
 	std::vector<Leaf*>& GetLeaves() { return m_leaves; }
 
-	sf::Color& GetBaseBranchesColor() { return m_base_branches_color; }
+	sf::Color& GetBaseBranchesColor() { return m_base_branch_color; }
 
 	bool IsGrowing() { return !m_has_tree_grown; }
 };
