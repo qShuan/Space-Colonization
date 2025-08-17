@@ -171,7 +171,7 @@ void Application::UpdateGUI() {
 	ImGui::SetWindowPos(ImVec2(SIMULATION_AREA_WIDTH, 0));
 
 	ImGui::SeparatorText("Editor Tools");
-	if (ImGui::Button("Close"));
+	if (ImGui::Button("Close"))
 	ImGui::Separator();
 
 	if (ImGui::BeginTabBar("Generation Items")) {
@@ -186,9 +186,13 @@ void Application::UpdateGUI() {
 
 			if (ImGui::ColorPicker4("Base branch color", m_base_branch_color)) {
 
+				sf::Uint8 r = (sf::Uint8)(m_base_branch_color[0] * 255.f);
+				sf::Uint8 g = (sf::Uint8)(m_base_branch_color[1] * 255.f);
+				sf::Uint8 b = (sf::Uint8)(m_base_branch_color[2] * 255.f);
+				sf::Uint8 a = (sf::Uint8)(m_base_branch_color[3] * 255.f);
+
 				m_tree.SetBaseBranchColor(
-					sf::Color(m_base_branch_color[0] * 255, m_base_branch_color[1] * 255,
-						m_base_branch_color[2] * 255, m_base_branch_color[3] * 255)
+					sf::Color(r, g, b, a)
 				);
 				m_tree.UpdateBranchesColor();
 			}
@@ -201,9 +205,13 @@ void Application::UpdateGUI() {
 
 			if (ImGui::ColorPicker4("Base leaf color", m_base_leaf_color)) {
 
+				sf::Uint8 r = (sf::Uint8)(m_base_leaf_color[0] * 255.f);
+				sf::Uint8 g = (sf::Uint8)(m_base_leaf_color[1] * 255.f);
+				sf::Uint8 b = (sf::Uint8)(m_base_leaf_color[2] * 255.f);
+				sf::Uint8 a = (sf::Uint8)(m_base_leaf_color[3] * 255.f);
+
 				m_tree.SetBaseLeafColor(
-					sf::Color(m_base_leaf_color[0] * 255, m_base_leaf_color[1] * 255,
-						m_base_leaf_color[2] * 255, m_base_leaf_color[3] * 255)
+					sf::Color(r, g, b, a)
 				);
 				m_tree.UpdateLeavesColor();
 			}
