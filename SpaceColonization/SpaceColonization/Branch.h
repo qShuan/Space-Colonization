@@ -42,7 +42,8 @@ public:
 	void SetParent(Branch* parent) { m_parent = parent; }
 	void SetPosition(sf::Vector2f position) { m_position = position; }
 
-	void SetBranchColor(sf::Color color) { m_thick_line.SetLineColor(color); }
+	void SetColor(sf::Color color) { m_thick_line.SetLineColor(color); }
+	void SetThickness(float thickness) { m_thick_line.SetThickness(thickness); }
 
 	Branch* GetParent() { return m_parent; }
 	std::vector<Branch*>& GetChildren() { return m_children; }
@@ -53,4 +54,5 @@ public:
 	sf::Vector2f& GetOriginalPosition() { return m_original_position; }
 	float& GetLength() { return m_length; }
 	int& GetCount() { return m_count; }
+	float GetThickness() { return m_thick_line.GetThickness(); }
 };

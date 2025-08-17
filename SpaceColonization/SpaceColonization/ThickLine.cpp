@@ -20,7 +20,7 @@ void ThickLine::SetLineColor(sf::Color color) {
 
     m_color = color;
 
-    for (int i = 0; i < NUMBER_OF_VERTICES; ++i)
+    for (int i = 0; i < NUMBER_OF_VERTICES; i++)
         m_vertices[i].color = m_color;
 }
 
@@ -30,6 +30,7 @@ void ThickLine::SetThickness(float thickness) {
     Update();
 }
 
+// Unfortunately SFML doesn't support indexed vertices and I don't want to use OpenGL
 void ThickLine::Update() {
 
     sf::Vector2f direction = m_end_position - m_begin_position;
@@ -52,15 +53,27 @@ void ThickLine::Update() {
 
     /* TOP TRAPEZOID */
 
-    sf::Vector2f topOffset = (m_thickness / 2.f) * normalizedDirection;
+    sf::Vector2f topBottomOffset = (m_thickness / 2.f) * normalizedDirection;
 
     // Left triangle
     m_vertices[6].position = m_end_position - offset;
-    m_vertices[7].position = m_end_position + topOffset - (offset / 2.f);
-    m_vertices[8].position = m_end_position + topOffset + (offset / 2.f);
+    m_vertices[7].position = m_end_position + topBottomOffset - (offset / 2.f);
+    m_vertices[8].position = m_end_position + topBottomOffset + (offset / 2.f);
 
     // Right triangle
-    m_vertices[9].position = m_end_position + topOffset + (offset / 2.f);
+    m_vertices[9].position = m_end_position + topBottomOffset + (offset / 2.f);
     m_vertices[10].position = m_end_position + offset;
     m_vertices[11].position = m_end_position - offset;
+
+    /* BOTTOM TRAPEZOID */
+
+    // Left triangle
+    m_vertices[12].position = m_begin_position - topBottomOffset - (offset / 2.f);
+    m_vertices[13].position = m_begin_position - offset;
+    m_vertices[14].position = m_begin_position + offset;
+
+    // Right triangle
+    m_vertices[15].position = m_begin_position + offset;
+    m_vertices[16].position = m_begin_position - topBottomOffset + (offset / 2.f);
+    m_vertices[17].position = m_begin_position - topBottomOffset - (offset / 2.f);
 }

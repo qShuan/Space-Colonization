@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{32b76f7e-8b02-4220-8fb1-b2efdeb96436}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -48,8 +51,11 @@
     <ClCompile Include="HSL.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SFML_Utils.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\utils\color.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\utils\vec2.cpp">
+      <Filter>Utils</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -80,14 +86,17 @@
     <ClInclude Include="ThickLine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SFML_Utils.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Leaf.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="HSL.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\utils\color.hpp">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\utils\vec2.hpp">
+      <Filter>Utils</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

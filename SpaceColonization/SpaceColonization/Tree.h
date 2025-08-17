@@ -15,13 +15,11 @@ private:
 	std::vector<Branch*> m_branches;
 	std::vector<Leaf*> m_leaves;
 
+	sf::RenderStates m_leaf_render_states;
 	sf::VertexArray m_leaves_va;
 	sf::Texture m_leaf_texture;
-	sf::RenderStates m_leaf_render_states;
 
 	Branch* m_root;
-
-	std::map<int, float> m_thickness_map;
 
 	sf::Color m_base_branches_color;
 
@@ -29,17 +27,25 @@ private:
 	bool m_have_leaves_grown;
 
 	void RemoveReachedAttractors();
+
+	Branch* FindClosestBranchToAttractor(Attractor& attractor);
+	void PullBranchTowardsAttractor(Branch* branch, Attractor& attractor);
+
 	void CreateNewBranches();
-	void ThickenBranches();
+
+	void UpdateBranches();
+	void ThickenBranch(Branch* branch);
 	void DarkenBranchColor(Branch* branch);
+
 	void InitLeavesVA();
 	void UpdateLeavesVAPositions(int index);
+
 	int GetBranchDepth(Branch* branch);
 
 public:
 
 	uint16_t number_of_attractors;
-	float min_distance, max_distance;
+	float min_distance_to_attractor, max_distance_to_attractor;
 	uint16_t number_of_leaves;
 
 	Tree();

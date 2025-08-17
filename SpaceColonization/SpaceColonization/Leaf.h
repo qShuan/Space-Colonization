@@ -1,7 +1,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include "SFML_Utils.hpp"
+#include "color.hpp"
 #include "Branch.h"
 
 #define BASE_LEAF_COLOR sf::Color(35, 128, 14)
@@ -9,6 +9,8 @@
 class Leaf {
 
 private:
+
+	Branch* m_attached_branch;
 
 	sf::Vector2f m_position;
 	sf::Color m_color;
@@ -20,17 +22,20 @@ private:
 
 	float m_growth_speed;
 
-public:
+	float m_size_lerp_precision;
 
-	Branch* attachedBranch;
+public:
 
 	Leaf(sf::Vector2f position, float rotation, sf::Color color = sf::Color::Green);
 	~Leaf() = default;
 
 	void LerpSize(float speed, float deltaTime);
 
-	bool IsGrown() { return m_size >= (m_desired_size - 0.1f); }
+	bool IsGrown() { return m_size >= (m_desired_size - m_size_lerp_precision); }
 
+	void SetAttachedBranch(Branch* branch) { m_attached_branch = branch; }
+
+	Branch* GetAttachedBranch() { return m_attached_branch; }
 	sf::Vector2f& GetPosition() { return m_position; }
 	float& GetRotation() { return m_rotation; }
 	sf::Color& GetColor() { return m_color; }

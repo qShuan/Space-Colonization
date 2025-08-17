@@ -9,7 +9,7 @@ void Polygon::CreatePolygon(sf::Vector2f position, uint8_t vertexCount, float ve
 
 	m_vertex_count = vertexCount;
 
-	float degrees = 360;
+	float degrees = 360.f;
 
 	for (uint8_t i = 0; i < vertexCount; i++) {
 
@@ -103,6 +103,7 @@ float Polygon::VertexCrossProduct(int index) {
 }
 
 Point& Polygon::GetVertex(int index) {
+
 	if (index >= m_vertex_count)
 		return m_vertices[index % m_vertex_count];
 	else if (index < 0)
@@ -112,6 +113,7 @@ Point& Polygon::GetVertex(int index) {
 }
 
 Line& Polygon::GetEdge(int index) {
+
 	if (index >= m_vertex_count)
 		return m_edges[index % m_vertex_count];
 	else if (index < 0)

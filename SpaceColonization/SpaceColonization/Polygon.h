@@ -3,7 +3,7 @@
 #include "Point.h"
 #include "Line.h"
 
-#include "SFML_Utils.hpp"
+#include <vec2.hpp>
 
 
 class Polygon {

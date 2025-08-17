@@ -13,18 +13,18 @@ class Application {
 
 private:
 
-	sf::RenderWindow* m_window;
-
-	Polygon* m_polygon;
-	Point* m_selected_vertex;
 	std::vector<Line*> m_selected_edges;
-
-	bool m_is_vertex_selected;
-	bool m_should_tree_grow;
 
 	Tree m_tree;
 
+	sf::RenderWindow* m_window;
+	Polygon* m_polygon;
+	Point* m_selected_vertex;
+
 	sf::Color m_branches_base_color;
+
+	bool m_is_vertex_selected;
+	bool m_should_tree_grow;
 
 	void HandleEvents(sf::Event& event);
 	void PullVertex();

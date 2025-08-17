@@ -1,0 +1,25 @@
+#pragma once
+
+#include <SFML/Graphics/Color.hpp>
+#include "../SpaceColonization/RNG.h"
+#include "../SpaceColonization/HSL.h"
+
+namespace utils {
+
+	sf::Color RandomizeColor(sf::Color color, float variationStrength = 10.f);
+
+	inline sf::Color DarkenColor(sf::Color color, float amount, float minLuminance) {
+
+		HSL hsl = TurnToHSL(color);
+		hsl.Luminance = std::max(minLuminance, (float)hsl.Luminance - amount);
+		color = hsl.TurnToRGB();
+
+		return color;
+	}
+
+	inline float GetLuminance(const sf::Color& color) {
+		HSL hsl = TurnToHSL(color);
+
+		return (float)hsl.Luminance;
+	}
+}

@@ -4,12 +4,12 @@
 
 class Point {
 
-protected:
+private:
+
+	sf::CircleShape m_vertex_shape;
 
 	sf::Vector2f m_position;
 	float m_radius;
-	
-	sf::CircleShape m_vertex_shape;
 
 public:
 

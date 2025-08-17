@@ -3,7 +3,7 @@
 
 //https://github.com/SFML/SFML/wiki/Source:-Line-segment-with-thickness
 
-#define NUMBER_OF_VERTICES 12
+#define NUMBER_OF_VERTICES 18
 
 class ThickLine {
 

@@ -7,11 +7,11 @@ private:
 
 	sf::Vertex m_line[2];
 
-	sf::Vector2f m_begin_position;
-	sf::Vector2f m_end_position;
-
 	Point* m_begin_vertex;
 	Point* m_end_vertex;
+
+	sf::Vector2f m_begin_position;
+	sf::Vector2f m_end_position;
 
 public:
 
