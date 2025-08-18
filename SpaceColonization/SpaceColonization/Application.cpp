@@ -165,62 +165,55 @@ void Application::Run() {
 
 void Application::UpdateGUI() {
 
-	ImGui::Begin("Editor tools", NULL, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize);
+	ImGui::Begin("Editor tools", NULL, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
 
 	ImGui::SetWindowSize(ImVec2(GUI_WIDTH, WINDOW_HEIGHT));
 	ImGui::SetWindowPos(ImVec2(SIMULATION_AREA_WIDTH, 0));
 
-	ImGui::SeparatorText("Editor Tools");
-	if (ImGui::Button("Close"))
-	ImGui::Separator();
 
-	if (ImGui::BeginTabBar("Generation Items")) {
-
-		if (ImGui::BeginTabItem("Generation")) {
+	if (ImGui::TreeNode("Generation")) {
 
 
-			ImGui::EndTabItem();
-		}
-
-		if (ImGui::BeginTabItem("Branches")) {
-
-			if (ImGui::ColorPicker4("Base branch color", m_base_branch_color)) {
-
-				sf::Uint8 r = (sf::Uint8)(m_base_branch_color[0] * 255.f);
-				sf::Uint8 g = (sf::Uint8)(m_base_branch_color[1] * 255.f);
-				sf::Uint8 b = (sf::Uint8)(m_base_branch_color[2] * 255.f);
-				sf::Uint8 a = (sf::Uint8)(m_base_branch_color[3] * 255.f);
-
-				m_tree.SetBaseBranchColor(
-					sf::Color(r, g, b, a)
-				);
-				m_tree.UpdateBranchesColor();
-			}
-			ImGui::NewLine();
-
-			ImGui::EndTabItem();
-		}
-
-		if (ImGui::BeginTabItem("Leaves")) {
-
-			if (ImGui::ColorPicker4("Base leaf color", m_base_leaf_color)) {
-
-				sf::Uint8 r = (sf::Uint8)(m_base_leaf_color[0] * 255.f);
-				sf::Uint8 g = (sf::Uint8)(m_base_leaf_color[1] * 255.f);
-				sf::Uint8 b = (sf::Uint8)(m_base_leaf_color[2] * 255.f);
-				sf::Uint8 a = (sf::Uint8)(m_base_leaf_color[3] * 255.f);
-
-				m_tree.SetBaseLeafColor(
-					sf::Color(r, g, b, a)
-				);
-				m_tree.UpdateLeavesColor();
-			}
-			ImGui::NewLine();
-
-			ImGui::EndTabItem();
-		}
+		ImGui::TreePop();
 	}
-	ImGui::EndTabBar();
+
+	if (ImGui::TreeNode("Branches")) {
+
+		if (ImGui::ColorPicker4("Base branch color", m_base_branch_color)) {
+
+			sf::Uint8 r = (sf::Uint8)(m_base_branch_color[0] * 255.f);
+			sf::Uint8 g = (sf::Uint8)(m_base_branch_color[1] * 255.f);
+			sf::Uint8 b = (sf::Uint8)(m_base_branch_color[2] * 255.f);
+			sf::Uint8 a = (sf::Uint8)(m_base_branch_color[3] * 255.f);
+
+			m_tree.SetBaseBranchColor(
+				sf::Color(r, g, b, a)
+			);
+			m_tree.UpdateBranchesColor();
+		}
+		ImGui::NewLine();
+
+		ImGui::TreePop();
+	}
+
+	if (ImGui::TreeNode("Leaves")) {
+
+		if (ImGui::ColorPicker4("Base leaf color", m_base_leaf_color)) {
+
+			sf::Uint8 r = (sf::Uint8)(m_base_leaf_color[0] * 255.f);
+			sf::Uint8 g = (sf::Uint8)(m_base_leaf_color[1] * 255.f);
+			sf::Uint8 b = (sf::Uint8)(m_base_leaf_color[2] * 255.f);
+			sf::Uint8 a = (sf::Uint8)(m_base_leaf_color[3] * 255.f);
+
+			m_tree.SetBaseLeafColor(
+				sf::Color(r, g, b, a)
+			);
+			m_tree.UpdateLeavesColor();
+		}
+		ImGui::NewLine();
+
+		ImGui::TreePop();
+	}
 
 	ImGui::End();
 }
