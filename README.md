@@ -7,7 +7,9 @@ A C++ implementation of the **Space Colonization Algorithm** using **SFML**.
 - [Features](#features)  
 - [Prerequisites](#prerequisites)
 - [Building & Running](#building--running)  
-
+- [License](#license)  
+- [Contact](#contact)
+  
 ---
 
 ## About
