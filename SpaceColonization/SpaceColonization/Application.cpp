@@ -170,6 +170,24 @@ void Application::UpdateGUI() {
 	ImGui::SetWindowSize(ImVec2(GUI_WIDTH, WINDOW_HEIGHT));
 	ImGui::SetWindowPos(ImVec2(SIMULATION_AREA_WIDTH, 0));
 
+	ImGui::SeparatorText("Usage");
+	if (ImGui::Button("Generate")) {
+
+		m_should_tree_grow = false;
+		m_tree.Reset();
+		m_tree.GenerateAttractors(*m_polygon);
+		m_tree.CreateRoot({ SIMULATION_CENTER.x, WINDOW_HEIGHT });
+		m_should_tree_grow = true;
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Reset")) {
+		m_tree.Reset();
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Close")) {
+
+	}
+
 	ImGui::SeparatorText("Settings");
 	if (ImGui::TreeNode("Generation")) {
 
