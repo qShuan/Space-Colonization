@@ -16,8 +16,8 @@ class UserGUI {
 private:
 
 	ImGuiStyle* m_style;
-	int m_current_theme_index;
 	std::vector<std::string> m_theme_names;
+	int m_current_theme_index;
 
 public:
 
