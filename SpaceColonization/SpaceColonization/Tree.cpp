@@ -333,7 +333,7 @@ void Tree::GenerateLeaves() {
 				float randomAngle = randomBetween(-60.f, 60.f);
 
 				Leaf* newLeaf = new Leaf(branch->GetParent()->GetPosition() + positionOffset,
-					randomAngle, m_cfg.base_leaf_color);
+					randomAngle, m_cfg.min_leaf_size, m_cfg.max_leaf_size, m_cfg.base_leaf_color);
 
 				newLeaf->SetAttachedBranch(branch);
 

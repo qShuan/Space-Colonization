@@ -1,16 +1,11 @@
 #include "Application.h"
 #include <iostream>
 
-Application::Application() {
+Application::Application() : m_selected_vertex(nullptr), m_is_vertex_selected(false), 
+m_should_tree_grow(false), m_should_render_gizmos(true), m_should_render_attractors(false) {
 
 	m_window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Space Colonization", sf::Style::Titlebar | sf::Style::Close);
 	m_polygon = new Polygon(SIMULATION_CENTER, NUMBER_OF_POLYGON_VERTICES, SPACE_BETWEEN_VERTICES);
-	m_selected_vertex = nullptr;
-	m_is_vertex_selected = false;
-	m_should_tree_grow = false;
-
-	// TODO: Lighten up the color the further away we are from the root
-	m_branches_base_color = sf::Color(64, 38, 8);
 
 	userGUI.Init(m_window);
 	userGUI.InitStyle();
@@ -133,7 +128,8 @@ void Application::Run() {
 
 		userGUI.Update(m_window, imguiClock.restart());
 
-		PullVertex();
+		if(m_should_render_gizmos)
+			PullVertex();
 
 		if (m_should_tree_grow && growTickCountDown <= 0.f) {
 			m_tree.Grow();
@@ -146,10 +142,14 @@ void Application::Run() {
 
 		m_window->clear(sf::Color(97, 144, 255));
 
-		m_tree.DrawAttractors(m_window);
+		if(m_should_render_attractors)
+			m_tree.DrawAttractors(m_window);
+
 		m_tree.DrawBranches(m_window);
 		m_tree.DrawLeaves(m_window);
-		m_polygon->Draw(m_window);
+
+		if(m_should_render_gizmos)
+			m_polygon->Draw(m_window);
 
 		UpdateGUI();
 
@@ -207,6 +207,17 @@ void Application::UpdateGUI() {
 
 	if (ImGui::TreeNode("Visuals")) {
 
+		if (ImGui::TreeNode("Rendering")) {
+
+			ImGui::Text("Render gizmos"); ImGui::SameLine();
+			if (ImGui::Checkbox("##should_render_gizmos", &m_should_render_gizmos));
+
+			ImGui::Text("Render attractors"); ImGui::SameLine();
+			if (ImGui::Checkbox("##should_render_attractors", &m_should_render_attractors));
+
+			ImGui::TreePop();
+		}
+
 		if (ImGui::TreeNode("Branches")) {
 
 			ImGui::Text("Base branch color");
@@ -242,7 +253,11 @@ void Application::UpdateGUI() {
 				);
 				m_tree.UpdateLeavesColor();
 			}
-			ImGui::NewLine();
+			
+			ImGui::Text("Mininum leaf size");
+			if (ImGui::SliderFloat("##min_leaf_size", &m_tree.GetConfig().min_leaf_size, 1.f, 100.f));
+			ImGui::Text("Maximum leaf size");
+			if (ImGui::SliderFloat("##max_leaf_size", &m_tree.GetConfig().max_leaf_size, 1.f, 100.f));
 
 			ImGui::TreePop();
 		}

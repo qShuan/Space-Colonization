@@ -18,6 +18,8 @@ struct TreeConfig {
 
 	int number_of_leaves = 1;
 	int leaves_per_branch = 15;
+	float min_leaf_size = 20.f;
+	float max_leaf_size = 30.f;
 
 	float branch_direction_randomness_magnitude = 0.2f;
 };

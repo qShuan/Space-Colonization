@@ -26,7 +26,7 @@ private:
 
 public:
 
-	Leaf(sf::Vector2f position, float rotation, sf::Color color = sf::Color::Green);
+	Leaf(sf::Vector2f position, float rotation, float minSize, float maxSize, sf::Color color = sf::Color::Green);
 	~Leaf() = default;
 
 	void LerpSize(float speed, float deltaTime);

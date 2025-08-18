@@ -31,10 +31,10 @@ private:
 	float m_base_branch_color[4] = { 0.f };
 	float m_base_leaf_color[4] = { 0.f };
 
-	sf::Color m_branches_base_color;
-
 	bool m_is_vertex_selected;
 	bool m_should_tree_grow;
+	bool m_should_render_gizmos;
+	bool m_should_render_attractors;
 
 	void HandleEvents(sf::Event& event);
 	void PullVertex();
