@@ -3,6 +3,8 @@
 #include <string>
 #include <unordered_map>
 
+// Thanks to https://github.com/Patitotective/ImThemes
+
 void ApplyClassicTheme(ImGuiStyle* style);
 void ApplyLightTheme(ImGuiStyle* style);
 void ApplyDarkTheme(ImGuiStyle* style);

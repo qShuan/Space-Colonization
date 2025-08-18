@@ -44,7 +44,7 @@ void Polygon::Draw(sf::RenderWindow* window) {
 	}
 }
 
-//https://math.stackexchange.com/questions/4183023/check-if-point-is-inside-a-convex-polygon-i-need-an-example-for-a-formular
+// Thanks to https://math.stackexchange.com/questions/4183023/check-if-point-is-inside-a-convex-polygon-i-need-an-example-for-a-formular
 bool Polygon::IsPointInsidePolygon(sf::Vector2f point) {
 
 	std::vector<float> D;
