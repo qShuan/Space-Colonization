@@ -185,7 +185,7 @@ void Application::UpdateGUI() {
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Close")) {
-
+		m_window->close();
 	}
 
 	ImGui::SeparatorText("Settings");
