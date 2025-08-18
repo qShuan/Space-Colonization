@@ -176,12 +176,12 @@ void Application::UpdateGUI() {
 		if (ImGui::TreeNode("Attractors")) {
 
 			ImGui::Text("Mininum distance to attractor");
-			if (ImGui::SliderFloat("##min_distance_to_attractor", &m_tree.min_distance_to_attractor, 5.f, 100.f));
+			if (ImGui::SliderFloat("##min_distance_to_attractor", &m_tree.GetConfig().min_distance_to_attractor, 5.f, 100.f));
 			ImGui::Text("Maximum distance to attractor");
-			if (ImGui::SliderFloat("##max_distance_to_attractor", &m_tree.max_distance_to_attractor, 10.f, 500.f));
+			if (ImGui::SliderFloat("##max_distance_to_attractor", &m_tree.GetConfig().max_distance_to_attractor, 10.f, 500.f));
 
 			ImGui::Text("Number of attractors");
-			if (ImGui::SliderInt("##num_of_attractors", &m_tree.number_of_attractors, 10, 1000));
+			if (ImGui::SliderInt("##num_of_attractors", &m_tree.GetConfig().number_of_attractors, 10, 1000));
 
 			ImGui::TreePop();
 		}
@@ -189,7 +189,7 @@ void Application::UpdateGUI() {
 		if (ImGui::TreeNode("Branches")) {
 
 			ImGui::Text("Direction randomness magnitude");
-			if (ImGui::SliderFloat("##direction_randomness", &m_tree.direction_randomness_magnitude, 0.0f, 1.f));
+			if (ImGui::SliderFloat("##direction_randomness", &m_tree.GetConfig().branch_direction_randomness_magnitude, 0.0f, 1.f));
 
 			ImGui::TreePop();
 		}
@@ -197,7 +197,7 @@ void Application::UpdateGUI() {
 		if (ImGui::TreeNode("Leaves")) {
 
 			ImGui::Text("Leaves per branch");
-			if (ImGui::SliderInt("##leaves_per_branch", &m_tree.leaves_per_branch, 1, 100));
+			if (ImGui::SliderInt("##leaves_per_branch", &m_tree.GetConfig().leaves_per_branch, 1, 100));
 
 			ImGui::TreePop();
 		}

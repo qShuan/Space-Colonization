@@ -7,6 +7,21 @@
 
 #define LEAVES_PER_BRANCH 15
 
+struct TreeConfig {
+
+	sf::Color base_branch_color = sf::Color(105, 63, 21);
+	sf::Color base_leaf_color = sf::Color(35, 128, 14);
+
+	int number_of_attractors = 500;
+	float min_distance_to_attractor = 10.f;
+	float max_distance_to_attractor = 100.f;
+
+	int number_of_leaves = 1;
+	int leaves_per_branch = 15;
+
+	float branch_direction_randomness_magnitude = 0.2f;
+};
+
 class Tree {
 
 private:
@@ -19,10 +34,9 @@ private:
 	sf::VertexArray m_leaves_va;
 	sf::Texture m_leaf_texture;
 
-	Branch* m_root;
+	TreeConfig m_cfg;
 
-	sf::Color m_base_branch_color;
-	sf::Color m_base_leaf_color;
+	Branch* m_root;
 
 	bool m_has_tree_grown;
 	bool m_have_leaves_grown;
@@ -46,11 +60,6 @@ private:
 
 public:
 
-	int number_of_attractors;
-	float min_distance_to_attractor, max_distance_to_attractor;
-	int number_of_leaves, leaves_per_branch;
-	float direction_randomness_magnitude;
-
 	Tree();
 	~Tree();
 
@@ -72,14 +81,16 @@ public:
 	void DrawBranches(sf::RenderWindow* window);
 	void DrawLeaves(sf::RenderWindow* window);
 
-	void SetBaseBranchColor(sf::Color color) { m_base_branch_color = color; }
-	void SetBaseLeafColor(sf::Color color) { m_base_leaf_color = color; }
+	void SetBaseBranchColor(sf::Color color) { m_cfg.base_branch_color = color; }
+	void SetBaseLeafColor(sf::Color color) { m_cfg.base_leaf_color = color; }
+
+	TreeConfig& GetConfig() { return m_cfg; }
 
 	std::vector<Attractor>& GetAttractors() { return m_attractors; }
 	std::vector<Branch*>& GetBranches() { return m_branches; }
 	std::vector<Leaf*>& GetLeaves() { return m_leaves; }
 
-	sf::Color& GetBaseBranchesColor() { return m_base_branch_color; }
+	sf::Color& GetBaseBranchesColor() { return m_cfg.base_branch_color; }
 
 	bool IsGrowing() { return !m_has_tree_grown; }
 };
