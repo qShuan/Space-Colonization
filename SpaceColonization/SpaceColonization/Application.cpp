@@ -209,6 +209,7 @@ void Application::UpdateGUI() {
 
 		if (ImGui::TreeNode("Branches")) {
 
+			ImGui::Text("Base branch color");
 			if (ImGui::ColorPicker4("##base_branch_color", m_base_branch_color)) {
 
 				sf::Uint8 r = (sf::Uint8)(m_base_branch_color[0] * 255.f);
@@ -228,6 +229,7 @@ void Application::UpdateGUI() {
 
 		if (ImGui::TreeNode("Leaves")) {
 
+			ImGui::Text("Base leaf color");
 			if (ImGui::ColorPicker4("##base_leaf_color", m_base_leaf_color)) {
 
 				sf::Uint8 r = (sf::Uint8)(m_base_leaf_color[0] * 255.f);
