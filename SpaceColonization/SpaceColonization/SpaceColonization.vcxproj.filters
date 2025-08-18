@@ -19,6 +19,9 @@
     <Filter Include="imgui">
       <UniqueIdentifier>{4abbfa90-6fcc-44cc-9eee-bfce2722814b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ImGUI Styles">
+      <UniqueIdentifier>{762ac1bf-c0da-4972-ab5d-b228f3759a08}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -78,6 +81,9 @@
     <ClCompile Include="UserGUI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\include\imgui-styles\imgui_themes.cpp">
+      <Filter>ImGUI Styles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Point.h">
@@ -121,6 +127,9 @@
     </ClInclude>
     <ClInclude Include="UserGUI.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\imgui-styles\imgui_themes.h">
+      <Filter>ImGUI Styles</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

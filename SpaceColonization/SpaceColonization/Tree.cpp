@@ -2,7 +2,7 @@
 #include <iostream>
 
 Tree::Tree() : min_distance_to_attractor(10.f), max_distance_to_attractor(200.f), number_of_attractors(500), 
-m_root(nullptr), number_of_leaves(100), m_has_tree_grown(false){
+m_root(nullptr), number_of_leaves(100), m_has_tree_grown(false), leaves_per_branch(15), direction_randomness_magnitude(0.25f){
 
 }
 
@@ -81,8 +81,7 @@ void Tree::CreateRoot(sf::Vector2f position) {
 
 			sf::Vector2f newDirection = newBranch->GetDirection() + directionToAttractor;
 
-			float randomMagnitude = 0.25f;
-			(void)utils::vec2::Randomize(newDirection, randomMagnitude);
+			(void)utils::vec2::Randomize(newDirection, direction_randomness_magnitude);
 			(void)utils::vec2::Normalize(newDirection);
 
 			newBranch->SetDirection(newDirection);
@@ -117,7 +116,7 @@ void Tree::GenerateAttractors(Polygon& polygon) {
 			maxY = currentPos.y;
 	}
 
-	for (uint16_t i = 0; i < number_of_attractors; i++) {
+	for (int i = 0; i < number_of_attractors; i++) {
 
 		float randomX = randomBetween(minX, maxX);
 		float randomY = randomBetween(minY, maxY);
@@ -155,8 +154,7 @@ void Tree::CreateNewBranches() {
 
 			sf::Vector2f finalDirection = branch->GetDirection() / (float)branch->GetCount();
 
-			float randomMagnitude = 0.15f;
-			(void)utils::vec2::Randomize(finalDirection, randomMagnitude);
+			(void)utils::vec2::Randomize(finalDirection, direction_randomness_magnitude);
 			(void)utils::vec2::Normalize(finalDirection);
 
 			branch->SetDirection(finalDirection);
@@ -330,7 +328,7 @@ void Tree::GenerateLeaves() {
 		Branch* branch = m_branches[i];
 		if (branch->GetChildren().size() == 0) {
 
-			for (int j = 0; j < LEAVES_PER_BRANCH; j++) {
+			for (int j = 0; j < leaves_per_branch; j++) {
 
 				sf::Vector2f positionOffset = branch->GetDirection() * randomBetween(0.f, MIN_BRANCH_LENGTH);
 				float randomAngle = randomBetween(-60.f, 60.f);
@@ -386,10 +384,10 @@ void Tree::InitLeavesVA() {
 		UpdateLeavesVAPositions(i);
 
 		// Reversed because SFML
-		m_leaves_va[index].texCoords = { 0.f, 352.f };
+		m_leaves_va[index].texCoords = { 0.f, (float)m_leaf_texture.getSize().y};
 		m_leaves_va[index + 1].texCoords = { 0.f, 0.f };
-		m_leaves_va[index + 2].texCoords = { 326.f, 0.f };
-		m_leaves_va[index + 3].texCoords = { 326.f, 352.f };
+		m_leaves_va[index + 2].texCoords = { (float)m_leaf_texture.getSize().x, 0.f };
+		m_leaves_va[index + 3].texCoords = { (float)m_leaf_texture.getSize().x, (float)m_leaf_texture.getSize().y };
 
 		for(int j = 0; j < 4; j++)
 			m_leaves_va[index + j].color = color;

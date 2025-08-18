@@ -170,50 +170,86 @@ void Application::UpdateGUI() {
 	ImGui::SetWindowSize(ImVec2(GUI_WIDTH, WINDOW_HEIGHT));
 	ImGui::SetWindowPos(ImVec2(SIMULATION_AREA_WIDTH, 0));
 
-
+	ImGui::SeparatorText("Settings");
 	if (ImGui::TreeNode("Generation")) {
 
+		if (ImGui::TreeNode("Attractors")) {
 
-		ImGui::TreePop();
-	}
+			ImGui::Text("Mininum distance to attractor");
+			if (ImGui::SliderFloat("##min_distance_to_attractor", &m_tree.min_distance_to_attractor, 5.f, 100.f));
+			ImGui::Text("Maximum distance to attractor");
+			if (ImGui::SliderFloat("##max_distance_to_attractor", &m_tree.max_distance_to_attractor, 10.f, 500.f));
 
-	if (ImGui::TreeNode("Branches")) {
+			ImGui::Text("Number of attractors");
+			if (ImGui::SliderInt("##num_of_attractors", &m_tree.number_of_attractors, 10, 1000));
 
-		if (ImGui::ColorPicker4("Base branch color", m_base_branch_color)) {
-
-			sf::Uint8 r = (sf::Uint8)(m_base_branch_color[0] * 255.f);
-			sf::Uint8 g = (sf::Uint8)(m_base_branch_color[1] * 255.f);
-			sf::Uint8 b = (sf::Uint8)(m_base_branch_color[2] * 255.f);
-			sf::Uint8 a = (sf::Uint8)(m_base_branch_color[3] * 255.f);
-
-			m_tree.SetBaseBranchColor(
-				sf::Color(r, g, b, a)
-			);
-			m_tree.UpdateBranchesColor();
+			ImGui::TreePop();
 		}
-		ImGui::NewLine();
 
-		ImGui::TreePop();
-	}
+		if (ImGui::TreeNode("Branches")) {
 
-	if (ImGui::TreeNode("Leaves")) {
+			ImGui::Text("Direction randomness magnitude");
+			if (ImGui::SliderFloat("##direction_randomness", &m_tree.direction_randomness_magnitude, 0.0f, 1.f));
 
-		if (ImGui::ColorPicker4("Base leaf color", m_base_leaf_color)) {
-
-			sf::Uint8 r = (sf::Uint8)(m_base_leaf_color[0] * 255.f);
-			sf::Uint8 g = (sf::Uint8)(m_base_leaf_color[1] * 255.f);
-			sf::Uint8 b = (sf::Uint8)(m_base_leaf_color[2] * 255.f);
-			sf::Uint8 a = (sf::Uint8)(m_base_leaf_color[3] * 255.f);
-
-			m_tree.SetBaseLeafColor(
-				sf::Color(r, g, b, a)
-			);
-			m_tree.UpdateLeavesColor();
+			ImGui::TreePop();
 		}
-		ImGui::NewLine();
+
+		if (ImGui::TreeNode("Leaves")) {
+
+			ImGui::Text("Leaves per branch");
+			if (ImGui::SliderInt("##leaves_per_branch", &m_tree.leaves_per_branch, 1, 100));
+
+			ImGui::TreePop();
+		}
 
 		ImGui::TreePop();
 	}
+
+	if (ImGui::TreeNode("Visuals")) {
+
+		if (ImGui::TreeNode("Branches")) {
+
+			if (ImGui::ColorPicker4("##base_branch_color", m_base_branch_color)) {
+
+				sf::Uint8 r = (sf::Uint8)(m_base_branch_color[0] * 255.f);
+				sf::Uint8 g = (sf::Uint8)(m_base_branch_color[1] * 255.f);
+				sf::Uint8 b = (sf::Uint8)(m_base_branch_color[2] * 255.f);
+				sf::Uint8 a = (sf::Uint8)(m_base_branch_color[3] * 255.f);
+
+				m_tree.SetBaseBranchColor(
+					sf::Color(r, g, b, a)
+				);
+				m_tree.UpdateBranchesColor();
+			}
+			ImGui::NewLine();
+
+			ImGui::TreePop();
+		}
+
+		if (ImGui::TreeNode("Leaves")) {
+
+			if (ImGui::ColorPicker4("##base_leaf_color", m_base_leaf_color)) {
+
+				sf::Uint8 r = (sf::Uint8)(m_base_leaf_color[0] * 255.f);
+				sf::Uint8 g = (sf::Uint8)(m_base_leaf_color[1] * 255.f);
+				sf::Uint8 b = (sf::Uint8)(m_base_leaf_color[2] * 255.f);
+				sf::Uint8 a = (sf::Uint8)(m_base_leaf_color[3] * 255.f);
+
+				m_tree.SetBaseLeafColor(
+					sf::Color(r, g, b, a)
+				);
+				m_tree.UpdateLeavesColor();
+			}
+			ImGui::NewLine();
+
+			ImGui::TreePop();
+		}
+
+		ImGui::TreePop();
+	}
+
+	ImGui::SeparatorText("Themes");
+	userGUI.ThemeSelector();
 
 	ImGui::End();
 }

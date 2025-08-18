@@ -1,7 +1,9 @@
 #pragma once
 
 #include <imgui/imgui.h>
+#include <imgui-styles/imgui_themes.h>
 #include <imgui/imgui-SFML.h>
+
 
 #include <SFML/Graphics.hpp>
 
@@ -14,6 +16,8 @@ class UserGUI {
 private:
 
 	ImGuiStyle* m_style;
+	int m_current_theme_index;
+	std::vector<std::string> m_theme_names;
 
 public:
 
@@ -26,5 +30,6 @@ public:
 	void Render(sf::RenderWindow* window);
 	void Close();
 
+	void ThemeSelector();
 	void InitStyle();
 };

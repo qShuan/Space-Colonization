@@ -46,9 +46,10 @@ private:
 
 public:
 
-	uint16_t number_of_attractors;
+	int number_of_attractors;
 	float min_distance_to_attractor, max_distance_to_attractor;
-	uint16_t number_of_leaves;
+	int number_of_leaves, leaves_per_branch;
+	float direction_randomness_magnitude;
 
 	Tree();
 	~Tree();

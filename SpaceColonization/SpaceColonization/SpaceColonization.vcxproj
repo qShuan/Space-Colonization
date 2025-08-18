@@ -132,6 +132,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\include\imgui-styles\imgui_themes.cpp" />
     <ClCompile Include="..\include\imgui\imgui-SFML.cpp" />
     <ClCompile Include="..\include\imgui\imgui.cpp" />
     <ClCompile Include="..\include\imgui\imgui_draw.cpp" />
@@ -153,6 +154,7 @@
     <ClCompile Include="UserGUI.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\imgui-styles\imgui_themes.h" />
     <ClInclude Include="..\include\utils\color.hpp" />
     <ClInclude Include="..\include\utils\vec2.hpp" />
     <ClInclude Include="Application.h" />
