@@ -11,6 +11,11 @@ Tree::~Tree() {
 		delete branch;
 	}
 	m_branches.clear();
+
+	for (Leaf* leaf : m_leaves) {
+		delete leaf;
+	}
+	m_leaves.clear();
 }
 
 int Tree::GetBranchDepth(Branch* branch) {
