@@ -31,11 +31,11 @@ public:
 
 	Branch* Next(sf::Color nextColor = sf::Color::White);
 
-	void Reset();
-
 	Branch& operator=(const Branch& other);
 
 	bool operator==(const Branch& other) const;
+
+	void Reset();
 
 	void SetCount(int count) { m_count = count; }
 	void SetDirection(sf::Vector2f direction) { m_direction = direction; }
@@ -47,12 +47,16 @@ public:
 
 	Branch* GetParent() { return m_parent; }
 	std::vector<Branch*>& GetChildren() { return m_children; }
+
 	ThickLine& GetBranchLine() { return m_thick_line; }
+
 	sf::Vector2f& GetPosition() { return m_position; }
 	sf::Vector2f& GetDirection() { return m_direction; }
 	sf::Vector2f& GetOriginalDirection() { return m_original_direction; }
 	sf::Vector2f& GetOriginalPosition() { return m_original_position; }
+
 	float& GetLength() { return m_length; }
-	int& GetCount() { return m_count; }
 	float GetThickness() { return m_thick_line.GetThickness(); }
+
+	int& GetCount() { return m_count; }
 };

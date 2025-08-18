@@ -15,22 +15,25 @@ private:
 
 	uint8_t m_vertex_count;
 
+	float VertexCrossProduct(int index);
+
 public:
 
 	Polygon(sf::Vector2f position, uint8_t vertexCount, float vertexSpread);
 	~Polygon() = default;
 
 	void CreatePolygon(sf::Vector2f position, uint8_t vertexCount, float vertexSpread);
-	void Draw(sf::RenderWindow* window);
 
 	bool IsPointInsidePolygon(sf::Vector2f point);
 	bool IsPolygonConvex();
 
-	float VertexCrossProduct(int index);
+	void Draw(sf::RenderWindow* window);
 
-	inline uint8_t& GetVertexCount() { return m_vertex_count; }
-	inline std::vector<Point>& GetVertices() { return m_vertices; }
-	inline std::vector<Line>& GetEdges() { return m_edges; }
+	uint8_t& GetVertexCount() { return m_vertex_count; }
+
+	std::vector<Point>& GetVertices() { return m_vertices; }
+	std::vector<Line>& GetEdges() { return m_edges; }
+
 	Point& GetVertex(int index);
 	Line& GetEdge(int index);
 };

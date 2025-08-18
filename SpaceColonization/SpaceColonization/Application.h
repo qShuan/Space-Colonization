@@ -38,7 +38,9 @@ private:
 
 	void HandleEvents(sf::Event& event);
 	void PullVertex();
+
 	bool InBounds(sf::Vector2f position);
+
 	void UpdateGUI();
 
 public:

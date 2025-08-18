@@ -472,7 +472,7 @@ void Tree::DrawBranches(sf::RenderWindow* window) {
 		if (m_branches[i]->GetParent() == nullptr) continue;
 
 		m_branches[i]->GetBranchLine().SetLinePosition(m_branches[i]->GetParent()->GetPosition(), m_branches[i]->GetPosition());
-		m_branches[i]->GetBranchLine().Draw(*window);
+		m_branches[i]->GetBranchLine().Draw(window);
 	}
 }
 

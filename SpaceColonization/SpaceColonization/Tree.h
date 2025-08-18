@@ -55,6 +55,7 @@ public:
 
 
 	Attractor* GetClosestAttractorToBranch(Branch* branch);
+
 	void CreateRoot(sf::Vector2f position);
 	void GenerateAttractors(Polygon& polygon);
 	void Grow();

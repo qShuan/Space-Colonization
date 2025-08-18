@@ -18,18 +18,19 @@ public:
 	Line();
 	~Line() = default;
 
-	void SetLinePosition(sf::Vector2f beginPosition, sf::Vector2f endPosition);
-	void SetLineBeginPosition(sf::Vector2f beginPosition);
-	void SetLineEndPosition(sf::Vector2f endPosition);
-
-	void SetBeginVertex(Point* vertex);
-	void SetEndVertex(Point* vertex);
-
-	void SetLineColor(sf::Color color);
 
 	void UpdateLinePositions();
 
 	void Draw(sf::RenderWindow* window);
+
+	void SetBeginVertex(Point* vertex);
+	void SetEndVertex(Point* vertex);
+
+	void SetLinePosition(sf::Vector2f beginPosition, sf::Vector2f endPosition);
+	void SetLineBeginPosition(sf::Vector2f beginPosition);
+	void SetLineEndPosition(sf::Vector2f endPosition);
+
+	void SetLineColor(sf::Color color);
 
 	sf::Vertex* GetLine() { return m_line; }
 	sf::Vector2f GetLineBeginPosition() { return m_begin_position; }

@@ -31,15 +31,18 @@ public:
 
 	void LerpSize(float speed, float deltaTime);
 
-	bool IsGrown() { return m_size >= (m_desired_size - m_size_lerp_precision); }
-
 	void SetAttachedBranch(Branch* branch) { m_attached_branch = branch; }
 	void SetColor(sf::Color color);
 
 	Branch* GetAttachedBranch() { return m_attached_branch; }
+
 	sf::Vector2f& GetPosition() { return m_position; }
+
 	float& GetRotation() { return m_rotation; }
-	sf::Color& GetColor() { return m_color; }
 	float& GetSize() { return m_size; }
 	float& GetGrowthSpeed() { return m_growth_speed; }
+
+	sf::Color& GetColor() { return m_color; }
+
+	bool IsGrown() { return m_size >= (m_desired_size - m_size_lerp_precision); }
 };

@@ -24,5 +24,6 @@ public:
 	void SetPosition(sf::Vector2f position);
 
 	sf::Vector2f& GetPosition() { return m_position; }
+
 	sf::CircleShape& GetShape() { return m_vertex_shape; }
 };
