@@ -156,6 +156,7 @@
   <ItemGroup>
     <ClInclude Include="..\include\imgui-styles\imgui_themes.h" />
     <ClInclude Include="..\include\utils\color.hpp" />
+    <ClInclude Include="..\include\utils\logging.hpp" />
     <ClInclude Include="..\include\utils\vec2.hpp" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="Branch.h" />

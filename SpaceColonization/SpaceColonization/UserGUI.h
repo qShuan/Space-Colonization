@@ -7,9 +7,7 @@
 
 #include <SFML/Graphics.hpp>
 
-#include <print>
-
-#define LOG(...) std::println(__VA_ARGS__)
+#include <utils/logging.hpp>
 
 class UserGUI {
 
