@@ -49,8 +49,6 @@ public:
 
 	sf::Vector2f& GetPosition() { return m_position; }
 	sf::Vector2f& GetDirection() { return m_direction; }
-	sf::Vector2f& GetOriginalDirection() { return m_original_direction; }
-	sf::Vector2f& GetOriginalPosition() { return m_original_position; }
 
 	float& GetLength() { return m_length; }
 	float GetThickness() { return m_thick_line.GetThickness(); }
