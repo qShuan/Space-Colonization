@@ -15,16 +15,18 @@ private:
 	sf::Vector2f m_direction;
 	sf::Vector2f m_original_direction;
 
+	size_t m_index;
+
 	float m_length;
 	int m_count;
 
 public:
 
-	Branch(Branch* parent, sf::Vector2f position, sf::Vector2f direction, sf::Color color = sf::Color::White);
+	Branch(Branch* parent, sf::Vector2f position, sf::Vector2f direction, size_t index, sf::Color color = sf::Color::White);
 	Branch(const Branch& other);
 	~Branch() = default;
 
-	Branch* Next(sf::Color nextColor = sf::Color::White);
+	Branch* Next(size_t nextIndex, sf::Color nextColor = sf::Color::White);
 
 	Branch& operator=(const Branch& other);
 
@@ -52,4 +54,6 @@ public:
 	float GetThickness() { return m_thick_line.GetThickness(); }
 
 	int& GetCount() { return m_count; }
+
+	size_t& GetIndex() { return m_index; }
 };

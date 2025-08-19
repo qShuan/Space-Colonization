@@ -81,6 +81,8 @@ private:
 	sf::VertexArray m_leaves_va;
 	sf::Texture m_leaf_texture;
 
+	sf::VertexArray m_branches_va;
+
 	TreeConfig m_cfg;
 
 	Branch* m_root;
@@ -104,6 +106,12 @@ private:
 	void InitLeavesVA();
 	void UpdateLeavesVAPositions(size_t index);
 	void UpdateLeavesVAColors(size_t index);
+
+	void InitBranchesVA();
+	void UpdateBranchesVA(size_t index);
+	void UpdateBranchesVASize();
+	void UpdateBranchesVAPositions(size_t index);
+	void UpdateBranchesVAColors(size_t index);
 
 	int GetBranchDepth(Branch* branch);
 

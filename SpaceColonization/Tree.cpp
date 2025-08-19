@@ -9,6 +9,8 @@ Tree::Tree()
 	// Prepare the texture
 	m_leaf_texture.loadFromFile("./Textures/leaf.png");
 	m_leaf_render_states.texture = &m_leaf_texture;
+
+	InitBranchesVA();
 }
 
 Tree::~Tree() {
@@ -62,7 +64,7 @@ void Tree::CreateRoot(sf::Vector2f position) {
 	if (!m_branches.empty()) 
 		return;
 
-	m_root = new Branch(nullptr, position, { 0.f, -1.f }, m_cfg.base_branch_color);
+	m_root = new Branch(nullptr, position, { 0.f, -1.f }, 0, m_cfg.base_branch_color);
 	m_branches.emplace_back(m_root);
 
 	Attractor* closestAttractor = GetClosestAttractorToBranch(m_root);
@@ -88,7 +90,7 @@ void Tree::CreateRoot(sf::Vector2f position) {
 		// Create a new branch if the attractor was not found yet
 		if (!isAttractorFound) {
 
-			Branch* newBranch = currentBranch->Next(m_cfg.base_branch_color);
+			Branch* newBranch = currentBranch->Next(m_branches.size(), m_cfg.base_branch_color);
 
 			// Go towards the closest attractor
 			sf::Vector2f directionToAttractor = closestAttractor->GetPosition() - newBranch->GetPosition();
@@ -104,6 +106,9 @@ void Tree::CreateRoot(sf::Vector2f position) {
 			m_branches.emplace_back(newBranch);
 
 			currentBranch = newBranch;
+
+			// Update the vertex array
+			UpdateBranchesVA(m_branches.size() - 1);
 		}
 	}
 }
@@ -177,8 +182,11 @@ void Tree::CreateNewBranches() {
 
 			branch->SetDirection(finalDirection);
 
-			Branch* newBranch = branch->Next(m_cfg.base_branch_color);
+			Branch* newBranch = branch->Next(m_branches.size(), m_cfg.base_branch_color);
 			m_branches.emplace_back(newBranch);
+
+			// Update the vertex array
+			UpdateBranchesVA(m_branches.size() - 1);
 
 			isBranchAdded = true;
 
@@ -211,6 +219,10 @@ void Tree::UpdateBranches() {
 
 				ThickenBranch(currentBranch);
 				DarkenBranchColor(currentBranch);
+
+				// Update the vertex array
+				UpdateBranchesVAPositions(currentBranch->GetParent()->GetIndex());
+				UpdateBranchesVAColors(currentBranch->GetIndex());
 
 				currentBranch = currentBranch->GetParent();
 			}
@@ -325,6 +337,8 @@ void Tree::UpdateBranchesColor() {
 
 				currentBranch->SetColor(m_cfg.base_branch_color);
 				DarkenBranchColor(currentBranch);
+
+				UpdateBranchesVAColors(currentBranch->GetIndex());
 
 				currentBranch = currentBranch->GetParent();
 			}
@@ -461,6 +475,87 @@ void Tree::UpdateLeavesVAColors(size_t index) {
 		m_leaves_va[offsetIndex + j].color = color;
 }
 
+void Tree::InitBranchesVA() {
+
+	m_branches_va.setPrimitiveType(sf::Triangles);
+}
+
+void Tree::UpdateBranchesVA(size_t index) {
+
+	UpdateBranchesVASize();
+	UpdateBranchesVAPositions(index);
+	UpdateBranchesVAColors(index);
+}
+
+void Tree::UpdateBranchesVASize() {
+
+	m_branches_va.resize(g_number_of_thick_line_vertices * m_branches.size());
+}
+
+// Unfortunately SFML doesn't support indexed vertices so there will be vertex copies
+void Tree::UpdateBranchesVAPositions(size_t index) {
+
+	size_t offsetIndex = index * g_number_of_thick_line_vertices;
+
+	sf::Vector2f beginPosition = m_branches[index]->GetBranchLine().GetBeginPosition();
+	sf::Vector2f endPosition = m_branches[index]->GetBranchLine().GetEndPosition();
+	float thickness = m_branches[index]->GetThickness();
+
+	sf::Vector2f direction = endPosition - beginPosition;
+	sf::Vector2f normalizedDirection = direction / std::sqrt(direction.x * direction.x + direction.y * direction.y);
+	sf::Vector2f normaliedPerpendicularDirection(-normalizedDirection.y, normalizedDirection.x);
+
+	/* MAIN QUAD */
+
+	sf::Vector2f offset = (thickness / 2.f) * normaliedPerpendicularDirection;
+
+	// Left triangle
+	m_branches_va[offsetIndex].position = beginPosition - offset;
+	m_branches_va[offsetIndex + 1].position = endPosition - offset;
+	m_branches_va[offsetIndex + 2].position = endPosition + offset;
+
+	// Right triangle
+	m_branches_va[offsetIndex + 3].position = endPosition + offset;
+	m_branches_va[offsetIndex + 4].position = beginPosition + offset;
+	m_branches_va[offsetIndex + 5].position = beginPosition - offset;
+
+	/* TOP TRAPEZOID */
+
+	sf::Vector2f topBottomOffset = (thickness / 2.f) * normalizedDirection;
+
+	// Left triangle
+	m_branches_va[offsetIndex + 6].position = endPosition - offset;
+	m_branches_va[offsetIndex + 7].position = endPosition + topBottomOffset - (offset / 2.f);
+	m_branches_va[offsetIndex + 8].position = endPosition + topBottomOffset + (offset / 2.f);
+
+	// Right triangle
+	m_branches_va[offsetIndex + 9].position = endPosition + topBottomOffset + (offset / 2.f);
+	m_branches_va[offsetIndex + 10].position = endPosition + offset;
+	m_branches_va[offsetIndex + 11].position = endPosition - offset;
+
+	/* BOTTOM TRAPEZOID */
+
+	// Left triangle
+	m_branches_va[offsetIndex + 12].position = beginPosition - topBottomOffset - (offset / 2.f);
+	m_branches_va[offsetIndex + 13].position = beginPosition - offset;
+	m_branches_va[offsetIndex + 14].position = beginPosition + offset;
+
+	// Right triangle
+	m_branches_va[offsetIndex + 15].position = beginPosition + offset;
+	m_branches_va[offsetIndex + 16].position = beginPosition - topBottomOffset + (offset / 2.f);
+	m_branches_va[offsetIndex + 17].position = beginPosition - topBottomOffset - (offset / 2.f);
+}
+
+void Tree::UpdateBranchesVAColors(size_t index) {
+
+	size_t offsetIndex = index * g_number_of_thick_line_vertices;
+
+	for (int j = 0; j < 18; j++) {
+		m_branches_va[offsetIndex + j].color = m_branches[index]->GetBranchLine().GetLineColor();
+	}
+}
+
+
 void Tree::Reset() {
 
 	m_attractors.clear();
@@ -469,6 +564,7 @@ void Tree::Reset() {
 		delete branch;
 	}
 	m_branches.clear();
+	m_branches_va.clear();
 
 	for (Leaf* leaf : m_leaves) {
 		delete leaf;
@@ -492,20 +588,9 @@ void Tree::DrawAttractors(sf::RenderWindow* window) {
 	}
 }
 
-// TODO : Refactor ThickLine to draw using one call
 void Tree::DrawBranches(sf::RenderWindow* window) {
 
-	if (m_branches.empty()) 
-		return;
-
-	for (int i = static_cast<int>(m_branches.size()) - 1; i >= 0; i--) {
-
-		if (m_branches[i]->GetParent() == nullptr) 
-			continue;
-
-		m_branches[i]->GetBranchLine().SetLinePosition(m_branches[i]->GetParent()->GetPosition(), m_branches[i]->GetPosition());
-		m_branches[i]->GetBranchLine().Draw(window);
-	}
+	window->draw(m_branches_va);
 }
 
 void Tree::DrawLeaves(sf::RenderWindow* window) {
