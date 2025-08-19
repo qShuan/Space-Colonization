@@ -204,10 +204,19 @@ void Application::HandleGUIMenu() {
 
 		if (ImGui::TreeNode("Attractors")) {
 
+			float minDistanceToAttractor = m_tree.GetConfig().GetMinDistanceToAttractor();
 			ImGui::Text("Mininum distance to attractor");
-			if (ImGui::SliderFloat("##min_distance_to_attractor", &m_tree.GetConfig().min_distance_to_attractor, 5.f, 100.f)) {}
+			if (ImGui::SliderFloat("##min_distance_to_attractor", &minDistanceToAttractor, 5.f, 100.f)) {
+
+				m_tree.GetConfig().SetMinDistanceToAttractor(minDistanceToAttractor);
+			}
+
+			float maxDistanceToAttractor = m_tree.GetConfig().GetMaxDistanceToAttractor();
 			ImGui::Text("Maximum distance to attractor");
-			if (ImGui::SliderFloat("##max_distance_to_attractor", &m_tree.GetConfig().max_distance_to_attractor, 10.f, 500.f)) {}
+			if (ImGui::SliderFloat("##max_distance_to_attractor", &maxDistanceToAttractor, 10.f, 500.f)) {
+
+				m_tree.GetConfig().SetMaxDistanceToAttractor(maxDistanceToAttractor);
+			}
 
 			ImGui::Text("Number of attractors");
 			if (ImGui::SliderInt("##num_of_attractors", &m_tree.GetConfig().number_of_attractors, 10, 1000)) {}
@@ -281,10 +290,19 @@ void Application::HandleGUIMenu() {
 				m_tree.UpdateLeavesColor();
 			}
 			
+			float minLeafSize = m_tree.GetConfig().GetMinLeafSize();
 			ImGui::Text("Mininum leaf size");
-			if (ImGui::SliderFloat("##min_leaf_size", &m_tree.GetConfig().min_leaf_size, 1.f, 100.f)) {}
+			if (ImGui::SliderFloat("##min_leaf_size", &minLeafSize, 1.f, 100.f)) {
+
+				m_tree.GetConfig().SetMinLeafSize(minLeafSize);
+			}
+
+			float maxLeafSize = m_tree.GetConfig().GetMaxLeafSize();
 			ImGui::Text("Maximum leaf size");
-			if (ImGui::SliderFloat("##max_leaf_size", &m_tree.GetConfig().max_leaf_size, 1.f, 100.f)) {}
+			if (ImGui::SliderFloat("##max_leaf_size", &maxLeafSize, 1.f, 100.f)) {
+			
+				m_tree.GetConfig().SetMaxLeafSize(maxLeafSize);
+			}
 
 			ImGui::TreePop();
 		}

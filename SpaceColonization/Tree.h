@@ -4,21 +4,69 @@
 #include "Polygon.h"
 #include "Leaf.h"
 
-struct TreeConfig {
+class TreeConfig {
+
+private:
+
+	float min_distance_to_attractor = 10.f;
+	float max_distance_to_attractor = 100.f;
+
+	float min_leaf_size = 20.f;
+	float max_leaf_size = 30.f;
+
+public:
 
 	sf::Color base_branch_color = sf::Color(105, 63, 21);
 	sf::Color base_leaf_color = sf::Color(35, 128, 14);
 
 	int number_of_attractors = 500;
-	float min_distance_to_attractor = 10.f;
-	float max_distance_to_attractor = 100.f;
 
-	int number_of_leaves = 1;
 	int leaves_per_branch = 15;
-	float min_leaf_size = 20.f;
-	float max_leaf_size = 30.f;
 
 	float branch_direction_randomness_magnitude = 0.2f;
+
+public:
+
+	void SetMinDistanceToAttractor(float minDistance) {
+		if (minDistance >= max_distance_to_attractor) {
+			min_distance_to_attractor = max_distance_to_attractor - 1;
+			return;
+		}
+
+		min_distance_to_attractor = minDistance;
+	}
+
+	void SetMaxDistanceToAttractor(float maxDistance) {
+		if (maxDistance <= min_distance_to_attractor) {
+			max_distance_to_attractor = min_distance_to_attractor + 1;
+			return;
+		}
+
+		max_distance_to_attractor = maxDistance;
+	}
+
+	void SetMinLeafSize(float minLeafSize) {
+		if (minLeafSize >= max_leaf_size) {
+			min_leaf_size = max_leaf_size - 1;
+			return;
+		}
+
+		min_leaf_size = minLeafSize;
+	}
+
+	void SetMaxLeafSize(float maxLeafSize) {
+		if (maxLeafSize <= min_leaf_size) {
+			max_leaf_size = min_leaf_size + 1;
+			return;
+		}
+
+		max_leaf_size = maxLeafSize;
+	}
+
+	float& GetMinDistanceToAttractor() { return min_distance_to_attractor; }
+	float& GetMaxDistanceToAttractor() { return max_distance_to_attractor; }
+	float& GetMinLeafSize() { return min_leaf_size; }
+	float& GetMaxLeafSize() { return max_leaf_size; }
 };
 
 class Tree {

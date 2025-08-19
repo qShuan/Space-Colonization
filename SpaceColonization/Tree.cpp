@@ -80,7 +80,7 @@ void Tree::CreateRoot(sf::Vector2f position) {
 			Attractor& attractor = m_attractors[i];
 			float distanceToAttractor = utils::vec2::GetMagnitude(attractor.GetPosition() - currentBranch->GetPosition());
 
-			if (distanceToAttractor <= m_cfg.max_distance_to_attractor) {
+			if (distanceToAttractor <= m_cfg.GetMaxDistanceToAttractor()) {
 				isAttractorFound = true;
 			}
 		}
@@ -256,7 +256,7 @@ Branch* Tree::FindClosestBranchToAttractor(Attractor& attractor) {
 
 		float distanceToAttractor = utils::vec2::GetMagnitude(attractor.GetPosition() - currentBranch->GetPosition());
 
-		if (distanceToAttractor <= m_cfg.min_distance_to_attractor) {
+		if (distanceToAttractor <= m_cfg.GetMinDistanceToAttractor()) {
 
 			attractor.is_reached = true;
 			closestBranch = nullptr;
@@ -346,7 +346,7 @@ void Tree::UpdateLeavesColor() {
 
 void Tree::GenerateLeaves() {
 
-	if (IsGrowing() || m_leaves.size() >= m_cfg.number_of_leaves) 
+	if (IsGrowing() || !m_leaves.empty()) 
 		return;
 
 	for (int i = (int)m_branches.size() - 1; i >= 0; i--) {
@@ -363,7 +363,7 @@ void Tree::GenerateLeaves() {
 				float randomAngle = utils::rng::RandomBetween(-60.f, 60.f);
 
 				Leaf* newLeaf = new Leaf(branch->GetParent()->GetPosition() + positionOffset,
-					randomAngle, m_cfg.min_leaf_size, m_cfg.max_leaf_size, m_cfg.base_leaf_color);
+					randomAngle, m_cfg.GetMinLeafSize(), m_cfg.GetMaxLeafSize(), m_cfg.base_leaf_color);
 
 				newLeaf->SetAttachedBranch(branch);
 
