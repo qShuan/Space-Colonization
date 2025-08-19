@@ -198,12 +198,12 @@ void Application::HandleGUIMenu() {
 		if (ImGui::TreeNode("Attractors")) {
 
 			ImGui::Text("Mininum distance to attractor");
-			if (ImGui::SliderFloat("##min_distance_to_attractor", &m_tree.GetConfig().min_distance_to_attractor, 5.f, 100.f));
+			if (ImGui::SliderFloat("##min_distance_to_attractor", &m_tree.GetConfig().min_distance_to_attractor, 5.f, 100.f)) {}
 			ImGui::Text("Maximum distance to attractor");
-			if (ImGui::SliderFloat("##max_distance_to_attractor", &m_tree.GetConfig().max_distance_to_attractor, 10.f, 500.f));
+			if (ImGui::SliderFloat("##max_distance_to_attractor", &m_tree.GetConfig().max_distance_to_attractor, 10.f, 500.f)) {}
 
 			ImGui::Text("Number of attractors");
-			if (ImGui::SliderInt("##num_of_attractors", &m_tree.GetConfig().number_of_attractors, 10, 1000));
+			if (ImGui::SliderInt("##num_of_attractors", &m_tree.GetConfig().number_of_attractors, 10, 1000)) {}
 
 			ImGui::TreePop();
 		}
@@ -211,7 +211,7 @@ void Application::HandleGUIMenu() {
 		if (ImGui::TreeNode("Branches")) {
 
 			ImGui::Text("Direction randomness magnitude");
-			if (ImGui::SliderFloat("##direction_randomness", &m_tree.GetConfig().branch_direction_randomness_magnitude, 0.0f, 1.f));
+			if (ImGui::SliderFloat("##direction_randomness", &m_tree.GetConfig().branch_direction_randomness_magnitude, 0.0f, 1.f)) {}
 
 			ImGui::TreePop();
 		}
@@ -219,7 +219,7 @@ void Application::HandleGUIMenu() {
 		if (ImGui::TreeNode("Leaves")) {
 
 			ImGui::Text("Leaves per branch");
-			if (ImGui::SliderInt("##leaves_per_branch", &m_tree.GetConfig().leaves_per_branch, 1, 100));
+			if (ImGui::SliderInt("##leaves_per_branch", &m_tree.GetConfig().leaves_per_branch, 1, 100)) {}
 
 			ImGui::TreePop();
 		}
@@ -232,10 +232,10 @@ void Application::HandleGUIMenu() {
 		if (ImGui::TreeNode("Rendering")) {
 
 			ImGui::Text("Render gizmos"); ImGui::SameLine();
-			if (ImGui::Checkbox("##should_render_gizmos", &m_should_render_gizmos));
+			if (ImGui::Checkbox("##should_render_gizmos", &m_should_render_gizmos)) {}
 
 			ImGui::Text("Render attractors"); ImGui::SameLine();
-			if (ImGui::Checkbox("##should_render_attractors", &m_should_render_attractors));
+			if (ImGui::Checkbox("##should_render_attractors", &m_should_render_attractors)) {}
 
 			ImGui::TreePop();
 		}
@@ -277,9 +277,9 @@ void Application::HandleGUIMenu() {
 			}
 			
 			ImGui::Text("Mininum leaf size");
-			if (ImGui::SliderFloat("##min_leaf_size", &m_tree.GetConfig().min_leaf_size, 1.f, 100.f));
+			if (ImGui::SliderFloat("##min_leaf_size", &m_tree.GetConfig().min_leaf_size, 1.f, 100.f)) {}
 			ImGui::Text("Maximum leaf size");
-			if (ImGui::SliderFloat("##max_leaf_size", &m_tree.GetConfig().max_leaf_size, 1.f, 100.f));
+			if (ImGui::SliderFloat("##max_leaf_size", &m_tree.GetConfig().max_leaf_size, 1.f, 100.f)) {}
 
 			ImGui::TreePop();
 		}
