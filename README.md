@@ -1,5 +1,5 @@
 # Space-Colonization
-A C++ implementation of the **Space Colonization Algorithm** using **SFML**.
+A C++ implementation of the **Space Colonization Algorithm** using **SFML (x64)**.
 
 ##  Table of Contents
 
