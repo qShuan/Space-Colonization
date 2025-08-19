@@ -4,6 +4,8 @@
 #include <algorithm>
 #include <cmath>
 
+//Thanks to https://github.com/SFML/SFML/wiki/Source%3A-HSL-Color
+
 struct HSL
 {
     double Hue;

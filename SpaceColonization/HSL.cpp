@@ -56,18 +56,18 @@ sf::Color HSL::TurnToRGB()
 
     if (S <= D_EPSILON)
     {
-        sf::Color C(L * 255, L * 255, L * 255);
+        sf::Color C((sf::Uint8)(L * 255), (sf::Uint8)(L * 255), (sf::Uint8)(L * 255));
         return C;
     }
     else
     {
-        if (L < 0.5) { arg2 = L * (1 + S); }
-        else { arg2 = (L + S) - (S * L); }
-        arg1 = 2 * L - arg2;
+        if (L < 0.5) { arg2 = (float)(L * (1 + S)); }
+        else { arg2 = (float)((L + S) - (S * L)); }
+        arg1 = 2 * (float)L - arg2;
 
-        sf::Uint8 r = (255 * HueToRGB(arg1, arg2, (H + 1.0 / 3.0)));
-        sf::Uint8 g = (255 * HueToRGB(arg1, arg2, H));
-        sf::Uint8 b = (255 * HueToRGB(arg1, arg2, (H - 1.0 / 3.0)));
+        sf::Uint8 r = (sf::Uint8)(255 * HueToRGB(arg1, arg2, (H + 1.0 / 3.0)));
+        sf::Uint8 g = (sf::Uint8)(255 * HueToRGB(arg1, arg2, H));
+        sf::Uint8 b = (sf::Uint8)(255 * HueToRGB(arg1, arg2, (H - 1.0 / 3.0)));
         sf::Color C(r, g, b);
         return C;
     }
@@ -161,7 +161,7 @@ HSL TurnToHSL(const sf::Color& C)
         else if (max - G <= D_EPSILON) { A.Hue = (1 * 360) / 3.0 + (diffR - diffB); }
         else if (max - B <= D_EPSILON) { A.Hue = (2 * 360) / 3.0 + (diffG - diffR); }
 
-        if (A.Hue <= 0 || A.Hue >= 360) { fmod(A.Hue, 360); }
+        if (A.Hue <= 0 || A.Hue >= 360) { A.Hue = fmod(A.Hue, 360); }
 
         s *= 100;
     }
