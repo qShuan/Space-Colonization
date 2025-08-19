@@ -23,7 +23,7 @@ private:
 	std::vector<Line*> m_selected_edges;
 
 	Tree m_tree;
-	UserGUI userGUI;
+	UserGUI user_gui;
 
 	sf::RenderWindow* m_window;
 	Polygon* m_polygon;
@@ -42,6 +42,7 @@ private:
 private:
 
 	void HandleEvents(sf::Event& event);
+	void GrabPolygonVertex(sf::Event& event);
 	void PullVertex();
 
 	bool InBounds(sf::Vector2f position);

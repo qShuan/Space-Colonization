@@ -2,13 +2,12 @@
 #include <iostream>
 
 Application::Application() : m_selected_vertex(nullptr),m_polygon_vertex_grab_radius(15.f),
+m_window(new sf::RenderWindow(sf::VideoMode((const unsigned int)g_WindowConfig.width, (const unsigned int)g_WindowConfig.height), "Space Colonization", sf::Style::Titlebar | sf::Style::Close)),
+m_polygon(new Polygon(g_WindowConfig.simulation_center)),
 m_is_vertex_selected(false), m_should_tree_grow(false), m_should_render_gizmos(true), m_should_render_attractors(false) {
 
-	m_window = new sf::RenderWindow(sf::VideoMode((const unsigned int)g_WindowConfig.width, (const unsigned int)g_WindowConfig.height), "Space Colonization", sf::Style::Titlebar | sf::Style::Close);
-	m_polygon = new Polygon(g_WindowConfig.simulation_center);
-
-	userGUI.Init(m_window);
-	userGUI.InitStyle();
+	user_gui.Init(m_window);
+	user_gui.InitStyle();
 }
 
 Application::~Application() {
@@ -17,23 +16,22 @@ Application::~Application() {
 	delete m_window;
 }
 
+// Handle ImGUI and SFML events
 void Application::HandleEvents(sf::Event& event) {
 
-	userGUI.ProccessEvent(m_window, event);
+	user_gui.ProccessEvent(m_window, event);
 
 	if (event.type == __noop) {
 		m_window->close();
 	}
-	if (event.type == sf::Event::KeyPressed) {
-		if (event.key.code == sf::Keyboard::R) {
-			m_tree.Reset();
-			m_tree.GenerateAttractors(*m_polygon);
-			m_tree.CreateRoot({ g_WindowConfig.simulation_center.x, g_WindowConfig.height});
-			m_should_tree_grow = true;
-		}
-	}
 
-	//Grab a vertex
+	GrabPolygonVertex(event);
+}
+
+// Grab a polygon vertex and it's connected edges
+void Application::GrabPolygonVertex(sf::Event& event) {
+
+	// Grab on mouse click
 	if (event.type == sf::Event::MouseButtonPressed) {
 		if (event.mouseButton.button == sf::Mouse::Left && !m_is_vertex_selected) {
 
@@ -65,11 +63,12 @@ void Application::HandleEvents(sf::Event& event) {
 			}
 		}
 	}
+	// Release the vertex
 	else if (event.type == sf::Event::MouseButtonReleased) {
 
 		if (event.mouseButton.button == sf::Mouse::Left) {
 
-			if(m_selected_vertex != nullptr)
+			if (m_selected_vertex != nullptr)
 				m_selected_vertex->GetShape().setFillColor(sf::Color::Green);
 
 			m_selected_vertex = nullptr;
@@ -79,6 +78,7 @@ void Application::HandleEvents(sf::Event& event) {
 	}
 }
 
+// Move the selected vertex and it's connected edges to mouse position
 void Application::PullVertex() {
 
 	if (m_is_vertex_selected) {
@@ -90,10 +90,12 @@ void Application::PullVertex() {
 		sf::Vector2f originalVertexPosition = m_selected_vertex->GetPosition();
 		m_selected_vertex->SetPosition(mousePos);
 
+		// If the polygon is no longer convex - move the vertex back
 		if (!m_polygon->IsPolygonConvex()) {
 			m_selected_vertex->SetPosition(originalVertexPosition);
 		}
 
+		// Make sure the lines are still connected
 		for (int i = 0; i < 3; i++)
 			m_selected_edges[i]->UpdateLinePositions();
 	}
@@ -106,6 +108,7 @@ bool Application::InBounds(sf::Vector2f position) {
 	return false;
 }
 
+// Main loop
 void Application::Run() {
 
 
@@ -126,7 +129,7 @@ void Application::Run() {
 
 		float sec = clock.restart().asSeconds();
 
-		userGUI.Update(m_window, imguiClock.restart());
+		user_gui.Update(m_window, imguiClock.restart());
 
 		if(m_should_render_gizmos)
 			PullVertex();
@@ -155,14 +158,15 @@ void Application::Run() {
 
 		growTickCountDown -= sec;
 
-		userGUI.Render(m_window);
+		user_gui.Render(m_window);
 
 		m_window->display();
 	}
 
-	userGUI.Close();
+	user_gui.Close();
 }
 
+// The whole ImGUI menu
 void Application::HandleGUIMenu() {
 
 	ImGui::Begin("Editor tools", NULL, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
@@ -284,7 +288,7 @@ void Application::HandleGUIMenu() {
 	}
 
 	ImGui::SeparatorText("Themes");
-	userGUI.ThemeSelector();
+	user_gui.ThemeSelector();
 
 	ImGui::End();
 }
