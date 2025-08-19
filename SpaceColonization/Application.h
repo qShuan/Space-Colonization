@@ -3,13 +3,18 @@
 #include "Tree.h"
 #include "UserGUI.h"
 
-#define WINDOW_WIDTH 1600
-#define WINDOW_HEIGHT 900
+struct WindowConfig {
 
-#define GUI_WIDTH 400
+	const float width = 1600;
+	const float height = 900;
 
-#define SIMULATION_AREA_WIDTH (WINDOW_WIDTH - GUI_WIDTH)
-#define SIMULATION_CENTER sf::Vector2f((WINDOW_WIDTH - GUI_WIDTH) / 2.f, WINDOW_HEIGHT / 2.f)
+	const float gui_width = 400;
+
+	const float simulation_area_width = width - gui_width;
+	const sf::Vector2f simulation_center = sf::Vector2f(simulation_area_width / 2.f, height / 2.f);
+};
+
+const WindowConfig g_WindowConfig;
 
 #define VERTEX_MOVE_RADIUS 15
 #define NUMBER_OF_POLYGON_VERTICES 6

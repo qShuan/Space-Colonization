@@ -4,8 +4,8 @@
 Application::Application() : m_selected_vertex(nullptr), m_is_vertex_selected(false), 
 m_should_tree_grow(false), m_should_render_gizmos(true), m_should_render_attractors(false) {
 
-	m_window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Space Colonization", sf::Style::Titlebar | sf::Style::Close);
-	m_polygon = new Polygon(SIMULATION_CENTER, NUMBER_OF_POLYGON_VERTICES, SPACE_BETWEEN_VERTICES);
+	m_window = new sf::RenderWindow(sf::VideoMode((const unsigned int)g_WindowConfig.width, (const unsigned int)g_WindowConfig.height), "Space Colonization", sf::Style::Titlebar | sf::Style::Close);
+	m_polygon = new Polygon(g_WindowConfig.simulation_center, NUMBER_OF_POLYGON_VERTICES, SPACE_BETWEEN_VERTICES);
 
 	userGUI.Init(m_window);
 	userGUI.InitStyle();
@@ -28,7 +28,7 @@ void Application::HandleEvents(sf::Event& event) {
 		if (event.key.code == sf::Keyboard::R) {
 			m_tree.Reset();
 			m_tree.GenerateAttractors(*m_polygon);
-			m_tree.CreateRoot({ SIMULATION_CENTER.x, WINDOW_HEIGHT });
+			m_tree.CreateRoot({ g_WindowConfig.simulation_center.x, g_WindowConfig.height});
 			m_should_tree_grow = true;
 		}
 	}
@@ -101,7 +101,7 @@ void Application::PullVertex() {
 
 bool Application::InBounds(sf::Vector2f position) {
 
-	if (position.x >= 0 && position.x <= SIMULATION_AREA_WIDTH && position.y >= 0 && position.y <= WINDOW_HEIGHT) return true;
+	if (position.x >= 0 && position.x <= g_WindowConfig.simulation_area_width && position.y >= 0 && position.y <= g_WindowConfig.height) return true;
 
 	return false;
 }
@@ -167,8 +167,8 @@ void Application::UpdateGUI() {
 
 	ImGui::Begin("Editor tools", NULL, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
 
-	ImGui::SetWindowSize(ImVec2(GUI_WIDTH, WINDOW_HEIGHT));
-	ImGui::SetWindowPos(ImVec2(SIMULATION_AREA_WIDTH, 0));
+	ImGui::SetWindowSize(ImVec2(g_WindowConfig.gui_width, g_WindowConfig.height));
+	ImGui::SetWindowPos(ImVec2(g_WindowConfig.simulation_area_width, 0.f));
 
 	ImGui::SeparatorText("Usage");
 	if (ImGui::Button("Generate")) {
@@ -176,7 +176,7 @@ void Application::UpdateGUI() {
 		m_should_tree_grow = false;
 		m_tree.Reset();
 		m_tree.GenerateAttractors(*m_polygon);
-		m_tree.CreateRoot({ SIMULATION_CENTER.x, WINDOW_HEIGHT });
+		m_tree.CreateRoot({ g_WindowConfig.simulation_center.x, g_WindowConfig.height });
 		m_should_tree_grow = true;
 	}
 	ImGui::SameLine();
