@@ -1,7 +1,7 @@
 #pragma once
 
 #include <SFML/Graphics/Color.hpp>
-#include <utils/RNG.hpp>
+#include <utils/rng.hpp>
 #include "../SpaceColonization/HSL.h"
 
 namespace utils {

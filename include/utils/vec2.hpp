@@ -3,7 +3,7 @@
 #include <cmath>
 
 #include <SFML/System/Vector2.hpp>
-#include <utils/RNG.hpp>
+#include <utils/rng.hpp>
 
 #define PI 3.14159265358979323846
 

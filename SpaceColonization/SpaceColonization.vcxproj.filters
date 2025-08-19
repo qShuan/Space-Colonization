@@ -131,7 +131,7 @@
     <ClInclude Include="..\include\utils\logging.hpp">
       <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\utils\RNG.hpp">
+    <ClInclude Include="..\include\utils\rng.hpp">
       <Filter>Utils</Filter>
     </ClInclude>
   </ItemGroup>
