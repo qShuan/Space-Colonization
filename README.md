@@ -14,7 +14,7 @@ A C++ implementation of the **Space Colonization Algorithm** using **SFML (x64)*
 
 ## About
 
-This project implements the Space Colonization procedural generation algorithm in C++, visualized with SFML.
+This project implements the Space Colonization procedural generation algorithm in C++, featuring visualization with SFML and an ImGui menu for interactive parameter control and experimentation.
 
 ![space_colonization_preview](https://github.com/user-attachments/assets/5f5ddf38-4efa-4060-a523-f4e11cacff76)
 
