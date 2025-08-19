@@ -226,7 +226,7 @@ void Application::HandleGUIMenu() {
 		if (ImGui::TreeNode("Leaves")) {
 
 			ImGui::Text("Leaves per branch");
-			if (ImGui::SliderInt("##leaves_per_branch", &m_tree.GetConfig().leaves_per_branch, 1, 100)) {}
+			if (ImGui::SliderInt("##leaves_per_branch", &m_tree.GetConfig().leaves_per_branch, 1, 50)) {}
 
 			ImGui::TreePop();
 		}
@@ -250,15 +250,14 @@ void Application::HandleGUIMenu() {
 		if (ImGui::TreeNode("Branches")) {
 
 			ImGui::Text("Base branch color");
-			if (ImGui::ColorPicker4("##base_branch_color", m_base_branch_color)) {
+			if (ImGui::ColorPicker3("##base_branch_color", m_base_branch_color)) {
 
 				sf::Uint8 r = (sf::Uint8)(m_base_branch_color[0] * 255.f);
 				sf::Uint8 g = (sf::Uint8)(m_base_branch_color[1] * 255.f);
 				sf::Uint8 b = (sf::Uint8)(m_base_branch_color[2] * 255.f);
-				sf::Uint8 a = (sf::Uint8)(m_base_branch_color[3] * 255.f);
 
 				m_tree.SetBaseBranchColor(
-					sf::Color(r, g, b, a)
+					sf::Color(r, g, b)
 				);
 				m_tree.UpdateBranchesColor();
 			}
@@ -270,15 +269,14 @@ void Application::HandleGUIMenu() {
 		if (ImGui::TreeNode("Leaves")) {
 
 			ImGui::Text("Base leaf color");
-			if (ImGui::ColorPicker4("##base_leaf_color", m_base_leaf_color)) {
+			if (ImGui::ColorPicker3("##base_leaf_color", m_base_leaf_color)) {
 
 				sf::Uint8 r = (sf::Uint8)(m_base_leaf_color[0] * 255.f);
 				sf::Uint8 g = (sf::Uint8)(m_base_leaf_color[1] * 255.f);
 				sf::Uint8 b = (sf::Uint8)(m_base_leaf_color[2] * 255.f);
-				sf::Uint8 a = (sf::Uint8)(m_base_leaf_color[3] * 255.f);
 
 				m_tree.SetBaseLeafColor(
-					sf::Color(r, g, b, a)
+					sf::Color(r, g, b)
 				);
 				m_tree.UpdateLeavesColor();
 			}
