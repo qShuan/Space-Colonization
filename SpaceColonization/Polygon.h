@@ -5,7 +5,6 @@
 
 #include <utils/vec2.hpp>
 
-
 class Polygon {
 
 private:
@@ -13,6 +12,7 @@ private:
 	std::vector<Point> m_vertices;
 	std::vector<Line> m_edges;
 
+	float m_base_space_between_vertices;
 	uint8_t m_vertex_count;
 
 private:
@@ -21,10 +21,10 @@ private:
 
 public:
 
-	Polygon(sf::Vector2f position, uint8_t vertexCount, float vertexSpread);
+	Polygon(sf::Vector2f position);
 	~Polygon() = default;
 
-	void CreatePolygon(sf::Vector2f position, uint8_t vertexCount, float vertexSpread);
+	void CreatePolygon(sf::Vector2f position);
 
 	bool IsPointInsidePolygon(sf::Vector2f point);
 	bool IsPolygonConvex();

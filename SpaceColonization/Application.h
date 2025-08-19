@@ -17,8 +17,6 @@ struct WindowConfig {
 const WindowConfig g_WindowConfig;
 
 #define VERTEX_MOVE_RADIUS 15
-#define NUMBER_OF_POLYGON_VERTICES 6
-#define SPACE_BETWEEN_VERTICES 350
 
 class Application {
 

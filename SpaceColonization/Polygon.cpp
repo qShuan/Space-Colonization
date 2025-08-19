@@ -1,20 +1,19 @@
 #include "Polygon.h"
 
-Polygon::Polygon(sf::Vector2f position, uint8_t vertexCount, float vertexSpread) {
+Polygon::Polygon(sf::Vector2f position) : m_vertex_count(6), m_base_space_between_vertices(350.f) {
 
-	CreatePolygon(position, vertexCount, vertexSpread);
+	CreatePolygon(position);
 }
 
-void Polygon::CreatePolygon(sf::Vector2f position, uint8_t vertexCount, float vertexSpread) {
+void Polygon::CreatePolygon(sf::Vector2f position) {
 
-	m_vertex_count = vertexCount;
 
 	float degrees = 360.f;
 
-	for (uint8_t i = 0; i < vertexCount; i++) {
+	for (uint8_t i = 0; i < m_vertex_count; i++) {
 
-		const float x = position.x + cos((float)RADIANS(i * (degrees / vertexCount))) * vertexSpread;
-		const float y = position.y + sin((float)RADIANS(i * (degrees / vertexCount))) * vertexSpread;
+		const float x = position.x + cos((float)RADIANS(i * (degrees / m_vertex_count))) * m_base_space_between_vertices;
+		const float y = position.y + sin((float)RADIANS(i * (degrees / m_vertex_count))) * m_base_space_between_vertices;
 
 		Point newVertex(sf::Color::Green);
 		newVertex.SetPosition({ x, y });
@@ -22,13 +21,13 @@ void Polygon::CreatePolygon(sf::Vector2f position, uint8_t vertexCount, float ve
 		m_vertices.push_back(newVertex);
 	}
 
-	for (uint8_t i = 0; i < vertexCount; i++) {
+	for (uint8_t i = 0; i < m_vertex_count; i++) {
 
 		Line newEdge;
 
-		newEdge.SetLinePosition(m_vertices[i].GetPosition(), m_vertices[(i + 1) % vertexCount].GetPosition());
+		newEdge.SetLinePosition(m_vertices[i].GetPosition(), m_vertices[(i + 1) % m_vertex_count].GetPosition());
 		newEdge.SetBeginVertex(&m_vertices[i]);
-		newEdge.SetEndVertex(&m_vertices[(i + 1) % vertexCount]);
+		newEdge.SetEndVertex(&m_vertices[(i + 1) % m_vertex_count]);
 
 		m_edges.push_back(newEdge);
 	}

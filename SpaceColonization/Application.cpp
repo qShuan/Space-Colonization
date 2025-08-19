@@ -5,7 +5,7 @@ Application::Application() : m_selected_vertex(nullptr), m_is_vertex_selected(fa
 m_should_tree_grow(false), m_should_render_gizmos(true), m_should_render_attractors(false) {
 
 	m_window = new sf::RenderWindow(sf::VideoMode((const unsigned int)g_WindowConfig.width, (const unsigned int)g_WindowConfig.height), "Space Colonization", sf::Style::Titlebar | sf::Style::Close);
-	m_polygon = new Polygon(g_WindowConfig.simulation_center, NUMBER_OF_POLYGON_VERTICES, SPACE_BETWEEN_VERTICES);
+	m_polygon = new Polygon(g_WindowConfig.simulation_center);
 
 	userGUI.Init(m_window);
 	userGUI.InitStyle();
@@ -39,7 +39,7 @@ void Application::HandleEvents(sf::Event& event) {
 
 			sf::Vector2f mousePos = (sf::Vector2f)sf::Mouse::getPosition(*m_window);
 
-			for (int i = 0; i < NUMBER_OF_POLYGON_VERTICES; i++) {
+			for (int i = 0; i < m_polygon->GetVertexCount(); i++) {
 
 				Point& vertex = m_polygon->GetVertices()[i];
 				Line& prevLine = m_polygon->GetEdge(i - 1);
