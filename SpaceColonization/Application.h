@@ -14,7 +14,7 @@ struct WindowConfig {
 	const sf::Vector2f simulation_center = sf::Vector2f(simulation_area_width / 2.f, height / 2.f);
 };
 
-const WindowConfig g_WindowConfig;
+const WindowConfig g_window_config;
 
 class Application {
 

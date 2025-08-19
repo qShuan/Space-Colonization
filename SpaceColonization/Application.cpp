@@ -2,8 +2,8 @@
 #include <iostream>
 
 Application::Application() 
-	: m_window(new sf::RenderWindow(sf::VideoMode((const unsigned int)g_WindowConfig.width, (const unsigned int)g_WindowConfig.height), "Space Colonization", sf::Style::Titlebar | sf::Style::Close)),
-	m_polygon(new Polygon(g_WindowConfig.simulation_center)),
+	: m_window(new sf::RenderWindow(sf::VideoMode((const unsigned int)g_window_config.width, (const unsigned int)g_window_config.height), "Space Colonization", sf::Style::Titlebar | sf::Style::Close)),
+	m_polygon(new Polygon(g_window_config.simulation_center)),
 	m_selected_vertex(nullptr),
 	m_base_branch_color({0.f}),
 	m_base_leaf_color({0.f}),
@@ -110,7 +110,7 @@ void Application::PullVertex() {
 
 bool Application::InBounds(sf::Vector2f position) {
 
-	if (position.x >= 0 && position.x <= g_WindowConfig.simulation_area_width && position.y >= 0 && position.y <= g_WindowConfig.height) return true;
+	if (position.x >= 0 && position.x <= g_window_config.simulation_area_width && position.y >= 0 && position.y <= g_window_config.height) return true;
 
 	return false;
 }
@@ -178,8 +178,8 @@ void Application::HandleGUIMenu() {
 
 	ImGui::Begin("Editor tools", NULL, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
 
-	ImGui::SetWindowSize(ImVec2(g_WindowConfig.gui_width, g_WindowConfig.height));
-	ImGui::SetWindowPos(ImVec2(g_WindowConfig.simulation_area_width, 0.f));
+	ImGui::SetWindowSize(ImVec2(g_window_config.gui_width, g_window_config.height));
+	ImGui::SetWindowPos(ImVec2(g_window_config.simulation_area_width, 0.f));
 
 	ImGui::SeparatorText("Usage");
 	if (ImGui::Button("Generate")) {
@@ -187,7 +187,7 @@ void Application::HandleGUIMenu() {
 		m_should_tree_grow = false;
 		m_tree.Reset();
 		m_tree.GenerateAttractors(*m_polygon);
-		m_tree.CreateRoot({ g_WindowConfig.simulation_center.x, g_WindowConfig.height });
+		m_tree.CreateRoot({ g_window_config.simulation_center.x, g_window_config.height });
 		m_should_tree_grow = true;
 	}
 	ImGui::SameLine();

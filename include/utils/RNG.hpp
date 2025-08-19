@@ -6,13 +6,13 @@ namespace utils {
 
 	namespace rng {
 
-		static uint32_t s_rngSeed = 2463534242;
+		static uint32_t s_rng_seed = 2463534242;
 
 		inline uint32_t XorShift32() {
-			s_rngSeed ^= s_rngSeed << 13;
-			s_rngSeed ^= s_rngSeed >> 17;
-			s_rngSeed ^= s_rngSeed << 5;
-			return s_rngSeed;
+			s_rng_seed ^= s_rng_seed << 13;
+			s_rng_seed ^= s_rng_seed >> 17;
+			s_rng_seed ^= s_rng_seed << 5;
+			return s_rng_seed;
 		}
 
 		// Fast random float between 0 and 1
