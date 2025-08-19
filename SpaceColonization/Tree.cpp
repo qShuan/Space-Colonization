@@ -383,7 +383,7 @@ void Tree::GrowLeaves(float deltaTime) {
 
 		Leaf* leaf = m_leaves[i];
 
-		leaf->LerpSize(leaf->GetGrowthSpeed(), deltaTime);
+		leaf->Grow(leaf->GetGrowthSpeed(), deltaTime);
 
 		// On size change update all vertices
 		UpdateLeavesVAPositions(i);

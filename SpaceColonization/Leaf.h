@@ -27,7 +27,7 @@ public:
 	Leaf(sf::Vector2f position, float rotation, float minSize, float maxSize, sf::Color color = sf::Color::Green);
 	~Leaf() = default;
 
-	void LerpSize(float speed, float deltaTime);
+	void Grow(float speed, float deltaTime);
 
 	void SetAttachedBranch(Branch* branch) { m_attached_branch = branch; }
 	void SetColor(sf::Color color);
