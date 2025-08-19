@@ -37,7 +37,7 @@ void Application::GrabPolygonVertex(sf::Event& event) {
 
 			sf::Vector2f mousePos = (sf::Vector2f)sf::Mouse::getPosition(*m_window);
 
-			for (int i = 0; i < m_polygon->GetVertexCount(); i++) {
+			for (int i = 0; i < (int)m_polygon->GetVertexCount(); i++) {
 
 				Point& vertex = m_polygon->GetVertices()[i];
 				Line& prevLine = m_polygon->GetEdge(i - 1);
@@ -96,7 +96,7 @@ void Application::PullVertex() {
 		}
 
 		// Make sure the lines are still connected
-		for (int i = 0; i < 3; i++)
+		for (size_t i = 0; i < 3; i++)
 			m_selected_edges[i]->UpdateLinePositions();
 	}
 }
