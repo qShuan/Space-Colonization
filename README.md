@@ -51,11 +51,11 @@ To compile and run this project, make sure you have:
    - Double-click `SpaceColonization.sln`  
    - Or open Visual Studio → **File → Open → Project/Solution…** → select `SpaceColonization.sln`
      
-3. Build the project (Choose the solution configuration to **Release** or **Debug**):  
+3. Build the project (Set the solution configuration to **Release** or **Debug**.):  
    - Menu: **Build → Build Solution**  
    - Shortcut: `Ctrl+Shift+B`  
 
-4. Run the program (Choose the solution configuration to **Release** or **Debug**):  
+4. Run the program (Set the solution configuration to **Release** or **Debug**.):  
    - Menu: **Debug → Start Debugging**  
    - Shortcut: `F5`  
 
