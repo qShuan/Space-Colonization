@@ -1,8 +1,8 @@
 #include "Application.h"
 #include <iostream>
 
-Application::Application() : m_selected_vertex(nullptr), m_is_vertex_selected(false), 
-m_should_tree_grow(false), m_should_render_gizmos(true), m_should_render_attractors(false) {
+Application::Application() : m_selected_vertex(nullptr),m_polygon_vertex_grab_radius(15.f),
+m_is_vertex_selected(false), m_should_tree_grow(false), m_should_render_gizmos(true), m_should_render_attractors(false) {
 
 	m_window = new sf::RenderWindow(sf::VideoMode((const unsigned int)g_WindowConfig.width, (const unsigned int)g_WindowConfig.height), "Space Colonization", sf::Style::Titlebar | sf::Style::Close);
 	m_polygon = new Polygon(g_WindowConfig.simulation_center);
@@ -50,7 +50,7 @@ void Application::HandleEvents(sf::Event& event) {
 
 				const float distance = std::sqrt(position_diff.x * position_diff.x + position_diff.y * position_diff.y);
 
-				if (distance <= VERTEX_MOVE_RADIUS) {
+				if (distance <= m_polygon_vertex_grab_radius) {
 
 					m_selected_vertex = &vertex;
 					m_selected_edges.push_back(&prevLine);

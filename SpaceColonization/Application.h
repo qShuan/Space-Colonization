@@ -16,8 +16,6 @@ struct WindowConfig {
 
 const WindowConfig g_WindowConfig;
 
-#define VERTEX_MOVE_RADIUS 15
-
 class Application {
 
 private:
@@ -33,6 +31,8 @@ private:
 
 	float m_base_branch_color[4] = { 0.f };
 	float m_base_leaf_color[4] = { 0.f };
+
+	float m_polygon_vertex_grab_radius;
 
 	bool m_is_vertex_selected;
 	bool m_should_tree_grow;
