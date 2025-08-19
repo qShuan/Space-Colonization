@@ -136,8 +136,8 @@ void Tree::GenerateAttractors(Polygon& polygon) {
 	int i = 0;
 	while(i < m_cfg.number_of_attractors) {
 
-		float randomX = randomBetween(minX, maxX);
-		float randomY = randomBetween(minY, maxY);
+		float randomX = utils::rng::RandomBetween(minX, maxX);
+		float randomY = utils::rng::RandomBetween(minY, maxY);
 
 		if (polygon.IsPointInsidePolygon({ randomX, randomY })) {
 
@@ -359,8 +359,8 @@ void Tree::GenerateLeaves() {
 			for (int j = 0; j < m_cfg.leaves_per_branch; j++) {
 
 				// Random position on the branch
-				sf::Vector2f positionOffset = branch->GetDirection() * randomBetween(0.f, branch->GetLength());
-				float randomAngle = randomBetween(-60.f, 60.f);
+				sf::Vector2f positionOffset = branch->GetDirection() * utils::rng::RandomBetween(0.f, branch->GetLength());
+				float randomAngle = utils::rng::RandomBetween(-60.f, 60.f);
 
 				Leaf* newLeaf = new Leaf(branch->GetParent()->GetPosition() + positionOffset,
 					randomAngle, m_cfg.min_leaf_size, m_cfg.max_leaf_size, m_cfg.base_leaf_color);

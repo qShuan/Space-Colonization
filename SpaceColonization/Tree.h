@@ -2,7 +2,6 @@
 #include "Attractor.h"
 #include "Branch.h"
 #include "Polygon.h"
-#include "RNG.h"
 #include "Leaf.h"
 
 struct TreeConfig {

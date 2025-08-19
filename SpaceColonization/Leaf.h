@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <utils/color.hpp>
 #include "Branch.h"
+#include <utils/RNG.hpp>
 
 class Leaf {
 

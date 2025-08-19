@@ -3,7 +3,7 @@
 #include <cmath>
 
 #include <SFML/System/Vector2.hpp>
-#include "../SpaceColonization/RNG.h"
+#include <utils/RNG.hpp>
 
 #define PI 3.14159265358979323846
 
@@ -55,7 +55,7 @@ namespace utils {
 
 		inline sf::Vector2f& Randomize(sf::Vector2f& v, float randomMagnitude) {
 
-			sf::Vector2f randomDirection = { randomBetween(-1.f, 1.f), randomBetween(-1.f, 1.f) };
+			sf::Vector2f randomDirection = { utils::rng::RandomBetween(-1.f, 1.f), utils::rng::RandomBetween(-1.f, 1.f) };
 			randomDirection *= randomMagnitude;
 
 			v += randomDirection;
