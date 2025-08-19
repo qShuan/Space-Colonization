@@ -13,7 +13,7 @@ namespace utils {
 		inline sf::Color Darken(sf::Color color, float amount, float minLuminance) {
 
 			HSL hsl = TurnToHSL(color);
-			hsl.Luminance = std::max(minLuminance, (float)hsl.Luminance - amount);
+			hsl.Luminance = std::max(minLuminance, static_cast<float>(hsl.Luminance) - amount);
 			color = hsl.TurnToRGB();
 
 			return color;
@@ -22,7 +22,7 @@ namespace utils {
 		inline float GetLuminance(const sf::Color& color) {
 			HSL hsl = TurnToHSL(color);
 
-			return (float)hsl.Luminance;
+			return static_cast<float>(hsl.Luminance);
 		}
 	}
 }

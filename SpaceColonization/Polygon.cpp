@@ -15,8 +15,8 @@ void Polygon::CreatePolygon(sf::Vector2f position) {
 	// Create vertices
 	for (uint8_t i = 0; i < m_vertex_count; i++) {
 
-		const float x = position.x + cos((float)RADIANS(i * (degrees / m_vertex_count))) * m_base_space_between_vertices;
-		const float y = position.y + sin((float)RADIANS(i * (degrees / m_vertex_count))) * m_base_space_between_vertices;
+		const float x = position.x + cos(static_cast<float>(RADIANS(i * (degrees / m_vertex_count)))) * m_base_space_between_vertices;
+		const float y = position.y + sin(static_cast<float>(RADIANS(i * (degrees / m_vertex_count)))) * m_base_space_between_vertices;
 
 		Point newVertex(sf::Color::Green);
 		newVertex.SetPosition({ x, y });

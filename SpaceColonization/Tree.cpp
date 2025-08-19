@@ -92,12 +92,12 @@ void Tree::CreateRoot(sf::Vector2f position) {
 
 			// Go towards the closest attractor
 			sf::Vector2f directionToAttractor = closestAttractor->GetPosition() - newBranch->GetPosition();
-			(void)utils::vec2::Normalize(directionToAttractor);
+			static_cast<void>(utils::vec2::Normalize(directionToAttractor));
 
 			sf::Vector2f newDirection = newBranch->GetDirection() + directionToAttractor;
 
-			(void)utils::vec2::Randomize(newDirection, m_cfg.branch_direction_randomness_magnitude);
-			(void)utils::vec2::Normalize(newDirection);
+			static_cast<void>(utils::vec2::Randomize(newDirection, m_cfg.branch_direction_randomness_magnitude));
+			static_cast<void>(utils::vec2::Normalize(newDirection));
 
 			newBranch->SetDirection(newDirection);
 
@@ -118,7 +118,7 @@ void Tree::GenerateAttractors(Polygon& polygon) {
 	//Find max and min coordinates inside the polygon
 	for (uint8_t i = 0; i < polygon.GetVertexCount(); i++) {
 
-		Point currentVertex = polygon.GetVertex((int)i);
+		Point currentVertex = polygon.GetVertex(static_cast<int>(i));
 
 		sf::Vector2f currentPos = currentVertex.GetPosition();
 
@@ -152,7 +152,7 @@ void Tree::GenerateAttractors(Polygon& polygon) {
 
 void Tree::RemoveReachedAttractors() {
 
-	for (int i = (int)m_attractors.size() - 1; i >= 0; i--) {
+	for (int i = static_cast<int>(m_attractors.size()) - 1; i >= 0; i--) {
 
 		if (m_attractors[i].is_reached)
 			m_attractors.erase(m_attractors.begin() + i);
@@ -162,7 +162,7 @@ void Tree::RemoveReachedAttractors() {
 void Tree::CreateNewBranches() {
 
 	bool isBranchAdded = false;
-	for (int i = (int)m_branches.size() - 1; i >= 0; i--) {
+	for (int i = static_cast<int>(m_branches.size()) - 1; i >= 0; i--) {
 
 		Branch* branch = m_branches[i];
 
@@ -170,10 +170,10 @@ void Tree::CreateNewBranches() {
 		if (branch->GetCount() > 0 && branch->GetChildren().size() < 2) {
 
 			// Get the average direction
-			sf::Vector2f finalDirection = branch->GetDirection() / (float)branch->GetCount();
+			sf::Vector2f finalDirection = branch->GetDirection() / static_cast<float>(branch->GetCount());
 
-			(void)utils::vec2::Randomize(finalDirection, m_cfg.branch_direction_randomness_magnitude);
-			(void)utils::vec2::Normalize(finalDirection);
+			static_cast<void>(utils::vec2::Randomize(finalDirection, m_cfg.branch_direction_randomness_magnitude));
+			static_cast<void>(utils::vec2::Normalize(finalDirection));
 
 			branch->SetDirection(finalDirection);
 
@@ -197,7 +197,7 @@ void Tree::CreateNewBranches() {
 // After every iteration of Grow() update the size and color of branches
 void Tree::UpdateBranches() {
 
-	for (int i = (int)m_branches.size() - 1; i >= 0; i--) {
+	for (int i = static_cast<int>(m_branches.size()) - 1; i >= 0; i--) {
 
 		Branch* branch = m_branches[i];
 
@@ -279,7 +279,7 @@ void Tree::PullBranchTowardsAttractor(Branch* branch, Attractor& attractor) {
 		return;
 
 	sf::Vector2f directionToAttractor = attractor.GetPosition() - branch->GetPosition();
-	(void)utils::vec2::Normalize(directionToAttractor);
+	static_cast<void>(utils::vec2::Normalize(directionToAttractor));
 
 	sf::Vector2f newDirection = branch->GetDirection() + directionToAttractor;
 
@@ -311,7 +311,7 @@ void Tree::Grow() {
 // Update every branch color when user changes the base color in the GUI
 void Tree::UpdateBranchesColor() {
 
-	for (int i = (int)m_branches.size() - 1; i >= 0; i--) {
+	for (int i = static_cast<int>(m_branches.size()) - 1; i >= 0; i--) {
 
 		Branch* branch = m_branches[i];
 
@@ -349,7 +349,7 @@ void Tree::GenerateLeaves() {
 	if (IsGrowing() || !m_leaves.empty()) 
 		return;
 
-	for (int i = (int)m_branches.size() - 1; i >= 0; i--) {
+	for (int i = static_cast<int>(m_branches.size()) - 1; i >= 0; i--) {
 
 		Branch* branch = m_branches[i];
 
@@ -415,10 +415,10 @@ void Tree::InitLeavesVA() {
 		UpdateLeavesVAPositions(i);
 
 		// Reversed because SFML
-		m_leaves_va[index].texCoords = { 0.f, (float)m_leaf_texture.getSize().y};
+		m_leaves_va[index].texCoords = { 0.f, static_cast<float>(m_leaf_texture.getSize().y) };
 		m_leaves_va[index + 1].texCoords = { 0.f, 0.f };
-		m_leaves_va[index + 2].texCoords = { (float)m_leaf_texture.getSize().x, 0.f };
-		m_leaves_va[index + 3].texCoords = { (float)m_leaf_texture.getSize().x, (float)m_leaf_texture.getSize().y };
+		m_leaves_va[index + 2].texCoords = { static_cast<float>(m_leaf_texture.getSize().x), 0.f };
+		m_leaves_va[index + 3].texCoords = { static_cast<float>(m_leaf_texture.getSize().x), static_cast<float>(m_leaf_texture.getSize().y) };
 
 		for(size_t j = 0; j < 4; j++)
 			m_leaves_va[index + j].color = color;
@@ -448,7 +448,7 @@ void Tree::UpdateLeavesVAPositions(size_t index) {
 
 	// Rotate all points
 	for (size_t j = 0; j < 4; j++)
-		m_leaves_va[offsetIndex + j].position = utils::vec2::RotatePointAboutOrigin(position, m_leaves_va[offsetIndex + j].position, (float)RADIANS(rotation));
+		m_leaves_va[offsetIndex + j].position = utils::vec2::RotatePointAboutOrigin(position, m_leaves_va[offsetIndex + j].position, static_cast<float>RADIANS(rotation));
 }
 
 void Tree::UpdateLeavesVAColors(size_t index) {
@@ -498,7 +498,7 @@ void Tree::DrawBranches(sf::RenderWindow* window) {
 	if (m_branches.empty()) 
 		return;
 
-	for (int i = (int)m_branches.size() - 1; i >= 0; i--) {
+	for (int i = static_cast<int>(m_branches.size()) - 1; i >= 0; i--) {
 
 		if (m_branches[i]->GetParent() == nullptr) 
 			continue;

@@ -2,7 +2,8 @@
 #include <iostream>
 
 Application::Application() 
-	: m_window(new sf::RenderWindow(sf::VideoMode((const unsigned int)g_window_config.width, (const unsigned int)g_window_config.height), "Space Colonization", sf::Style::Titlebar | sf::Style::Close)),
+	: m_window(new sf::RenderWindow(sf::VideoMode(static_cast<const unsigned int>(g_window_config.width), 
+		static_cast<const unsigned int>(g_window_config.height)), "Space Colonization", sf::Style::Titlebar | sf::Style::Close)),
 	m_polygon(new Polygon(g_window_config.simulation_center)),
 	m_selected_vertex(nullptr),
 	m_base_branch_color({0.f}),
@@ -44,7 +45,7 @@ void Application::GrabPolygonVertex(sf::Event& event) {
 
 			sf::Vector2f mousePos = (sf::Vector2f)sf::Mouse::getPosition(*m_window);
 
-			for (int i = 0; i < (int)m_polygon->GetVertexCount(); i++) {
+			for (int i = 0; i < static_cast<int>(m_polygon->GetVertexCount()); i++) {
 
 				Point& vertex = m_polygon->GetVertices()[i];
 				Line& prevLine = m_polygon->GetEdge(i - 1);
@@ -90,7 +91,7 @@ void Application::PullVertex() {
 
 	if (m_is_vertex_selected) {
 
-		sf::Vector2f mousePos = (sf::Vector2f)sf::Mouse::getPosition(*m_window);
+		sf::Vector2f mousePos = static_cast<sf::Vector2f>(sf::Mouse::getPosition(*m_window));
 
 		if (!InBounds(mousePos)) return;
 
@@ -289,7 +290,7 @@ void Application::HandleGUIMenu() {
 				);
 				m_tree.UpdateLeavesColor();
 			}
-			
+
 			float minLeafSize = m_tree.GetConfig().GetMinLeafSize();
 			ImGui::Text("Mininum leaf size");
 			if (ImGui::SliderFloat("##min_leaf_size", &minLeafSize, 1.f, 100.f)) {
@@ -300,7 +301,7 @@ void Application::HandleGUIMenu() {
 			float maxLeafSize = m_tree.GetConfig().GetMaxLeafSize();
 			ImGui::Text("Maximum leaf size");
 			if (ImGui::SliderFloat("##max_leaf_size", &maxLeafSize, 1.f, 100.f)) {
-			
+
 				m_tree.GetConfig().SetMaxLeafSize(maxLeafSize);
 			}
 

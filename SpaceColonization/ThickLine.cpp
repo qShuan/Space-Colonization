@@ -23,7 +23,7 @@ void ThickLine::SetLineColor(sf::Color color) {
 
     m_color = color;
 
-    for (int i = 0; i < m_number_of_vertices; i++)
+    for (size_t i = 0; i < m_number_of_vertices; i++)
         m_vertices[i].color = m_color;
 }
 

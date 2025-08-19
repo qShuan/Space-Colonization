@@ -39,9 +39,9 @@ namespace utils {
 		inline float GetDirectionAngle(const sf::Vector2f& v) {
 
 			float angleRad = atan2(v.y, v.x);
-			float degrees = (float)DEGREES(angleRad) + 90.f;
+			float degrees = static_cast<float>(DEGREES(angleRad)) + 90.f;
 
-			int result = (360 + (int)roundf(degrees)) % 360;
+			int result = (360 + static_cast<int>(roundf(degrees))) % 360;
 
 			return (float)result;
 		}

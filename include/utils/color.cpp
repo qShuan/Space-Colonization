@@ -10,8 +10,8 @@ namespace utils {
 
 			hsl.Hue = floor(hsl.Hue);
 
-			hsl.Luminance = std::max(0.0f, (float)hsl.Luminance + (utils::rng::FastRandom() * -variationStrength));
-			hsl.Saturation = std::max(0.0f, (float)hsl.Saturation + (utils::rng::FastRandom() * -variationStrength));
+			hsl.Luminance = std::max(0.0f, static_cast<float>(hsl.Luminance) + (utils::rng::FastRandom() * -variationStrength));
+			hsl.Saturation = std::max(0.0f, static_cast<float>(hsl.Saturation) + (utils::rng::FastRandom() * -variationStrength));
 
 			color = hsl.TurnToRGB();
 
