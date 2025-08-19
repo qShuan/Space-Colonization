@@ -36,6 +36,8 @@ private:
 	bool m_should_render_gizmos;
 	bool m_should_render_attractors;
 
+private:
+
 	void HandleEvents(sf::Event& event);
 	void PullVertex();
 

@@ -10,11 +10,12 @@ class ThickLine {
 private:
 
     sf::VertexArray m_vertices;
-    float m_thickness;
-    sf::Color m_color;
 
     sf::Vector2f m_begin_position;
     sf::Vector2f m_end_position;
+
+    float m_thickness;
+    sf::Color m_color;
 
 public:
 

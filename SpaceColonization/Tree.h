@@ -43,6 +43,8 @@ private:
 	bool m_has_tree_grown;
 	bool m_have_leaves_grown;
 
+private:
+
 	void RemoveReachedAttractors();
 
 	Branch* FindClosestBranchToAttractor(Attractor& attractor);

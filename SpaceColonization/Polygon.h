@@ -15,6 +15,8 @@ private:
 
 	uint8_t m_vertex_count;
 
+private:
+
 	float VertexCrossProduct(int index);
 
 public:
