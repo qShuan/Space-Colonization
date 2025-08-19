@@ -10,6 +10,7 @@ void Polygon::CreatePolygon(sf::Vector2f position) {
 
 	float degrees = 360.f;
 
+	// Create vertices
 	for (uint8_t i = 0; i < m_vertex_count; i++) {
 
 		const float x = position.x + cos((float)RADIANS(i * (degrees / m_vertex_count))) * m_base_space_between_vertices;
@@ -21,6 +22,7 @@ void Polygon::CreatePolygon(sf::Vector2f position) {
 		m_vertices.push_back(newVertex);
 	}
 
+	// Create the edges
 	for (uint8_t i = 0; i < m_vertex_count; i++) {
 
 		Line newEdge;
@@ -88,6 +90,7 @@ bool Polygon::IsPolygonConvex() {
 	return true;
 }
 
+// Cross product for previous and next vertex
 float Polygon::VertexCrossProduct(int index) {
 
 	Point& vertex = m_vertices[index];
