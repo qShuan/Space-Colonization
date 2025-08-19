@@ -1,11 +1,12 @@
 #include "ThickLine.h"
 
 ThickLine::ThickLine() 
-    : m_thickness(1.f),
+    : m_number_of_vertices(18),
+    m_thickness(1.f),
     m_color(sf::Color::White) {
 
     m_vertices.setPrimitiveType(sf::Triangles);
-    m_vertices.resize(NUMBER_OF_VERTICES);
+    m_vertices.resize(m_number_of_vertices);
 
     SetLineColor(m_color);
 }
@@ -22,7 +23,7 @@ void ThickLine::SetLineColor(sf::Color color) {
 
     m_color = color;
 
-    for (int i = 0; i < NUMBER_OF_VERTICES; i++)
+    for (int i = 0; i < m_number_of_vertices; i++)
         m_vertices[i].color = m_color;
 }
 
@@ -32,7 +33,7 @@ void ThickLine::SetThickness(float thickness) {
     Update();
 }
 
-// Unfortunately SFML doesn't support indexed vertices and I don't want to use OpenGL
+// Unfortunately SFML doesn't support indexed vertices so there will be vertex copies
 void ThickLine::Update() {
 
     sf::Vector2f direction = m_end_position - m_begin_position;

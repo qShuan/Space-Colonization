@@ -1,9 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 
-//https://github.com/SFML/SFML/wiki/Source:-Line-segment-with-thickness
-
-#define NUMBER_OF_VERTICES 18
+// Thanks to https://github.com/SFML/SFML/wiki/Source:-Line-segment-with-thickness
 
 class ThickLine {
 
@@ -13,6 +11,8 @@ private:
 
     sf::Vector2f m_begin_position;
     sf::Vector2f m_end_position;
+
+    size_t m_number_of_vertices;
 
     float m_thickness;
     sf::Color m_color;
