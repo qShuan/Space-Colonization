@@ -5,8 +5,6 @@
 #include "RNG.h"
 #include "Leaf.h"
 
-#define LEAVES_PER_BRANCH 15
-
 struct TreeConfig {
 
 	sf::Color base_branch_color = sf::Color(105, 63, 21);

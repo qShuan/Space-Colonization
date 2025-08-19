@@ -2,9 +2,6 @@
 #include "Line.h"
 #include "ThickLine.h"
 
-#define MIN_BRANCH_LENGTH 10.f
-#define BASE_BRANCH_COLOR sf::Color(105, 63, 21)
-
 class Branch {
 
 private:

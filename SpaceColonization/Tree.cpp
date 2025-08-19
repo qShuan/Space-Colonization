@@ -334,7 +334,7 @@ void Tree::GenerateLeaves() {
 
 			for (int j = 0; j < m_cfg.leaves_per_branch; j++) {
 
-				sf::Vector2f positionOffset = branch->GetDirection() * randomBetween(0.f, MIN_BRANCH_LENGTH);
+				sf::Vector2f positionOffset = branch->GetDirection() * randomBetween(0.f, branch->GetLength());
 				float randomAngle = randomBetween(-60.f, 60.f);
 
 				Leaf* newLeaf = new Leaf(branch->GetParent()->GetPosition() + positionOffset,
