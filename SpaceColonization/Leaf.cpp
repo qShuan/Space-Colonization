@@ -2,14 +2,14 @@
 #include "RNG.h"
 
 Leaf::Leaf(sf::Vector2f position, float rotation, float minSize, float maxSize, sf::Color color) 
-	: m_position(position), 
+	: m_attached_branch(nullptr),
+	m_position(position), 
+	m_color(utils::color::Randomize(color, 15.f)),
+	m_desired_size(randomBetween(minSize, maxSize)),
+	m_size(0.f),
 	m_rotation(rotation), 
-	m_color(utils::color::Randomize(color, 15.f)), 
-	m_size_lerp_precision(0.15f), 
-	m_attached_branch(nullptr),
-	m_desired_size(randomBetween(minSize, maxSize)), 
-	m_size(0.f), 
-	m_growth_speed(randomBetween(0.5f, 1.f)) {
+	m_growth_speed(randomBetween(0.5f, 1.f)),
+	m_size_lerp_precision(0.15f) {
 
 }
 

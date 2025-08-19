@@ -1,6 +1,8 @@
 #include "Point.h"
 
-Point::Point() : m_position({0.f, 0.f}), m_radius(5) {
+Point::Point() 
+	: m_position({0.f, 0.f}), 
+	m_radius(5) {
 
 	InitShape(m_radius);
 }

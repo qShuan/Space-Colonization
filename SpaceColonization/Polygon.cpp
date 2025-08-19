@@ -1,6 +1,8 @@
 #include "Polygon.h"
 
-Polygon::Polygon(sf::Vector2f position) : m_vertex_count(6), m_base_space_between_vertices(350.f) {
+Polygon::Polygon(sf::Vector2f position) 
+	: m_base_space_between_vertices(350.f),
+	m_vertex_count(6) {
 
 	CreatePolygon(position);
 }

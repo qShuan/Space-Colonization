@@ -1,7 +1,10 @@
 #include "Tree.h"
 #include <iostream>
 
-Tree::Tree() : m_root(nullptr), m_has_tree_grown(false), m_have_leaves_grown(false){
+Tree::Tree() 
+	: m_root(nullptr), 
+	m_has_tree_grown(false), 
+	m_have_leaves_grown(false) {
 
 	// Prepare the texture
 	m_leaf_texture.loadFromFile("./Textures/leaf.png");

@@ -29,8 +29,8 @@ private:
 	Polygon* m_polygon;
 	Point* m_selected_vertex;
 
-	float m_base_branch_color[4] = { 0.f };
-	float m_base_leaf_color[4] = { 0.f };
+	float m_base_branch_color[4];
+	float m_base_leaf_color[4];
 
 	float m_polygon_vertex_grab_radius;
 

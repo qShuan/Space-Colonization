@@ -1,10 +1,17 @@
 #include "Application.h"
 #include <iostream>
 
-Application::Application() : m_selected_vertex(nullptr),m_polygon_vertex_grab_radius(15.f),
-m_window(new sf::RenderWindow(sf::VideoMode((const unsigned int)g_WindowConfig.width, (const unsigned int)g_WindowConfig.height), "Space Colonization", sf::Style::Titlebar | sf::Style::Close)),
-m_polygon(new Polygon(g_WindowConfig.simulation_center)),
-m_is_vertex_selected(false), m_should_tree_grow(false), m_should_render_gizmos(true), m_should_render_attractors(false) {
+Application::Application() 
+	: m_window(new sf::RenderWindow(sf::VideoMode((const unsigned int)g_WindowConfig.width, (const unsigned int)g_WindowConfig.height), "Space Colonization", sf::Style::Titlebar | sf::Style::Close)),
+	m_polygon(new Polygon(g_WindowConfig.simulation_center)),
+	m_selected_vertex(nullptr),
+	m_base_branch_color({0.f}),
+	m_base_leaf_color({0.f}),
+	m_polygon_vertex_grab_radius(15.f),
+	m_is_vertex_selected(false), 
+	m_should_tree_grow(false), 
+	m_should_render_gizmos(true), 
+	m_should_render_attractors(false) {
 
 	user_gui.Init(m_window);
 	user_gui.InitStyle();

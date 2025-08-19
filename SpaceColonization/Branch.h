@@ -9,11 +9,9 @@ private:
 	std::vector<Branch*> m_children;
 
 	Branch* m_parent;
-	Line m_line;
 	ThickLine m_thick_line;
 	
 	sf::Vector2f m_position;
-	sf::Vector2f m_original_position;
 	sf::Vector2f m_direction;
 	sf::Vector2f m_original_direction;
 

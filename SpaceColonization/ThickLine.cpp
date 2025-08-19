@@ -1,6 +1,8 @@
 #include "ThickLine.h"
 
-ThickLine::ThickLine() : m_thickness(1.f), m_color(sf::Color::White) {
+ThickLine::ThickLine() 
+    : m_thickness(1.f),
+    m_color(sf::Color::White) {
 
     m_vertices.setPrimitiveType(sf::Triangles);
     m_vertices.resize(NUMBER_OF_VERTICES);

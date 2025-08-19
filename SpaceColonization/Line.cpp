@@ -1,12 +1,11 @@
 #include "Line.h"
 
-Line::Line(){
+Line::Line() 
+	: m_begin_vertex(nullptr),
+	m_end_vertex(nullptr) {
 
 	m_line[0].color = sf::Color::Green;
 	m_line[1].color = sf::Color::Green;
-
-	m_begin_vertex = nullptr;
-	m_end_vertex = nullptr;
 }
 
 void Line::SetLinePosition(sf::Vector2f beginPosition, sf::Vector2f endPosition) {

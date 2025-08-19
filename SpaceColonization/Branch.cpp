@@ -1,22 +1,25 @@
 #include "Branch.h"
 #include <iostream>
 
-Branch::Branch(Branch* parent, sf::Vector2f position, sf::Vector2f direction, sf::Color color) : m_length(10.f), m_count(0), 
-m_parent(parent),
-m_position(position),
-m_direction(direction),
-m_original_direction(direction) {
+Branch::Branch(Branch* parent, sf::Vector2f position, sf::Vector2f direction, sf::Color color) 
+	: m_parent(parent),
+	m_position(position),
+	m_direction(direction),
+	m_original_direction(direction),
+	m_length(10.f), 
+	m_count(0) {
 
 	SetColor(color);
 }
 
-Branch::Branch(const Branch& other) : m_length(10.f),
-m_parent(other.m_parent),
-m_position(other.m_position),
-m_direction(other.m_direction),
-m_original_direction(other.m_original_direction),
-m_count(other.m_count),
-m_children(other.m_children){
+Branch::Branch(const Branch& other) 
+	: m_children(other.m_children),
+	m_parent(other.m_parent),
+	m_position(other.m_position),
+	m_direction(other.m_direction),
+	m_original_direction(other.m_original_direction),
+	m_length(10.f),
+	m_count(other.m_count) {
 
 }
 
