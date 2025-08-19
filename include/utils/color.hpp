@@ -2,7 +2,7 @@
 
 #include <SFML/Graphics/Color.hpp>
 #include <utils/rng.hpp>
-#include "../SpaceColonization/HSL.h"
+#include <utils/hsl.hpp>
 
 namespace utils {
 

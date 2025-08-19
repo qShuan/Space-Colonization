@@ -139,11 +139,11 @@
     <ClCompile Include="..\include\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\include\imgui\imgui_widgets.cpp" />
     <ClCompile Include="..\include\utils\color.cpp" />
+    <ClCompile Include="..\include\utils\hsl.cpp" />
     <ClCompile Include="..\include\utils\vec2.cpp" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Branch.cpp" />
     <ClCompile Include="Attractor.cpp" />
-    <ClCompile Include="HSL.cpp" />
     <ClCompile Include="Leaf.cpp" />
     <ClCompile Include="Line.cpp" />
     <ClCompile Include="main.cpp" />
@@ -156,13 +156,13 @@
   <ItemGroup>
     <ClInclude Include="..\include\imgui-styles\imgui_themes.h" />
     <ClInclude Include="..\include\utils\color.hpp" />
+    <ClInclude Include="..\include\utils\hsl.hpp" />
     <ClInclude Include="..\include\utils\logging.hpp" />
     <ClInclude Include="..\include\utils\rng.hpp" />
     <ClInclude Include="..\include\utils\vec2.hpp" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="Branch.h" />
     <ClInclude Include="Attractor.h" />
-    <ClInclude Include="HSL.h" />
     <ClInclude Include="Leaf.h" />
     <ClInclude Include="Line.h" />
     <ClInclude Include="Polygon.h" />

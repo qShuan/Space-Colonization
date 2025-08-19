@@ -54,9 +54,6 @@
     <ClCompile Include="Leaf.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="HSL.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\include\utils\color.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
@@ -83,6 +80,9 @@
     </ClCompile>
     <ClCompile Include="..\include\imgui-styles\imgui_themes.cpp">
       <Filter>ImGUI Styles</Filter>
+    </ClCompile>
+    <ClCompile Include="..\include\utils\hsl.cpp">
+      <Filter>Utils</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -113,9 +113,6 @@
     <ClInclude Include="Leaf.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="HSL.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\utils\color.hpp">
       <Filter>Utils</Filter>
     </ClInclude>
@@ -132,6 +129,9 @@
       <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="..\include\utils\rng.hpp">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\utils\hsl.hpp">
       <Filter>Utils</Filter>
     </ClInclude>
   </ItemGroup>

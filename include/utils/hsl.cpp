@@ -1,4 +1,5 @@
-#include "HSL.h"
+#include <utils/hsl.hpp>
+
 const double D_EPSILON = 0.00000000000001;
 ///Feel free to move this to your constants .h file or use it as a static constant if you don't like it here.
 
