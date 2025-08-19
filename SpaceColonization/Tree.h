@@ -55,8 +55,8 @@ private:
 	void DarkenBranchColor(Branch* branch);
 
 	void InitLeavesVA();
-	void UpdateLeavesVAPositions(int index);
-	void UpdateLeavesVAColors(int index);
+	void UpdateLeavesVAPositions(size_t index);
+	void UpdateLeavesVAColors(size_t index);
 
 	int GetBranchDepth(Branch* branch);
 

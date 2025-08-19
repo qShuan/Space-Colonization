@@ -1,8 +1,11 @@
 #include "Tree.h"
 #include <iostream>
 
-Tree::Tree() : m_root(nullptr), m_has_tree_grown(false){
+Tree::Tree() : m_root(nullptr), m_has_tree_grown(false), m_have_leaves_grown(false){
 
+	// Prepare the texture
+	m_leaf_texture.loadFromFile("./Textures/leaf.png");
+	m_leaf_render_states.texture = &m_leaf_texture;
 }
 
 Tree::~Tree() {
@@ -18,6 +21,7 @@ Tree::~Tree() {
 	m_leaves.clear();
 }
 
+// How deep is the branch (from crown to root)
 int Tree::GetBranchDepth(Branch* branch) {
 
 	int depth = 1;
@@ -34,13 +38,13 @@ Attractor* Tree::GetClosestAttractorToBranch(Branch* branch) {
 
 	Attractor* closestAttractor = nullptr;
 
-	float recordDistance = 1000000;
-	for (int i = 0; i < m_attractors.size(); i++) {
+	float recordDistanceToAttractor = 1000000;
+	for (size_t i = 0; i < m_attractors.size(); i++) {
 
 		Attractor& attractor = m_attractors[i];
-		float distance = utils::vec2::GetMagnitude(attractor.GetPosition() - branch->GetPosition());
+		float distanceToAttractor = utils::vec2::GetMagnitude(attractor.GetPosition() - branch->GetPosition());
 
-		if (distance < recordDistance) {
+		if (distanceToAttractor < recordDistanceToAttractor) {
 			
 			closestAttractor = &attractor;
 		}
@@ -49,32 +53,36 @@ Attractor* Tree::GetClosestAttractorToBranch(Branch* branch) {
 	return closestAttractor;
 }
 
+// Create a root that goes towards the closest attractor
 void Tree::CreateRoot(sf::Vector2f position) {
 
-	if (!m_branches.empty()) return;
+	if (!m_branches.empty()) 
+		return;
 
 	m_root = new Branch(nullptr, position, { 0.f, -1.f }, m_cfg.base_branch_color);
 	m_branches.emplace_back(m_root);
 
 	Attractor* closestAttractor = GetClosestAttractorToBranch(m_root);
 
-	if (closestAttractor == nullptr) return;
+	if (closestAttractor == nullptr) 
+		return;
 
 	bool isAttractorFound = false;
 	Branch* currentBranch = m_root;
 
 	while (!isAttractorFound) {
 
-		for (int i = 0; i < m_attractors.size(); i++) {
+		for (size_t i = 0; i < m_attractors.size(); i++) {
 
 			Attractor& attractor = m_attractors[i];
-			float distance = utils::vec2::GetMagnitude(attractor.GetPosition() - currentBranch->GetPosition());
+			float distanceToAttractor = utils::vec2::GetMagnitude(attractor.GetPosition() - currentBranch->GetPosition());
 
-			if (distance <= m_cfg.max_distance_to_attractor) {
+			if (distanceToAttractor <= m_cfg.max_distance_to_attractor) {
 				isAttractorFound = true;
 			}
 		}
 
+		// Create a new branch if the attractor was not found yet
 		if (!isAttractorFound) {
 
 			Branch* newBranch = currentBranch->Next(m_cfg.base_branch_color);
@@ -97,6 +105,7 @@ void Tree::CreateRoot(sf::Vector2f position) {
 	}
 }
 
+// Generate attractors randomly inside a polygon (brute force - not very optimized)
 void Tree::GenerateAttractors(Polygon& polygon) {
 
 	m_attractors.clear();
@@ -106,7 +115,7 @@ void Tree::GenerateAttractors(Polygon& polygon) {
 	//Find max and min coordinates inside the polygon
 	for (uint8_t i = 0; i < polygon.GetVertexCount(); i++) {
 
-		Point currentVertex = polygon.GetVertex(i);
+		Point currentVertex = polygon.GetVertex((int)i);
 
 		sf::Vector2f currentPos = currentVertex.GetPosition();
 
@@ -120,7 +129,9 @@ void Tree::GenerateAttractors(Polygon& polygon) {
 			maxY = currentPos.y;
 	}
 
-	for (int i = 0; i < m_cfg.number_of_attractors; i++) {
+	// Place all attractors inside the polygon
+	int i = 0;
+	while(i < m_cfg.number_of_attractors) {
 
 		float randomX = randomBetween(minX, maxX);
 		float randomY = randomBetween(minY, maxY);
@@ -130,10 +141,8 @@ void Tree::GenerateAttractors(Polygon& polygon) {
 			Attractor newAttractor({ randomX, randomY });
 
 			m_attractors.emplace_back(newAttractor);
-		}
-		else {
-			i = i - 1;
-			continue;
+
+			i++;
 		}
 	}
 }
@@ -154,8 +163,10 @@ void Tree::CreateNewBranches() {
 
 		Branch* branch = m_branches[i];
 
+		// If the branch was previously attracted and has less than 2 children
 		if (branch->GetCount() > 0 && branch->GetChildren().size() < 2) {
 
+			// Get the average direction
 			sf::Vector2f finalDirection = branch->GetDirection() / (float)branch->GetCount();
 
 			(void)utils::vec2::Randomize(finalDirection, m_cfg.branch_direction_randomness_magnitude);
@@ -180,6 +191,7 @@ void Tree::CreateNewBranches() {
 	}
 }
 
+// After every iteration of Grow() update the size and color of branches
 void Tree::UpdateBranches() {
 
 	for (int i = (int)m_branches.size() - 1; i >= 0; i--) {
@@ -203,6 +215,7 @@ void Tree::UpdateBranches() {
 	}
 }
 
+//Thanks to https://algorithmicbotany.org/papers/venation.sig2005.pdf, using Murray's law to thicken the branches
 void Tree::ThickenBranch(Branch* branch) {
 
 	float parentThickness = branch->GetParent()->GetThickness();
@@ -234,7 +247,7 @@ Branch* Tree::FindClosestBranchToAttractor(Attractor& attractor) {
 	Branch* closestBranch = nullptr;
 	float recordDistanceToAttractor = 10000;
 
-	for (int j = 0; j < m_branches.size(); j++) {
+	for (size_t j = 0; j < m_branches.size(); j++) {
 
 		Branch* currentBranch = m_branches[j];
 
@@ -259,7 +272,8 @@ Branch* Tree::FindClosestBranchToAttractor(Attractor& attractor) {
 
 void Tree::PullBranchTowardsAttractor(Branch* branch, Attractor& attractor) {
 
-	if (branch == nullptr) return;
+	if (branch == nullptr) 
+		return;
 
 	sf::Vector2f directionToAttractor = attractor.GetPosition() - branch->GetPosition();
 	(void)utils::vec2::Normalize(directionToAttractor);
@@ -270,11 +284,13 @@ void Tree::PullBranchTowardsAttractor(Branch* branch, Attractor& attractor) {
 	branch->SetCount(branch->GetCount() + 1);
 }
 
+// Main grow method
 void Tree::Grow() {
 
-	if (m_has_tree_grown) return;
+	if (m_has_tree_grown) 
+		return;
 
-	for (int i = 0; i < m_attractors.size(); i++) {
+	for (size_t i = 0; i < m_attractors.size(); i++) {
 
 		Attractor& currentAttractor = m_attractors[i];
 		Branch* closestBranch = FindClosestBranchToAttractor(currentAttractor);
@@ -289,6 +305,7 @@ void Tree::Grow() {
 	UpdateBranches();
 }
 
+// Update every branch color when user changes the base color in the GUI
 void Tree::UpdateBranchesColor() {
 
 	for (int i = (int)m_branches.size() - 1; i >= 0; i--) {
@@ -312,9 +329,10 @@ void Tree::UpdateBranchesColor() {
 	}
 }
 
+// Update every leaf color when user changes the base color in the GUI
 void Tree::UpdateLeavesColor() {
 
-	for (int i = 0; i < m_leaves.size(); i++) {
+	for (size_t i = 0; i < m_leaves.size(); i++) {
 
 		Leaf* leaf = m_leaves[i];
 
@@ -325,15 +343,19 @@ void Tree::UpdateLeavesColor() {
 
 void Tree::GenerateLeaves() {
 
-	if (IsGrowing() || m_leaves.size() >= m_cfg.number_of_leaves) return;
+	if (IsGrowing() || m_leaves.size() >= m_cfg.number_of_leaves) 
+		return;
 
 	for (int i = (int)m_branches.size() - 1; i >= 0; i--) {
 
 		Branch* branch = m_branches[i];
+
+		//If the branch is a tip
 		if (branch->GetChildren().size() == 0) {
 
 			for (int j = 0; j < m_cfg.leaves_per_branch; j++) {
 
+				// Random position on the branch
 				sf::Vector2f positionOffset = branch->GetDirection() * randomBetween(0.f, branch->GetLength());
 				float randomAngle = randomBetween(-60.f, 60.f);
 
@@ -350,17 +372,20 @@ void Tree::GenerateLeaves() {
 	InitLeavesVA();
 }
 
+// Slowly grow the leaves
 void Tree::GrowLeaves(float deltaTime) {
 
-	if (!m_has_tree_grown || m_have_leaves_grown) return;
+	if (!m_has_tree_grown || m_have_leaves_grown) 
+		return;
 
 	bool haveLeavesGrown = true;
-	for (int i = 0; i < m_leaves.size(); i++) {
+	for (size_t i = 0; i < m_leaves.size(); i++) {
 
 		Leaf* leaf = m_leaves[i];
 
 		leaf->LerpSize(leaf->GetGrowthSpeed(), deltaTime);
 
+		// On size change update all vertices
 		UpdateLeavesVAPositions(i);
 
 		if (!leaf->IsGrown())
@@ -370,21 +395,20 @@ void Tree::GrowLeaves(float deltaTime) {
 	m_have_leaves_grown = haveLeavesGrown;
 }
 
+// Initialize the vertex array for leaves
 void Tree::InitLeavesVA() {
 
 	m_leaves_va.setPrimitiveType(sf::Quads);
 	m_leaves_va.resize(4 * m_leaves.size());
 
-	// Prepare the texture
-	m_leaf_texture.loadFromFile("./Textures/leaf.png");
-	m_leaf_render_states.texture = &m_leaf_texture;
 
-	for (int i = 0; i < m_leaves.size(); i++) {
+	for (size_t i = 0; i < m_leaves.size(); i++) {
 
 		sf::Color& color = m_leaves[i]->GetColor();
 
-		int index = i * 4;
+		size_t index = i * 4;
 
+		// Set vertices for every leaf
 		UpdateLeavesVAPositions(i);
 
 		// Reversed because SFML
@@ -393,12 +417,12 @@ void Tree::InitLeavesVA() {
 		m_leaves_va[index + 2].texCoords = { (float)m_leaf_texture.getSize().x, 0.f };
 		m_leaves_va[index + 3].texCoords = { (float)m_leaf_texture.getSize().x, (float)m_leaf_texture.getSize().y };
 
-		for(int j = 0; j < 4; j++)
+		for(size_t j = 0; j < 4; j++)
 			m_leaves_va[index + j].color = color;
 	}
 }
 
-void Tree::UpdateLeavesVAPositions(int index) {
+void Tree::UpdateLeavesVAPositions(size_t index) {
 
 	sf::Vector2f& position = m_leaves[index]->GetPosition();
 	sf::Vector2f& direction = m_leaves[index]->GetAttachedBranch()->GetDirection();
@@ -407,7 +431,7 @@ void Tree::UpdateLeavesVAPositions(int index) {
 	float& rotation = m_leaves[index]->GetRotation();
 	float& size = m_leaves[index]->GetSize();
 
-	int offsetIndex = index * 4;
+	size_t offsetIndex = index * 4;
 
 	sf::Vector2f bottomLeft = position + directionNormal * size;
 	sf::Vector2f bottomRight = position - directionNormal * size;
@@ -420,17 +444,17 @@ void Tree::UpdateLeavesVAPositions(int index) {
 	m_leaves_va[offsetIndex + 3].position = bottomRight;
 
 	// Rotate all points
-	for (int j = 0; j < 4; j++)
+	for (size_t j = 0; j < 4; j++)
 		m_leaves_va[offsetIndex + j].position = utils::vec2::RotatePointAboutOrigin(position, m_leaves_va[offsetIndex + j].position, (float)RADIANS(rotation));
 }
 
-void Tree::UpdateLeavesVAColors(int index) {
+void Tree::UpdateLeavesVAColors(size_t index) {
 
 	sf::Color& color = m_leaves[index]->GetColor();
 
-	int offsetIndex = index * 4;
+	size_t offsetIndex = index * 4;
 
-	for (int j = 0; j < 4; j++)
+	for (size_t j = 0; j < 4; j++)
 		m_leaves_va[offsetIndex + j].color = color;
 }
 
@@ -456,7 +480,8 @@ void Tree::Reset() {
 
 void Tree::DrawAttractors(sf::RenderWindow* window) {
 
-	if (m_attractors.empty()) return;
+	if (m_attractors.empty()) 
+		return;
 
 	for (auto& attractor : m_attractors) {
 
@@ -464,14 +489,16 @@ void Tree::DrawAttractors(sf::RenderWindow* window) {
 	}
 }
 
-// TODO (maybe): Refactor ThickLine to draw using one cal
+// TODO : Refactor ThickLine to draw using one call
 void Tree::DrawBranches(sf::RenderWindow* window) {
 
-	if (m_branches.empty()) return;
+	if (m_branches.empty()) 
+		return;
 
 	for (int i = (int)m_branches.size() - 1; i >= 0; i--) {
 
-		if (m_branches[i]->GetParent() == nullptr) continue;
+		if (m_branches[i]->GetParent() == nullptr) 
+			continue;
 
 		m_branches[i]->GetBranchLine().SetLinePosition(m_branches[i]->GetParent()->GetPosition(), m_branches[i]->GetPosition());
 		m_branches[i]->GetBranchLine().Draw(window);
