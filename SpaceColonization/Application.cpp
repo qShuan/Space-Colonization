@@ -151,7 +151,7 @@ void Application::Run() {
 		if(m_should_render_gizmos)
 			m_polygon->Draw(m_window);
 
-		UpdateGUI();
+		HandleGUIMenu();
 
 		growTickCountDown -= sec;
 
@@ -163,7 +163,7 @@ void Application::Run() {
 	userGUI.Close();
 }
 
-void Application::UpdateGUI() {
+void Application::HandleGUIMenu() {
 
 	ImGui::Begin("Editor tools", NULL, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
 

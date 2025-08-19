@@ -48,7 +48,7 @@ private:
 
 	bool InBounds(sf::Vector2f position);
 
-	void UpdateGUI();
+	void HandleGUIMenu();
 
 public:
 
