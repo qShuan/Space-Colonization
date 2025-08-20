@@ -135,9 +135,9 @@ void Application::Run() {
 			HandleEvents(event);
 		}
 
-		float sec = clock.restart().asSeconds();
+		sf::Time sec = clock.restart();
 
-		user_gui.Update(m_window, imguiClock.restart());
+		user_gui.Update(m_window, sec);
 
 		if(m_should_render_gizmos)
 			PullVertex();
@@ -147,7 +147,7 @@ void Application::Run() {
 			if(growTickCountDown <= 0.f)
 				m_tree.Grow();
 
-			m_tree.GrowLeaves(sec);
+			m_tree.GrowLeaves(sec.asSeconds());
 		}
 
 		if (growTickCountDown <= 0.f)
@@ -166,7 +166,7 @@ void Application::Run() {
 
 		HandleGUIMenu();
 
-		growTickCountDown -= sec;
+		growTickCountDown -= sec.asSeconds();
 
 		user_gui.Render(m_window);
 
