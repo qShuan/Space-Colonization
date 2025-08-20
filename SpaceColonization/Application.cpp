@@ -142,11 +142,13 @@ void Application::Run() {
 		if(m_should_render_gizmos)
 			PullVertex();
 
-		if (m_should_tree_grow && growTickCountDown <= 0.f) {
-			m_tree.Grow();
-		}
+		if (m_should_tree_grow) {
 
-		m_tree.GrowLeaves(sec);
+			if(growTickCountDown <= 0.f)
+				m_tree.Grow();
+
+			m_tree.GrowLeaves(sec);
+		}
 
 		if (growTickCountDown <= 0.f)
 			growTickCountDown = growTickDefaultValue;

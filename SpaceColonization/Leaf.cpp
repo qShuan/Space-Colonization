@@ -12,12 +12,12 @@ Leaf::Leaf(sf::Vector2f position, float rotation, float minSize, float maxSize, 
 
 }
 
-void Leaf::Grow(float speed, float deltaTime) {
+void Leaf::Grow(float deltaTime) {
 
 	if (IsGrown()) return;
 
 	// Lerp towards desired size
-	m_size += (m_desired_size - m_size) * speed * deltaTime;
+	m_size += (m_desired_size - m_size) * m_growth_speed * deltaTime;
 }
 
 void Leaf::SetColor(sf::Color color) {
