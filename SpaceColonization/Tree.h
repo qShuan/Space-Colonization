@@ -28,39 +28,23 @@ public:
 public:
 
 	void SetMinDistanceToAttractor(float minDistance) {
-		if (minDistance >= max_distance_to_attractor) {
-			min_distance_to_attractor = max_distance_to_attractor - 1;
-			return;
-		}
 
-		min_distance_to_attractor = minDistance;
+		min_distance_to_attractor = std::min(minDistance, max_distance_to_attractor - 1);
 	}
 
 	void SetMaxDistanceToAttractor(float maxDistance) {
-		if (maxDistance <= min_distance_to_attractor) {
-			max_distance_to_attractor = min_distance_to_attractor + 1;
-			return;
-		}
 
-		max_distance_to_attractor = maxDistance;
+		max_distance_to_attractor = std::max(maxDistance, min_distance_to_attractor + 1);
 	}
 
 	void SetMinLeafSize(float minLeafSize) {
-		if (minLeafSize >= max_leaf_size) {
-			min_leaf_size = max_leaf_size - 1;
-			return;
-		}
 
-		min_leaf_size = minLeafSize;
+		min_leaf_size = std::min(minLeafSize, max_leaf_size - 1);
 	}
 
 	void SetMaxLeafSize(float maxLeafSize) {
-		if (maxLeafSize <= min_leaf_size) {
-			max_leaf_size = min_leaf_size + 1;
-			return;
-		}
 
-		max_leaf_size = maxLeafSize;
+		max_leaf_size = std::max(maxLeafSize, min_leaf_size + 1);
 	}
 
 	float& GetMinDistanceToAttractor() { return min_distance_to_attractor; }
