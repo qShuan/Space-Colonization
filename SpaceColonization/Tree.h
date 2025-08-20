@@ -83,7 +83,7 @@ private:
 
 	sf::VertexArray m_branches_va;
 
-	TreeConfig m_cfg;
+	TreeConfig m_tree_cfg;
 
 	Branch* m_root;
 
@@ -138,16 +138,16 @@ public:
 	void DrawBranches(sf::RenderWindow* window);
 	void DrawLeaves(sf::RenderWindow* window);
 
-	void SetBaseBranchColor(sf::Color color) { m_cfg.base_branch_color = color; }
-	void SetBaseLeafColor(sf::Color color) { m_cfg.base_leaf_color = color; }
+	void SetBaseBranchColor(sf::Color color) { m_tree_cfg.base_branch_color = color; }
+	void SetBaseLeafColor(sf::Color color) { m_tree_cfg.base_leaf_color = color; }
 
-	TreeConfig& GetConfig() { return m_cfg; }
+	TreeConfig& GetConfig() { return m_tree_cfg; }
 
 	std::vector<Attractor>& GetAttractors() { return m_attractors; }
 	std::vector<Branch*>& GetBranches() { return m_branches; }
 	std::vector<Leaf*>& GetLeaves() { return m_leaves; }
 
-	sf::Color& GetBaseBranchesColor() { return m_cfg.base_branch_color; }
+	sf::Color& GetBaseBranchesColor() { return m_tree_cfg.base_branch_color; }
 
 	bool IsGrowing() { return !m_has_tree_grown; }
 };
