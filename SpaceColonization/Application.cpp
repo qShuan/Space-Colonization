@@ -135,10 +135,12 @@ void Application::Run() {
 			HandleEvents(event);
 		}
 
+		// DT
 		sf::Time sec = clock.restart();
 
 		user_gui.Update(m_window, sec);
 
+		// Logic
 		if(m_should_render_gizmos)
 			PullVertex();
 
@@ -153,6 +155,9 @@ void Application::Run() {
 		if (growTickCountDown <= 0.f)
 			growTickCountDown = growTickDefaultValue;
 
+		growTickCountDown -= sec.asSeconds();
+
+		// Rendering
 		m_window->clear(sf::Color(97, 144, 255));
 
 		if(m_should_render_attractors)
@@ -165,8 +170,6 @@ void Application::Run() {
 			m_polygon->Draw(m_window);
 
 		HandleGUIMenu();
-
-		growTickCountDown -= sec.asSeconds();
 
 		user_gui.Render(m_window);
 

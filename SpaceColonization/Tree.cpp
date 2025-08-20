@@ -75,6 +75,7 @@ void Tree::CreateRoot(sf::Vector2f position) {
 	bool isAttractorFound = false;
 	Branch* currentBranch = m_root;
 
+	// Loop through every attractor until we find one within max distance
 	while (!isAttractorFound) {
 
 		for (size_t i = 0; i < m_attractors.size(); i++) {
@@ -202,7 +203,7 @@ void Tree::CreateNewBranches() {
 	}
 }
 
-// After every iteration of Grow() update the size and color of branches
+// After every iteration of Grow(), update the size and color of the branches
 void Tree::UpdateBranches() {
 
 	for (int i = static_cast<int>(m_branches.size()) - 1; i >= 0; i--) {
@@ -285,6 +286,7 @@ Branch* Tree::FindClosestBranchToAttractor(Attractor& attractor) {
 	return closestBranch;
 }
 
+// Add a normalized attractor direction to the branch's direction
 void Tree::PullBranchTowardsAttractor(Branch* branch, Attractor& attractor) {
 
 	if (branch == nullptr) 
@@ -402,7 +404,7 @@ void Tree::GrowLeaves(float deltaTime) {
 
 		leaf->Grow(deltaTime);
 
-		// On size change update all vertices
+		// On size change, update all vertices
 		UpdateLeavesVAPositions(i);
 
 		if (!leaf->IsGrown())

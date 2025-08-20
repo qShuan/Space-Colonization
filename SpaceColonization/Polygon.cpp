@@ -92,7 +92,7 @@ bool Polygon::IsPolygonConvex() {
 	return true;
 }
 
-// Cross product for previous and next vertex
+// Compute the 2D cross product(z - component) of the edges adjacent to this vertex
 float Polygon::VertexCrossProduct(int index) {
 
 	Point& vertex = m_vertices[index];
@@ -102,7 +102,7 @@ float Polygon::VertexCrossProduct(int index) {
 	sf::Vector2f vToPrev = prevVertex.GetPosition() - vertex.GetPosition();
 	sf::Vector2f vToNext = nextVertex.GetPosition() - vertex.GetPosition();
 
-	//Swapped because SFML has flipped y-coordinates
+	// Arguments swapped to correct orientation because SFML's y-axis is flipped
 	return utils::vec2::ZCrossProduct(vToNext, vToPrev);
 }
 
