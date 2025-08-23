@@ -16,10 +16,6 @@ private:
 	float m_base_space_between_vertices;
 	uint8_t m_vertex_count;
 
-private:
-
-	float VertexCrossProduct(int index);
-
 public:
 
 	Polygon(sf::Vector2f position);
@@ -28,7 +24,6 @@ public:
 	void CreatePolygon(sf::Vector2f position);
 
 	bool IsPointInsidePolygon(sf::Vector2f point);
-	bool IsPolygonConvex();
 
 	void Draw(sf::RenderWindow* window);
 

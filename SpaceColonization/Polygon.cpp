@@ -47,63 +47,38 @@ void Polygon::Draw(sf::RenderWindow* window) {
 	}
 }
 
-// Thanks to https://math.stackexchange.com/questions/4183023/check-if-point-is-inside-a-convex-polygon-i-need-an-example-for-a-formular
+// Thanks to https://www.youtube.com/watch?v=5FkOO1Wwb8w
 bool Polygon::IsPointInsidePolygon(sf::Vector2f point) {
 
-	std::vector<float> D;
+	sf::Vector2f pointRayEnd = point + sf::Vector2f(1.f, 0.f) * 1600.f;
 
+	int intersectedEdgesCount = 0;
 	for (uint8_t i = 0; i < m_vertex_count; i++) {
 
 		Line currentLine = m_edges[i];
 
-		D.push_back((currentLine.GetLineEndPosition().x - currentLine.GetLineBeginPosition().x) *
-			(point.y - currentLine.GetLineBeginPosition().y) - (point.x - currentLine.GetLineBeginPosition().x) *
-			(currentLine.GetLineEndPosition().y - currentLine.GetLineBeginPosition().y));
-	}
+		sf::Vector2f lineBeginPosition = currentLine.GetLineBeginPosition();
+		sf::Vector2f lineEndPosition = currentLine.GetLineEndPosition();
 
-	bool hasTheSameSign = true;
-	bool isNegative = (D[0] < 0);
+		sf::Vector2f AC = lineBeginPosition - point;
+		sf::Vector2f AB = pointRayEnd - point;
+		sf::Vector2f CD = lineEndPosition - lineBeginPosition;
 
-	for (uint8_t i = 1; i < m_vertex_count; i++) {
+		float denominator = utils::vec2::CrossProduct(AB, CD);
+		if (denominator == 0.f) {
 
-		if ((D[i] > 0 && isNegative) || (D[i] < 0 && !isNegative)) {
-			hasTheSameSign = false;
-			break;
+			intersectedEdgesCount++;
+			continue;
 		}
+
+		float t1 = utils::vec2::CrossProduct(AC, CD) / denominator;
+		float t2 = utils::vec2::CrossProduct(AC, AB) / denominator;
+
+		if (t1 >= 0.f && t1 <= 1.f && t2 >= 0.f && t2 <= 1.f)
+			intersectedEdgesCount++;
 	}
 
-	return hasTheSameSign;
-}
-
-//Check if every vertex is convex
-bool Polygon::IsPolygonConvex() {
-
-	float sign = VertexCrossProduct(0);
-
-	for (int i = 1; i < m_vertex_count; i++) {
-
-		float cross = VertexCrossProduct(i);
-
-		if (cross * sign < 0.f) {
-			return false;
-		}
-	}
-
-	return true;
-}
-
-// Compute the 2D cross product(z - component) of the edges adjacent to this vertex
-float Polygon::VertexCrossProduct(int index) {
-
-	Point& vertex = m_vertices[index];
-	Point& prevVertex = GetVertex(index - 1);
-	Point& nextVertex = GetVertex(index + 1);
-
-	sf::Vector2f vToPrev = prevVertex.GetPosition() - vertex.GetPosition();
-	sf::Vector2f vToNext = nextVertex.GetPosition() - vertex.GetPosition();
-
-	// Arguments swapped to correct orientation because SFML's y-axis is flipped
-	return utils::vec2::ZCrossProduct(vToNext, vToPrev);
+	return (intersectedEdgesCount % 2 != 0);
 }
 
 Point& Polygon::GetVertex(int index) {

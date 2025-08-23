@@ -98,11 +98,6 @@ void Application::PullVertex() {
 		sf::Vector2f originalVertexPosition = m_selected_vertex->GetPosition();
 		m_selected_vertex->SetPosition(mousePos);
 
-		// If the polygon is no longer convex - move the vertex back
-		if (!m_polygon->IsPolygonConvex()) {
-			m_selected_vertex->SetPosition(originalVertexPosition);
-		}
-
 		// Make sure the lines are still connected
 		for (size_t i = 0; i < 3; i++)
 			m_selected_edges[i]->UpdateLinePositions();
