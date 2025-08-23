@@ -47,7 +47,7 @@ void Polygon::Draw(sf::RenderWindow* window) {
 	}
 }
 
-// Thanks to https://www.youtube.com/watch?v=5FkOO1Wwb8w
+// Thanks to https://stackoverflow.com/questions/217578/how-can-i-determine-whether-a-2d-point-is-within-a-polygon
 bool Polygon::IsPointInsidePolygon(sf::Vector2f point) {
 
 	sf::Vector2f pointRayEnd = point + sf::Vector2f(1.f, 0.f) * 1600.f;
@@ -60,22 +60,51 @@ bool Polygon::IsPointInsidePolygon(sf::Vector2f point) {
 		sf::Vector2f lineBeginPosition = currentLine.GetLineBeginPosition();
 		sf::Vector2f lineEndPosition = currentLine.GetLineEndPosition();
 
-		sf::Vector2f AC = lineBeginPosition - point;
-		sf::Vector2f AB = pointRayEnd - point;
-		sf::Vector2f CD = lineEndPosition - lineBeginPosition;
+		float d1, d2;
+		float a1, a2, b1, b2, c1, c2;
 
-		float denominator = utils::vec2::CrossProduct(AB, CD);
-		if (denominator == 0.f) {
+		// Convert vector 1 to a line (line 1) of infinite length.
+		// We want the line in linear equation standard form: A*x + B*y + C = 0
+		// See: http://en.wikipedia.org/wiki/Linear_equation
+		a1 = pointRayEnd.y - point.y;
+		b1 = point.x - pointRayEnd.x;
+		c1 = (pointRayEnd.x * point.y) - (point.x * pointRayEnd.y);
 
-			intersectedEdgesCount++;
-			continue;
-		}
+		// Every point (x,y), that solves the equation above, is on the line,
+		// every point that does not solve it, is not. The equation will have a
+		// positive result if it is on one side of the line and a negative one 
+		// if is on the other side of it. We insert (x1,y1) and (x2,y2) of vector
+		// 2 into the equation above.
+		d1 = (a1 * lineBeginPosition.x) + (b1 * lineBeginPosition.y) + c1;
+		d2 = (a1 * lineEndPosition.x) + (b1 * lineEndPosition.y) + c1;
 
-		float t1 = utils::vec2::CrossProduct(AC, CD) / denominator;
-		float t2 = utils::vec2::CrossProduct(AC, AB) / denominator;
+		// If d1 and d2 both have the same sign, they are both on the same side
+		// of our line 1 and in that case no intersection is possible. Careful, 
+		// 0 is a special case, that's why we don't test ">=" and "<=", 
+		// but "<" and ">".
+		if (d1 > 0 && d2 > 0) continue;
+		if (d1 < 0 && d2 < 0) continue;
 
-		if (t1 >= 0.f && t1 <= 1.f && t2 >= 0.f && t2 <= 1.f)
-			intersectedEdgesCount++;
+		// The fact that vector 2 intersected the infinite line 1 above doesn't 
+		// mean it also intersects the vector 1. Vector 1 is only a subset of that
+		// infinite line 1, so it may have intersected that line before the vector
+		// started or after it ended. To know for sure, we have to repeat the
+		// the same test the other way round. We start by calculating the 
+		// infinite line 2 in linear equation standard form.
+		a2 = lineEndPosition.y - lineBeginPosition.y;
+		b2 = lineBeginPosition.x - lineEndPosition.x;
+		c2 = (lineEndPosition.x * lineBeginPosition.y) - (lineBeginPosition.x * lineEndPosition.y);
+
+		// Calculate d1 and d2 again, this time using points of vector 1.
+		d1 = (a2 * point.x) + (b2 * point.y) + c2;
+		d2 = (a2 * pointRayEnd.x) + (b2 * pointRayEnd.y) + c2;
+
+		// Again, if both have the same sign (and neither one is 0),
+		// no intersection is possible.
+		if (d1 > 0 && d2 > 0) continue;
+		if (d1 < 0 && d2 < 0) continue;
+
+		intersectedEdgesCount++;
 	}
 
 	return (intersectedEdgesCount % 2 != 0);
