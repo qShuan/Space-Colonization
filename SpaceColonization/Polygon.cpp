@@ -9,6 +9,7 @@ Polygon::Polygon(sf::Vector2f position)
 
 void Polygon::CreatePolygon(sf::Vector2f position) {
 
+	m_position = position;
 
 	float degrees = 360.f;
 
@@ -35,6 +36,15 @@ void Polygon::CreatePolygon(sf::Vector2f position) {
 
 		m_edges.push_back(newEdge);
 	}
+}
+
+void Polygon::UpdatePolygonVertices(uint8_t newVertexCount) {
+
+	m_vertex_count = newVertexCount;
+	m_edges.clear();
+	m_vertices.clear();
+
+	CreatePolygon(m_position);
 }
 
 void Polygon::Draw(sf::RenderWindow* window) {

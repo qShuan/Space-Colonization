@@ -13,6 +13,8 @@ private:
 	std::vector<Point> m_vertices;
 	std::vector<Line> m_edges;
 
+	sf::Vector2f m_position;
+
 	float m_base_space_between_vertices;
 	uint8_t m_vertex_count;
 
@@ -22,6 +24,8 @@ public:
 	~Polygon() = default;
 
 	void CreatePolygon(sf::Vector2f position);
+
+	void UpdatePolygonVertices(uint8_t newVertexCount);
 
 	bool IsPointInsidePolygon(sf::Vector2f point);
 

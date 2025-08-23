@@ -203,6 +203,17 @@ void Application::HandleGUIMenu() {
 	ImGui::SeparatorText("Settings");
 	if (ImGui::TreeNode("Generation")) {
 
+		if (ImGui::TreeNode("Polygon Shape")) {
+
+			int numberOfVertices = m_polygon->GetVertexCount();
+			ImGui::Text("Number of vertices");
+			if (ImGui::SliderInt("##number_of_vertices", &numberOfVertices, 3, 10)) {
+
+				m_polygon->UpdatePolygonVertices(static_cast<uint8_t>(numberOfVertices));
+			}
+
+			ImGui::TreePop();
+		}
 		if (ImGui::TreeNode("Attractors")) {
 
 			float minDistanceToAttractor = m_tree.GetConfig().GetMinDistanceToAttractor();
