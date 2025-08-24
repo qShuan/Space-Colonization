@@ -7,7 +7,7 @@ Tree::Tree()
 	m_have_leaves_grown(false) {
 
 	// Prepare the texture
-	m_leaf_texture.loadFromFile("./Textures/leaf.png");
+	m_leaf_texture.loadFromFile("./textures/leaf.png");
 	m_leaf_render_states.texture = &m_leaf_texture;
 
 	InitBranchesVA();

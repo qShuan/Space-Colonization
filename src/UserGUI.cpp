@@ -2,6 +2,8 @@
 
 void UserGUI::Init(sf::RenderWindow* window) {
 
+	m_current_theme_index = 0;
+
 	LOG("Initializing ImGUI...");
 
 	IMGUI_CHECKVERSION();
