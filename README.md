@@ -46,16 +46,20 @@ To compile and run this project, make sure you have:
    ```bash
    git clone https://github.com/qShuan/Space-Colonization.git
    cd Space-Colonization
+
+2. Generate the solution file using premake (Or use the existing one):
+   - Open the `scripts/` folder
+   - Run `build.bat`
    
-2. Open the solution file in Visual Studio 2022:  
+3. Open the solution file in Visual Studio 2022:  
    - Double-click `SpaceColonization.sln`  
    - Or open Visual Studio → **File → Open → Project/Solution…** → select `SpaceColonization.sln`
      
-3. Build the project (Set the solution configuration to **Release x64** or **Debug x64**.):  
+4. Build the project:  
    - Menu: **Build → Build Solution**  
    - Shortcut: `Ctrl+Shift+B`  
 
-4. Run the program (Set the solution configuration to **Release x64** or **Debug x64**.):  
+5. Run the program:  
    - Menu: **Debug → Start Debugging**  
    - Shortcut: `F5`  
 
