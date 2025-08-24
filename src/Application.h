@@ -22,12 +22,14 @@ private:
 
 	std::vector<Line*> m_selected_edges;
 
-	Tree m_tree;
-	UserGUI user_gui;
-
 	sf::RenderWindow* m_window;
-	Polygon* m_polygon;
+
+	Tree m_tree;
+
 	Point* m_selected_vertex;
+	Polygon* m_polygon;
+
+	UserGUI m_user_gui;
 
 	float m_base_branch_color[3];
 	float m_base_leaf_color[3];

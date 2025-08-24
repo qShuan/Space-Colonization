@@ -5,7 +5,6 @@
 
 #include <utils/vec2.hpp>
 
-// TODO: support non convex polygons (ear-clipping)
 class Polygon {
 
 private:

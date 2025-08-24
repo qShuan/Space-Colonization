@@ -19,7 +19,8 @@ private:
 
 public:
 
-	UserGUI() = default;
+	UserGUI();
+	UserGUI(sf::RenderWindow* window);
 	~UserGUI() = default;
 
 	void Init(sf::RenderWindow* window);

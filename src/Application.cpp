@@ -4,19 +4,16 @@
 Application::Application() 
 	: m_window(new sf::RenderWindow(sf::VideoMode(static_cast<const unsigned int>(g_window_config.width), 
 		static_cast<const unsigned int>(g_window_config.height)), "Space Colonization", sf::Style::Titlebar | sf::Style::Close)),
-	m_polygon(new Polygon(g_window_config.simulation_center)),
 	m_selected_vertex(nullptr),
+	m_polygon(new Polygon(g_window_config.simulation_center)),
+	m_user_gui(UserGUI(m_window)),
 	m_base_branch_color({0.f}),
 	m_base_leaf_color({0.f}),
 	m_polygon_vertex_grab_radius(15.f),
 	m_is_vertex_selected(false), 
 	m_should_tree_grow(false), 
 	m_should_render_gizmos(true), 
-	m_should_render_attractors(false) {
-
-	user_gui.Init(m_window);
-	user_gui.InitStyle();
-}
+	m_should_render_attractors(false) {}
 
 Application::~Application() {
 
@@ -27,7 +24,7 @@ Application::~Application() {
 // Handle ImGUI and SFML events
 void Application::HandleEvents(sf::Event& event) {
 
-	user_gui.ProccessEvent(m_window, event);
+	m_user_gui.ProccessEvent(m_window, event);
 
 	if (event.type == __noop) {
 		m_window->close();
@@ -133,7 +130,7 @@ void Application::Run() {
 		// DT
 		sf::Time sec = clock.restart();
 
-		user_gui.Update(m_window, sec);
+		m_user_gui.Update(m_window, sec);
 
 		// Logic
 		if(m_should_render_gizmos)
@@ -164,14 +161,15 @@ void Application::Run() {
 		if(m_should_render_gizmos)
 			m_polygon->Draw(m_window);
 
+		// ImGUI
 		HandleGUIMenu();
 
-		user_gui.Render(m_window);
+		m_user_gui.Render(m_window);
 
 		m_window->display();
 	}
 
-	user_gui.Close();
+	m_user_gui.Close();
 }
 
 // The whole ImGUI menu
@@ -328,7 +326,7 @@ void Application::HandleGUIMenu() {
 	}
 
 	ImGui::SeparatorText("Themes");
-	user_gui.ThemeSelector();
+	m_user_gui.ThemeSelector();
 
 	ImGui::End();
 }

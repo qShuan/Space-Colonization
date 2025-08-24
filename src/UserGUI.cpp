@@ -1,8 +1,18 @@
 #include "UserGUI.h"
 
-void UserGUI::Init(sf::RenderWindow* window) {
+UserGUI::UserGUI() 
+	: m_current_theme_index(0),
+	m_style(nullptr) {}
 
-	m_current_theme_index = 0;
+UserGUI::UserGUI(sf::RenderWindow* window)
+	: m_current_theme_index(0),
+	m_style(nullptr) {
+
+	Init(window);
+	InitStyle();
+}
+
+void UserGUI::Init(sf::RenderWindow* window) {
 
 	LOG("Initializing ImGUI...");
 
