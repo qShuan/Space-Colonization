@@ -3,6 +3,11 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
+# Because I'm using premake
+*.sln
+*.vcxproj
+*.vcxproj.*
+
 # Config files
 *.ini
 
