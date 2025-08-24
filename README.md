@@ -24,7 +24,7 @@ This project implements the Space Colonization procedural generation algorithm i
 
 - Interactive visualization using the SFML graphics library  
 - Configurable parameters (attraction point density, branching behavior, etc.)  
-- Custom shapes (edit the polygon gizmos to create a custom shape for attraction points - only supporting convex shapes for now)
+- Custom shapes (edit the polygon to create a custom shape for attraction points)
 
 ---
 
