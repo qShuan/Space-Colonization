@@ -210,7 +210,7 @@ void Application::HandleGUIMenu() {
 
 			int numberOfVertices = m_polygon->GetVertexCount();
 			ImGui::Text("Number of vertices");
-			if (ImGui::SliderInt("##number_of_vertices", &numberOfVertices, 3, 10)) {
+			if (ImGui::SliderInt("##number_of_vertices", &numberOfVertices, 3, 20)) {
 
 				m_polygon->UpdatePolygonVertices(static_cast<uint8_t>(numberOfVertices));
 			}
