@@ -118,6 +118,7 @@ void Tree::CreateRoot(sf::Vector2f position) {
 void Tree::GenerateAttractors(Polygon& polygon) {
 
 	m_attractors.clear();
+	m_attractors.reserve(m_tree_cfg.number_of_attractors);
 
 	float minX = FLT_MAX, minY = FLT_MAX, maxX = FLT_MIN, maxY = FLT_MIN;
 
@@ -147,9 +148,7 @@ void Tree::GenerateAttractors(Polygon& polygon) {
 
 		if (polygon.IsPointInsidePolygon({ randomX, randomY })) {
 
-			Attractor newAttractor({ randomX, randomY });
-
-			m_attractors.emplace_back(newAttractor);
+			m_attractors.emplace_back(sf::Vector2f(randomX, randomY));
 
 			i++;
 		}
