@@ -20,9 +20,6 @@ Tree::~Tree() {
 	}
 	m_branches.clear();
 
-	for (Leaf* leaf : m_leaves) {
-		delete leaf;
-	}
 	m_leaves.clear();
 }
 
@@ -352,9 +349,9 @@ void Tree::UpdateLeavesColor() {
 
 	for (size_t i = 0; i < m_leaves.size(); i++) {
 
-		Leaf* leaf = m_leaves[i];
+		Leaf& leaf = m_leaves[i];
 
-		leaf->SetColor(m_tree_cfg.base_leaf_color);
+		leaf.SetColor(m_tree_cfg.base_leaf_color);
 		UpdateLeavesVAColors(i);
 	}
 }
@@ -364,6 +361,7 @@ void Tree::GenerateLeaves() {
 	if (IsGrowing() || !m_leaves.empty()) 
 		return;
 
+	int numberOfTips = 0;
 	for (int i = static_cast<int>(m_branches.size()) - 1; i >= 0; i--) {
 
 		Branch* branch = m_branches[i];
@@ -371,18 +369,32 @@ void Tree::GenerateLeaves() {
 		//If the branch is a tip
 		if (branch->GetChildren().size() == 0) {
 
+			numberOfTips++;
+		}
+	}
+
+	int totalNumberOfLeaves = numberOfTips * 15;
+	m_leaves.reserve(static_cast<size_t>(totalNumberOfLeaves));
+
+	for (int i = static_cast<int>(m_branches.size()) - 1; i >= 0; i--) {
+
+		Branch* branch = m_branches[i];
+
+		//If the branch is a tip
+		if (branch->GetChildren().size() == 0) {
+
+			numberOfTips++;
+
 			for (int j = 0; j < m_tree_cfg.leaves_per_branch; j++) {
 
 				// Random position on the branch
 				sf::Vector2f positionOffset = branch->GetDirection() * utils::rng::RandomBetween(0.f, branch->GetLength());
 				float randomAngle = utils::rng::RandomBetween(-60.f, 60.f);
 
-				Leaf* newLeaf = new Leaf(branch->GetParent()->GetPosition() + positionOffset,
+				m_leaves.emplace_back(branch->GetParent()->GetPosition() + positionOffset,
 					randomAngle, m_tree_cfg.GetMinLeafSize(), m_tree_cfg.GetMaxLeafSize(), m_tree_cfg.base_leaf_color);
 
-				newLeaf->SetAttachedBranch(branch);
-
-				m_leaves.emplace_back(newLeaf);
+				m_leaves[m_leaves.size() - 1].SetAttachedBranch(branch);
 			}
 		}
 	}
@@ -399,14 +411,14 @@ void Tree::GrowLeaves(float deltaTime) {
 	bool haveLeavesGrown = true;
 	for (size_t i = 0; i < m_leaves.size(); i++) {
 
-		Leaf* leaf = m_leaves[i];
+		Leaf& leaf = m_leaves[i];
 
-		leaf->Grow(deltaTime);
+		leaf.Grow(deltaTime);
 
 		// On size change, update all vertices
 		UpdateLeavesVAPositions(i);
 
-		if (!leaf->IsGrown())
+		if (!leaf.IsGrown())
 			haveLeavesGrown = false;
 	}
 
@@ -422,7 +434,7 @@ void Tree::InitLeavesVA() {
 
 	for (size_t i = 0; i < m_leaves.size(); i++) {
 
-		sf::Color& color = m_leaves[i]->GetColor();
+		sf::Color& color = m_leaves[i].GetColor();
 
 		size_t index = i * 4;
 
@@ -442,12 +454,12 @@ void Tree::InitLeavesVA() {
 
 void Tree::UpdateLeavesVAPositions(size_t index) {
 
-	sf::Vector2f& position = m_leaves[index]->GetPosition();
-	sf::Vector2f& direction = m_leaves[index]->GetAttachedBranch()->GetDirection();
+	sf::Vector2f& position = m_leaves[index].GetPosition();
+	sf::Vector2f& direction = m_leaves[index].GetAttachedBranch()->GetDirection();
 	sf::Vector2f directionNormal = utils::vec2::GetNormal(direction);
 
-	float& rotation = m_leaves[index]->GetRotation();
-	float& size = m_leaves[index]->GetSize();
+	float& rotation = m_leaves[index].GetRotation();
+	float& size = m_leaves[index].GetSize();
 
 	size_t offsetIndex = index * 4;
 
@@ -468,7 +480,7 @@ void Tree::UpdateLeavesVAPositions(size_t index) {
 
 void Tree::UpdateLeavesVAColors(size_t index) {
 
-	sf::Color& color = m_leaves[index]->GetColor();
+	sf::Color& color = m_leaves[index].GetColor();
 
 	size_t offsetIndex = index * 4;
 
@@ -567,9 +579,6 @@ void Tree::Reset() {
 	m_branches.clear();
 	m_branches_va.clear();
 
-	for (Leaf* leaf : m_leaves) {
-		delete leaf;
-	}
 	m_leaves.clear();
 	m_leaves_va.clear();
 

@@ -59,7 +59,7 @@ private:
 
 	std::vector<Attractor> m_attractors;
 	std::vector<Branch*> m_branches;
-	std::vector<Leaf*> m_leaves;
+	std::vector<Leaf> m_leaves;
 
 	sf::RenderStates m_leaf_render_states;
 	sf::VertexArray m_leaves_va;
@@ -129,7 +129,7 @@ public:
 
 	std::vector<Attractor>& GetAttractors() { return m_attractors; }
 	std::vector<Branch*>& GetBranches() { return m_branches; }
-	std::vector<Leaf*>& GetLeaves() { return m_leaves; }
+	std::vector<Leaf>& GetLeaves() { return m_leaves; }
 
 	sf::Color& GetBaseBranchesColor() { return m_tree_cfg.base_branch_color; }
 
