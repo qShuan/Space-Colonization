@@ -6,7 +6,8 @@ A C++ implementation of the **Space Colonization Algorithm** using **SFML (x64)*
 - [About](#about)  
 - [Features](#features)  
 - [Prerequisites](#prerequisites)
-- [Building & Running](#building--running)  
+- [Building & Running](#building--running)
+- [Resources](#resources)
 - [License](#license)  
 - [Contact](#contact)
   
@@ -62,6 +63,16 @@ To compile and run this project, make sure you have:
 5. Run the program:  
    - Menu: **Debug → Start Debugging**  
    - Shortcut: `F5`  
+
+---
+
+## Resources
+
+[SFML](https://www.sfml-dev.org/)
+
+[ImGui](https://github.com/ocornut/imgui)
+
+[ImGui-SFML](https://github.com/SFML/imgui-sfml)
 
 ---
 
