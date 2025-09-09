@@ -1,7 +1,8 @@
 #include "Polygon.h"
 
-Polygon::Polygon(sf::Vector2f position) 
+Polygon::Polygon(sf::Vector2f position, float windowWidth) 
 	: m_base_space_between_vertices(350.f),
+	m_window_width(windowWidth),
 	m_vertex_count(6) {
 
 	CreatePolygon(position);
@@ -60,7 +61,7 @@ void Polygon::Draw(sf::RenderWindow* window) {
 // Thanks to https://stackoverflow.com/questions/217578/how-can-i-determine-whether-a-2d-point-is-within-a-polygon
 bool Polygon::IsPointInsidePolygon(sf::Vector2f point) {
 
-	sf::Vector2f pointRayEnd = point + sf::Vector2f(1.f, 0.f) * 1600.f;
+	sf::Vector2f pointRayEnd = point + sf::Vector2f(1.f, 0.f) * m_window_width;
 
 	int intersectedEdgesCount = 0;
 	for (uint8_t i = 0; i < m_vertex_count; i++) {

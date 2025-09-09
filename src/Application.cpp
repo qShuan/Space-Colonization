@@ -5,7 +5,7 @@ Application::Application()
 	: m_window(new sf::RenderWindow(sf::VideoMode(static_cast<const unsigned int>(g_window_config.width), 
 		static_cast<const unsigned int>(g_window_config.height)), "Space Colonization", sf::Style::Titlebar | sf::Style::Close)),
 	m_selected_vertex(nullptr),
-	m_polygon(new Polygon(g_window_config.simulation_center)),
+	m_polygon(new Polygon(g_window_config.simulation_center, g_window_config.width)),
 	m_user_gui(UserGUI(m_window)),
 	m_base_branch_color({0.f}),
 	m_base_leaf_color({0.f}),

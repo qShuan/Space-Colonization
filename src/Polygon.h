@@ -15,11 +15,14 @@ private:
 	sf::Vector2f m_position;
 
 	float m_base_space_between_vertices;
+
+	float m_window_width;
+
 	uint8_t m_vertex_count;
 
 public:
 
-	Polygon(sf::Vector2f position);
+	Polygon(sf::Vector2f position, float windowWidth);
 	~Polygon() = default;
 
 	void CreatePolygon(sf::Vector2f position);
