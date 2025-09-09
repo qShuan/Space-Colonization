@@ -200,7 +200,10 @@ void Application::HandleGUIMenu() {
 
 	ImGui::SeparatorText("Information");
 	const ImVec4 treeGrowingStatusColor = m_tree.IsGrowing() && m_should_tree_grow ? ImVec4(0.f, 1.f, 0.f, 1.f) : ImVec4(1.f, 0.f, 0.f, 1.f);
-	const char* treeGrowingStatusText = m_tree.IsGrowing() && m_should_tree_grow ? "Tree: Growing" : "Tree: Not growing";
+	const char* treeGrowingStatusText = m_tree.IsGrowing() && m_should_tree_grow ? "Growing" : "Stopped";
+
+	ImGui::Text("Status:"); 
+	ImGui::SameLine(); 
 	ImGui::TextColored(treeGrowingStatusColor, treeGrowingStatusText);
 
 	ImGui::SeparatorText("Settings");
